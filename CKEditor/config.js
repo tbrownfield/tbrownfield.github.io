@@ -8,7 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-	config.extraPlugins = 'email',
+	config.extraPlugins = 'email,dropler',
 	
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
@@ -40,5 +40,13 @@ CKEDITOR.editorConfig = function( config ) {
 	
 	config.extraAllowedContent = '*[id](*){*}'
 	
-	config.templates_files = [ 'https://tbrownfield.github.io/CKEditor/plugins/templates/templates/TT-templates.js' ];
+	config.templates_files = [ 'https://tbrownfield.github.io/plugins/templates/templates/TT-templates.js' ];
+	
+    config.droplerConfig = {
+		backend: 'quickbase',
+		settings: {
+			uploadUrl: 'https://intuitcorp.quickbase.com/db/bkejf7qv5?a=API_AddRecord',
+			token: 'bxbj722drzze3sb6jc7endytstjq'			
+		}
+	}
 };
