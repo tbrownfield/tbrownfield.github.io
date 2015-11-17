@@ -132,7 +132,7 @@ CKEDITOR.plugins.add( 'dropler', {
 						resolve("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0")
 					 },
 					 error: function(xml) {
-						reject(["err",$(xml).find("errtext").text())
+						reject($(xml).find("errtext").text())
 					 }
 					});
 					
