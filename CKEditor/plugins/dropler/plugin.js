@@ -109,10 +109,10 @@ CKEDITOR.plugins.add( 'dropler', {
 				 success: function(xml) {
 					console.log(xml);
 					var rid = $(xml).find('rid').text();
-					return("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0")
+					return(["suc',"https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0"])
 				 },
 				 error: function(xml) {
-					return($(xml).find("errtext").text())
+					return(["err",$(xml).find("errtext").text()])
 				 }
 				});
 		}
@@ -135,7 +135,7 @@ CKEDITOR.plugins.add( 'dropler', {
 					var blob = blob.split(",")
 
 					var response = qbpost(file.name, blob[1])
-					if (response == "Fail") { resolve("Failed")}
+					if (response == "Fail") { reject("")}
 					else { reject("Success") }
 					}
 				reader.readAsDataURL(file)
