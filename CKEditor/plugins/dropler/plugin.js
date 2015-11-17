@@ -109,7 +109,7 @@ CKEDITOR.plugins.add( 'dropler', {
 				 success: function(xml) {
 					console.log(xml);
 					var rid = $(xml).find('rid').text();
-					return(["suc',"https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0"])
+					return(["suc","https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0"])
 				 },
 				 error: function(xml) {
 					return(["err",$(xml).find("errtext").text()])
