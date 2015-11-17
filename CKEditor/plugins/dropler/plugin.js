@@ -137,7 +137,7 @@ CKEDITOR.plugins.add( 'dropler', {
 					else { reject("Success") }
 					}
 				reader.readAsDataURL(file)
-			}
+			});
 		}
 		
         function uploadImgur(file) {
