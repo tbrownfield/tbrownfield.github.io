@@ -83,6 +83,45 @@ CKEDITOR.plugins.add( 'dropler', {
             });
         }
 		
+		function qbpost(filename, data) {
+			return new Promise(function(resolve, reject) {
+				
+				var apptoken = "bxbj722drzze3sb6jc7endytstjq"
+				
+				var url="";
+				url +="https://intuitcorp.quickbase.com/db/bkejf7qv5";
+				url +="?act=API_AddRecord";
+
+				var request="";
+				request += '<qdbapi>';
+				request += '<apptoken>'+apptoken+'</apptoken>';
+				request += "<field fid='7' filename='"+filename+"'>"+data+"</field>";
+				request += '</qdbapi>';
+
+				jQuery.ajax({
+				 type: "POST",
+				 contentType: "text/xml",
+				 async: false,
+				 url: url,
+				 dataType: "xml",
+				 processData: false,
+				 data: request,
+				 success: function(xml) {
+					console.log(xml);
+					resolve("Success")
+				 },
+				 error: function(xml) {
+					reject("Fail")
+				 }
+				});
+			});
+		}
+
+        function uploadBasic(file) {
+            var settings = editor.config.droplerConfig.settings;
+            return post(settings.uploadUrl, file, settings.headers);
+        }
+
         function uploadQB(file) {
             var settings = editor.config.droplerConfig.settings;
             //return post(settings.uploadUrl, file, {'apptoken': settings.token});
@@ -94,29 +133,7 @@ CKEDITOR.plugins.add( 'dropler', {
 				console.log("blob: "+blob)
 				var blob = blob.split(",")
 
-				return qbpost(blob[1])
-				
-				}
-			reader.readAsDataURL(file)
-		}
-
-        function uploadBasic(file) {
-            var settings = editor.config.droplerConfig.settings;
-            return post(settings.uploadUrl, file, settings.headers);
-        }
-
-        function uploadQB(file) {
-            var settings = editor.config.droplerConfig.settings;
-            //return post(settings.uploadUrl, file, {'apptoken': settings.token});
-
-			var reader = new FileReader();
-			console.log("file"+file)
-			reader.onloadend = function() {
-				var blob = reader.result;
-				console.log("blob: "+blob)
-				var blob = blob.split(",")
-
-				return qbpost(blob[1])
+				return qbpost(file.name, blob[1])
 				
 				}
 			reader.readAsDataURL(file)
