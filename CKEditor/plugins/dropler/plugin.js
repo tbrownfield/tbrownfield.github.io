@@ -107,8 +107,12 @@ CKEDITOR.plugins.add( 'dropler', {
 				 processData: false,
 				 data: request,
 				 success: function(xml) {
-				  console.log(xml);
-				  resolve("success");
+					console.log(xml);
+					resolve("Success")
+				 }
+				 error: function(xml) {
+					reject("Fail")
+				 }
 				 }
 				});
 			});
