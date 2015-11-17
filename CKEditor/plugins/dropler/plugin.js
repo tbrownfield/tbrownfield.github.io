@@ -85,36 +85,7 @@ CKEDITOR.plugins.add( 'dropler', {
 		
 		function qbpost(filename, data) {
 				
-				var apptoken = "bxbj722drzze3sb6jc7endytstjq"
-				var dbid = "bkejf7qv5"
-				var fid = "7"
-				var url="";
-				url +="https://intuitcorp.quickbase.com/db/"+dbid;
-				url +="?act=API_AddRecord";
 
-				var request="";
-				request += '<qdbapi>';
-				request += '<apptoken>'+apptoken+'</apptoken>';
-				request += "<field fid='"+fid+"' filename='"+filename+"'>"+data+"</field>";
-				request += '</qdbapi>';
-
-				jQuery.ajax({
-				 type: "POST",
-				 contentType: "text/xml",
-				 async: false,
-				 url: url,
-				 dataType: "xml",
-				 processData: false,
-				 data: request,
-				 success: function(xml) {
-					console.log(xml);
-					var rid = $(xml).find('rid').text();
-					return(["suc","https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0"])
-				 },
-				 error: function(xml) {
-					return(["err",$(xml).find("errtext").text()])
-				 }
-				});
 		}
 
         function uploadBasic(file) {
@@ -134,10 +105,38 @@ CKEDITOR.plugins.add( 'dropler', {
 					console.log("blob: "+blob)
 					var blob = blob.split(",")
 
-					var response = qbpost(file.name, blob[1])
-					if (response[0] == "err") { reject(response[1])}
-					else { resolve(response[1]) }
-					}
+					var apptoken = "bxbj722drzze3sb6jc7endytstjq"
+					var dbid = "bkejf7qv5"
+					var fid = "7"
+					var url="";
+					url +="https://intuitcorp.quickbase.com/db/"+dbid;
+					url +="?act=API_AddRecord";
+
+					var request="";
+					request += '<qdbapi>';
+					request += '<apptoken>'+apptoken+'</apptoken>';
+					request += "<field fid='"+fid+"' filename='"+file.name+"'>"+blob[1]+"</field>";
+					request += '</qdbapi>';
+
+					jQuery.ajax({
+					 type: "POST",
+					 contentType: "text/xml",
+					 async: false,
+					 url: url,
+					 dataType: "xml",
+					 processData: false,
+					 data: request,
+					 success: function(xml) {
+						console.log(xml);
+						var rid = $(xml).find('rid').text();
+						resolve("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0")
+					 },
+					 error: function(xml) {
+						reject(["err",$(xml).find("errtext").text())
+					 }
+					});
+					
+				}
 				reader.readAsDataURL(file)
 			});
 		}
