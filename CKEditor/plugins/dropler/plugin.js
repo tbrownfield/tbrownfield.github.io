@@ -108,6 +108,7 @@ CKEDITOR.plugins.add( 'dropler', {
 				 data: request,
 				 success: function(xml) {
 				  console.log(xml);
+				  resolve("success");
 				 }
 				});
 			});
