@@ -135,8 +135,8 @@ CKEDITOR.plugins.add( 'dropler', {
 					var blob = blob.split(",")
 
 					var response = qbpost(file.name, blob[1])
-					if (response == "Fail") { reject("")}
-					else { reject("Success") }
+					if (response[0] == "err") { reject(response[1])}
+					else { resolve(response[1]) }
 					}
 				reader.readAsDataURL(file)
 			});
