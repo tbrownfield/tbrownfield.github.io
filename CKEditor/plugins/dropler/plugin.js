@@ -84,7 +84,6 @@ CKEDITOR.plugins.add( 'dropler', {
         }
 		
 		function qbpost(filename, data) {
-			return new Promise(function(resolve, reject) {
 				
 				var apptoken = "bxbj722drzze3sb6jc7endytstjq"
 				
@@ -108,10 +107,10 @@ CKEDITOR.plugins.add( 'dropler', {
 				 data: request,
 				 success: function(xml) {
 					console.log(xml);
-					resolve("Success")
+					return("Success")
 				 },
 				 error: function(xml) {
-					reject("Fail")
+					return("Fail")
 				 }
 				});
 			});
@@ -123,20 +122,23 @@ CKEDITOR.plugins.add( 'dropler', {
         }
 
         function uploadQB(file) {
-            var settings = editor.config.droplerConfig.settings;
-            //return post(settings.uploadUrl, file, {'apptoken': settings.token});
-			console.log("file in: "+file)
-			var reader = new FileReader();
-			console.log("file"+file)
-			reader.onloadend = function() {
-				var blob = reader.result;
-				console.log("blob: "+blob)
-				var blob = blob.split(",")
+			return new Promise(function(resolve, reject) {
+				var settings = editor.config.droplerConfig.settings;
+				//return post(settings.uploadUrl, file, {'apptoken': settings.token});
+				console.log("file in: "+file)
+				var reader = new FileReader();
+				console.log("file"+file)
+				reader.onloadend = function() {
+					var blob = reader.result;
+					console.log("blob: "+blob)
+					var blob = blob.split(",")
 
-				return qbpost(file.name, blob[1])
-				
-				}
-			reader.readAsDataURL(file)
+					var response = qbpost(file.name, blob[1])
+					if (response == "Fail") { resolve("Failed")}
+					else { reject("Success") }
+					}
+				reader.readAsDataURL(file)
+			}
 		}
 		
         function uploadImgur(file) {
