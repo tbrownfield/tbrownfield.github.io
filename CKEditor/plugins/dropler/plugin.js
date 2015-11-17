@@ -86,15 +86,16 @@ CKEDITOR.plugins.add( 'dropler', {
 		function qbpost(filename, data) {
 				
 				var apptoken = "bxbj722drzze3sb6jc7endytstjq"
-				
+				var dbid = "bkejf7qv5"
+				var fid = "7"
 				var url="";
-				url +="https://intuitcorp.quickbase.com/db/bkejf7qv5";
+				url +="https://intuitcorp.quickbase.com/db/"+dbid;
 				url +="?act=API_AddRecord";
 
 				var request="";
 				request += '<qdbapi>';
 				request += '<apptoken>'+apptoken+'</apptoken>';
-				request += "<field fid='7' filename='"+filename+"'>"+data+"</field>";
+				request += "<field fid='"+fid+"' filename='"+filename+"'>"+data+"</field>";
 				request += '</qdbapi>';
 
 				jQuery.ajax({
@@ -107,10 +108,11 @@ CKEDITOR.plugins.add( 'dropler', {
 				 data: request,
 				 success: function(xml) {
 					console.log(xml);
-					return("Success")
+					var rid = $(xml).find('rid').text();
+					return("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0")
 				 },
 				 error: function(xml) {
-					return("Fail")
+					return($(xml).find("errtext").text();)
 				 }
 				});
 		}
