@@ -83,40 +83,39 @@ CKEDITOR.plugins.add( 'dropler', {
             });
         }
 		
-		function qbpost(data) {
-			return new Promise(function(resolve, reject) {
-				
-				var apptoken = "bxbj722drzze3sb6jc7endytstjq"
-				
-				var url="";
-				url +="https://intuitcorp.quickbase.com/db/bkejf7qv5";
-				url +="?act=API_AddRecord";
+	function qbpost(data) {
+		return new Promise(function(resolve, reject) {
+			
+			var apptoken = "bxbj722drzze3sb6jc7endytstjq"
+			
+			var url="";
+			url +="https://intuitcorp.quickbase.com/db/bkejf7qv5";
+			url +="?act=API_AddRecord";
 
-				var request="";
-				request += '<qdbapi>';
-				request += '<apptoken>'+apptoken+'</apptoken>';
-				request += "<field fid='7' filename='Testfile.gif'>"+data+"</field>";
-				request += '</qdbapi>';
+			var request="";
+			request += '<qdbapi>';
+			request += '<apptoken>'+apptoken+'</apptoken>';
+			request += "<field fid='7' filename='Testfile.gif'>"+data+"</field>";
+			request += '</qdbapi>';
 
-				jQuery.ajax({
-				 type: "POST",
-				 contentType: "text/xml",
-				 async: false,
-				 url: url,
-				 dataType: "xml",
-				 processData: false,
-				 data: request,
-				 success: function(xml) {
-					console.log(xml);
-					resolve("Success")
-				 },
-				 error: function(xml) {
-					reject("Fail")
-				 }
-				});
+			jQuery.ajax({
+			 type: "POST",
+			 contentType: "text/xml",
+			 async: false,
+			 url: url,
+			 dataType: "xml",
+			 processData: false,
+			 data: request,
+			 success: function(xml) {
+				console.log(xml);
+				resolve("Success")
+			 },
+			 error: function(xml) {
+				reject("Fail")
+			 }
 			});
-	}
-		
+		});
+	}	
 
         function uploadBasic(file) {
             var settings = editor.config.droplerConfig.settings;
