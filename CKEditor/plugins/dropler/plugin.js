@@ -113,7 +113,6 @@ CKEDITOR.plugins.add( 'dropler', {
 					return("Fail")
 				 }
 				});
-			});
 		}
 
         function uploadBasic(file) {
