@@ -1,0 +1,50 @@
+<html>
+<head>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script>
+	function getblob() {
+		var fileInput = document.getElementById("myfileinput").files[0];
+		var reader = new FileReader();
+	console.log("file"+fileInput[0])
+		reader.onloadend = function() {
+			var blob = reader.result;
+			console.log("blob: "+blob)
+			var blob = blob.split(",")
+			toQB(blob[1])
+		}
+		reader.readAsDataURL(fileInput)
+	}
+	
+	function toQB(file) {
+		var apptoken = "bxbj722drzze3sb6jc7endytstjq"
+		
+		var url="";
+		url +="https://intuitcorp.quickbase.com/db/bkejf7qv5";
+		url +="?act=API_AddRecord";
+
+		var request="";
+		request += '<qdbapi>';
+		request += '<apptoken>'+apptoken+'</apptoken>';
+		request += "<field fid='7' filename='Testfile.gif'>"+file+"</field>";
+		request += '</qdbapi>';
+
+		jQuery.ajax({
+		 type: "POST",
+		 contentType: "text/xml",
+		 async: false,
+		 url: url,
+		 dataType: "xml",
+		 processData: false,
+		 data: request,
+		 success: function(xml) {
+		  console.log(xml);
+		 }
+		});
+	}	
+	</script>
+</head>
+<body>
+<input type="file" id="myfileinput"></input>
+<input type="button" onclick="getblob()" value="go"></input>
+</body>
+</html>

@@ -1,26 +1,38 @@
-CKEDITOR.plugins.add( 'email',
-{
+CKEDITOR.plugins.add( 'email', {
+	icons: 'email',
 	init: function( editor )
 	{
 		editor.addCommand( 'email', { modes: { wysiwyg: 1, source: 1 },
 		exec: function( editor ) {
 			//Set mailto Link from url parameters
+			editor.widgets.destroyAll()
+			var settings = editor.config.emailConfig;
 			var mailto = "mailto:";
 
+			var emailbcc = sessionStorage.getItem('bcclist')
+			if (!emailbcc) {
+				var emailbcc = document.URL.match(/&bcc=([^&]+)/) 
+				if (emailbcc) {
+					var emailbcc = emailbcc[1];
+				}
+			}
+			
 			var emailaddr = document.URL.match(/&email=([^&]+)/)
-			if (emailaddr) {
-				mailto += emailaddr[1];
+
+			if (emailbcc) {
+				mailto += "&bcc=" + emailbcc;
+				if ((emailaddr) && (mailto.indexOf(emailaddr[1]) == -1)) { mailto += ";"+emailaddr[1]; }
+			}
+			else {
+				if (emailaddr) {
+					mailto += emailaddr[1];
+				}				
 			}
 
 			var emailsubj = document.URL.match(/&sub=([^&]+)/)
-			if (!emailsubj) { var emailsubj = [0,"TurboTax Support: Response regarding recent TurboTax Support Contact"]; }
+			if (!emailsubj) { var emailsubj = [0,settings.defaultSubject]; }
 			mailto += "?subject="+emailsubj[1];
 			
-			var emailbcc = document.URL.match(/&bcc=([^&]+)/)
-			if (emailbcc) {
-				mailto += "&bcc=" + emailbcc[1];
-			}
-
 			document.location.href=mailto;
 			
 			
@@ -68,7 +80,10 @@ CKEDITOR.plugins.add( 'email',
 	});
 
 	function recordEmail( editor ) {
-		var apptoken = "bxbj722drzze3sb6jc7endytstjq"
+		var settings = editor.config.emailConfig;
+		var apptoken = settings.appToken;
+		var qbdbid = settings.dbid;
+		var qbfid = settings.historyFid;
 		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to record email in Quickbase. Please do so manually.', type: 'warning' } );
 		var rid = document.URL.match(/&case=([^&]+)/);
 		if (!rid) { error.show(); return; }
@@ -85,34 +100,37 @@ CKEDITOR.plugins.add( 'email',
 		}
 		else { error.show(); var body = "<p>Body of email not logged.</p>"; }
 		var url="";
-		url +="https://intuitcorp.quickbase.com/db/bkdyrd38n";
+		url +="https://intuitcorp.quickbase.com/db/"+qbdbid;
 		url +="?act=API_EditRecord";
 
 		var request="";
 		request += '<qdbapi>';
 		request += '<apptoken>'+apptoken+'</apptoken>';
 		request += '<rid>'+rid[1]+'</rid>';
-		request += "<field fid='28'><![CDATA[<h3>Template: "+decodeURI(temp[1])+"</h3>"+body+"]]></field>";
+		request += "<field fid='"+qbfid+"'><![CDATA[<h3>Template: "+decodeURI(temp[1])+"</h3>"+body+"]]></field>";
 		request += '</qdbapi>';
 
 		jQuery.ajax({
-		 type: "POST",
-		 contentType: "text/xml",
-		 async: false,
-		 url: url,
-		 dataType: "xml",
-		 processData: false,
-		 data: request,
-		 success: function(xml) {
-		  console.log(xml);
-		 }
+			type: "POST",
+			contentType: "text/xml",
+			url: url,
+			dataType: "xml",
+			processData: false,
+			data: request,
+			success: function(xml) {
+				if ($(xml).find("errcode").text() == 0) { editor.showNotification("Successfully recorded to Quickbase."); }
+				else { error.show(); }
+			},
+			error: function() {
+				error.show();
+			}
 		});
 	}
 		editor.ui.addButton( 'email',
 		{
 		label: 'Copy & Email',
 		command: 'email',
-		icon: this.path + 'icons/email.png'
+		toolbar: 'finalize'
 		} );
 	}
 

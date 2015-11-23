@@ -8,7 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-	config.extraPlugins = 'email,dropler',
+	config.extraPlugins = 'email,dropler,image2,PQTemplates',
 	
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
@@ -19,16 +19,19 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'forms' },
 		//{ name: 'tools' },
 		{ name: 'document',	   groups: [ 'mode', 'document', 'doctools' ] },
+		{ name: 'PQTemplates' },
+		{ name: 'finalize' },
 		{ name: 'others' },
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
 		{ name: 'styles' },
-		{ name: 'colors' }
+		{ name: 'colors' },
 	];
+
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Subscript,Superscript,h1,h2,h3,h4,h5,h6,Strike,Format';
+	config.removeButtons = 'Subscript,Superscript,h1,h2,h3,h4,h5,h6,Strike,Format,Cut,Copy,PasteText,PasteFromWord,Templates';
 
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';
@@ -38,15 +41,33 @@ CKEDITOR.editorConfig = function( config ) {
 		
 	config.fillEmptyBlocks = false;
 	
-	config.extraAllowedContent = '*[id](*){*}'
+	config.extraAllowedContent = '*[id](*){*} '
 	
-	config.templates_files = [ 'https://tbrownfield.github.io/plugins/templates/templates/TT-templates.js' ];
+	config.templates_files = [ './plugins/templates/templates/TT-templates.js' ];
 	
-    config.droplerConfig = {
+	config.PQTemplates = {
+		templatefile: 'https://intuitcorp.quickbase.com/db/bgkvndpnt?a=dbpage&pageID=127',
+		batchName: 'TurboTax Customer',
+		globalBatchName: 0,
+		footerReply: "This message was sent to inform you of a critical matter. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
+		footerNoReply: "This message was sent to inform you of a critical matter. Replies to this email will not be received. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
+		noReplyTemplates: ["Not_A_Product_Issue","Not_Enough_Info_Submitted","Thanks_For_Alerting_Us_To_This_Issue","FAQ_Already_Exists_For_This_Issue"]
+	}
+	
+	config.emailConfig = {
+		defaultSubject: 'TurboTax Support: Response regarding recent TurboTax Support Contact',
+		dbid: 'bkdyrd38n',
+		appToken: 'bxbj722drzze3sb6jc7endytstjq',
+		historyFid: '28'
+	}
+	
+	config.droplerConfig = {
 		backend: 'quickbase',
 		settings: {
-			uploadUrl: 'https://intuitcorp.quickbase.com/db/bkejf7qv5?a=API_AddRecord',
-			token: 'bxbj722drzze3sb6jc7endytstjq'			
+			dbid: 'bkejf7qv5',
+			appToken: 'bxbj722drzze3sb6jc7endytstjq',
+			imagefid: '7',
+			casefid: '6'
 		}
 	}
 };

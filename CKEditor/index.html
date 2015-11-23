@@ -1,0 +1,71 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CSI Email Template Editor</title>
+	<script src="./ckeditor.js"></script>
+	<script src="./inited.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+	<script>
+		function loadTemplate() {
+			var template = document.URL.match(/&temp=([^&]+)/)
+			if (template) {
+				if (template[1].indexOf("_Personal__") != -1) {
+					var template = template[1].replace(new RegExp(/\%20/g), "_").replace(new RegExp(/[^a-zA-Z0-9_.:-]/g), "_")
+					var casenum = document.URL.match(/&case=([^&]+)/);
+					if (casenum) {
+						casenum = casenum[1];
+						var ptemplates = localStorage.getItem("PT"+casenum)
+						if (ptemplates) {
+							var ptemplates = JSON.parse(ptemplates)
+							$.each(ptemplates, function() {
+								safename = this[0].replace(new RegExp(/\%20/g), "_").replace(new RegExp(/[^a-zA-Z0-9_.:-]/g), "_")
+								if (safename == template) {
+									$("main #body").html(atob(this[1]));
+									initCKEd();
+								}
+							});
+						}
+					}
+				}
+				else {
+				var template = template[1].replace(new RegExp(/\%20/g), "_").replace(new RegExp(/[^a-zA-Z0-9_.:-]/g), "_")
+				jQuery("main #body").load("http://localhost/ckeditor/templates.html #"+template, function(response) { initCKEd(); }); }
+			}
+			else { initCKEd(); }
+		}
+	</script>
+</head>
+<body id="main">
+<main>
+	<div class="adjoined-bottom">
+		<div class="grid-container">
+			<div class="grid-width-100">
+				<div id="editor">
+					<table border="0" style="width:600px">
+						<tbody>
+							<tr>
+								<td style="background-color: #3881C2"><img src="https://intuitcorp.quickbase.com/up/bfztun6np/g/rbb/ei/va/TT_Logo_Horz_RGB_Rev_Intuit_blue2.png" /></td>
+							</tr>
+							<tr>
+							<td id="body" style="font-family:verdana,geneva,sans-serif; font-size:12pt">
+
+							</td>
+							</tr>
+							<tr><td style="height:12px; width:600px; background-color: #3881C2;"></td></tr>
+							<tr><td><p><span id="footer" style="font-family:verdana,geneva,sans-serif; font-size:8pt">This message was sent to inform you of a critical matter. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;</p>
+							<p><span style="font-family:verdana,geneva,sans-serif; font-size:8pt">&copy; 2015 Intuit Inc. All rights reserved.  Intuit, the Intuit and TurboTax logos are registered trademarks and/or service marks of Intuit Inc. in the United States and other countries.  Intuit Inc., Customer Communications, 2800 E. Commerce Center Place, Tucson, AZ 85706.</span></p>
+							</td></tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+</main>
+<span id="templates" style="display: none"></span>
+<script>
+	loadTemplate();
+</script>
+
+</body>
+</html>
