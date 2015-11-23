@@ -45,7 +45,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 							var emailfid = "25"
 							
 							var casenum = document.URL.match(/&case=([^&]+)/)
-							var query = "{'30'.EX.'"+casenum+"'}"
+							var query = "{'30'.EX.'"+casenum[1]+"'}"
 							var clist = "25"
 							
 							var url="";
