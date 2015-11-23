@@ -38,6 +38,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 						id: 'pullemails',
 						label: 'GetEmails',
 						title: 'GetEmails',
+						style: 'width:50px;height:25px',
 						onClick: function() {
 							// this = CKEDITOR.ui.dialog.button
 							var dbid = "bkdyrd38n"
@@ -67,7 +68,13 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 								processData: false,
 								data: request,
 								success: function(xml) {
-									console.log(xml);
+									var bcclist = ""
+									$.each($("record email",xml), function(){
+										bcclist += $(this).text()
+										})
+									var dialog = this;
+									console.log("bcclist: "+bcclist)
+									dialog.setValue(bcclist);
 								},
 								error: function() {
 									error.show();
