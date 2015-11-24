@@ -24,7 +24,7 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 							
 							var dbid = "bke7detga"
 							var apptoken = "cc648mnd9sin2bcpvxbt9dk64w6f"
-							var catfield = "8"
+							var catfid = "8"
 							
 							var query = "{'"+catfid+"'.EX.'PQ Customer Responses'}"
 							var clist = "6"
