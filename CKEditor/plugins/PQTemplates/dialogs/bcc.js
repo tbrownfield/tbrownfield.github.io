@@ -80,9 +80,9 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 											$.each($("record email",xml), function(){
 												bcclist += $(this).text()+";"
 												})
-											var dialog = this;
+											var dialog = CKEDITOR.dialog.getCurrent()
 											console.log("bcclist: "+bcclist)
-											dialog.setValue(bcclist);
+											dialog.setValueOf("tab1","PQBCCField",bcclist);
 										},
 										error: function() {
 											error.show();
