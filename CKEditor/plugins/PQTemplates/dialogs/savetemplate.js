@@ -79,7 +79,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 
 			var request="";
 			request += '<qdbapi>';
-			request += '<apptoken>'+apptoken+'</apptoken>';
+			request += '<apptoken>'+appToken+'</apptoken>';
 			request += '<field fid="'+categoryFid+'">'+category+'</field>';
 			request += '<field fid="'+nameFid+'">'+tempname+'</field>';
 			request += '<field fid="'+contentFid+'">'+content+'</field>';
