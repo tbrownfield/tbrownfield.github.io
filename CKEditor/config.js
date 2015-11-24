@@ -51,7 +51,15 @@ CKEDITOR.editorConfig = function( config ) {
 		globalBatchName: 0,
 		footerReply: "This message was sent to inform you of a critical matter. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
 		footerNoReply: "This message was sent to inform you of a critical matter. Replies to this email will not be received. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
-		noReplyTemplates: ["Not_A_Product_Issue","Not_Enough_Info_Submitted","Thanks_For_Alerting_Us_To_This_Issue","FAQ_Already_Exists_For_This_Issue"]
+		dbid: "bke7kcnze",
+		appToken: "bxbj722drzze3sb6jc7endytstjq",
+		nameFid: "6",
+		contentFid: "7",
+		categoryFid: "8",
+		noReplyFid: "9"
+		sharedFid: "10",
+		caseFid: "11",
+		
 	}
 	
 	config.emailConfig = {
