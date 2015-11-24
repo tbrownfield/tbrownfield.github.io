@@ -24,7 +24,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 								type: 'checkbox',
 								id: 'noreply',
 								label: 'No Reply',
-								title: 'Use the "No Reply" footer',
+								title: 'Use the \"No Reply\" footer',
 							},
 							{
 								type: 'checkbox',
@@ -58,10 +58,10 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			var caseOnlyFid = editor.config.PQTemplates.caseOnlyFid
 			var caseFid = editor.config.PQTemplates.caseFid
 
-			var tempname = dialog.getValueOf("tempname")
-			var noreply = dialog.getValueOf("noreply")
+			var tempname = dialog.getValueOf("tab1","tempname")
+			var noreply = dialog.getValueOf("tab1","noreply")
 
-			var caseonly = dialog.getValueOf("caseonly")
+			var caseonly = dialog.getValueOf("tab1","caseonly")
 			if (caseonly == 1) { 
 				var casenum = document.URL.match(/&case=([^&]+)/)
 				if (casenum) { var casenum = casenum[1] }
@@ -69,7 +69,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			}
 			else { var casenum = 0 }
 
-			var shared = dialog.getValueOf("share")
+			var shared = dialog.getValueOf("tab1","share")
 			if (shared == 0) { var category = "PQ Customer Responses" }
 			else { var category = "Personal" }
 			
