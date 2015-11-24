@@ -48,17 +48,15 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 								processData: false,
 								data: request,
 								success: function(xml) {
-									var tempname = $("record name",xml).text();
-									selbox.add(tempname, tempname)
+									var temps = $("record name",xml)
+									$.each(temps, function(){ 
+										var tempname = this.text()
+										selbox.add(tempname, tempname)
+									}
 								},
 								error: function() {
 									console.log("Error loading template.")
 								}
-							});
-							
-							//populate default templates
-							$.each(temps, function () {
-								selbox.add(this.id.replace(/_/g, " "), this.id)
 							});
 						},
                         validate: CKEDITOR.dialog.validate.notEmpty( "No template selected." )
