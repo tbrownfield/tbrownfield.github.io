@@ -49,13 +49,13 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 								//style: 'width:50px;height:25px',
 								onClick: function() {
 									// this = CKEDITOR.ui.dialog.button
-									var dbid = "bkdyrd38n"
-									var apptoken = "bxbj722drzze3sb6jc7endytstjq"
-									var emailfid = "25"
+									var dbid = "9df5xdir"
+									var apptoken = "d9qr25tda5rnrb69z3z9de8uy58"
+									var emailfid = 6
 									
 									var casenum = document.URL.match(/&case=([^&]+)/)
-									var query = "{'30'.EX.'"+casenum[1]+"'}"
-									var clist = "25"
+									var query = "{'12'.EX.'"+casenum[1]+"'}"
+									var clist = emailfid
 									
 									var url="";
 									url +="https://intuitcorp.quickbase.com/db/"+dbid;
