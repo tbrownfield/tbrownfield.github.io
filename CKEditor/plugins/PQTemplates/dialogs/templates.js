@@ -41,7 +41,7 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 							var request="";
 							request += '<qdbapi>';
 							request += '<apptoken>'+appToken+'</apptoken>';
-							request += '<qid>'+query+'</qid>';
+							request += '<qid>'+qid+'</qid>';
 							request += '<clist>'+clist+'</clist>';
 							request += '</qdbapi>';
 
