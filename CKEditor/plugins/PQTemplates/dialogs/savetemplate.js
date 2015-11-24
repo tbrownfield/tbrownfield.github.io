@@ -78,7 +78,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			else { console.log("error") }
 
 			var shared = dialog.getValueOf("tab1","share")
-			if (shared == 0) { var category = "PQ Customer Responses" }
+			if (shared != "1") { var category = "PQ Customer Responses" }
 			else { var category = "Personal" }
 			
 			var url="";
@@ -90,7 +90,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			request += '<apptoken>'+appToken+'</apptoken>';
 			request += '<field fid="'+categoryFid+'">'+category+'</field>';
 			request += '<field fid="'+nameFid+'">'+tempname+'</field>';
-			request += '<field fid="'+contentFid+'">"'+content+'"</field>';
+			request += '<field fid="'+contentFid+'"><![CDATA['+content+']]></field>';
 			request += '<field fid="'+noReplyFid+'">'+noreply+'</field>';
 			request += '<field fid="'+sharedFid+'">'+shared+'</field>';
 			request += '<field fid="'+caseOnlyFid+'">'+caseonly+'</field>';
