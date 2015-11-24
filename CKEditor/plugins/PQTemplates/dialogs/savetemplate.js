@@ -69,11 +69,11 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			}
 			else { var casenum = 0 }
 			
-			var body = editor.getData();
-			var body = body.split(/\<td id\=\"body\"[^\>]+>/);
-			if (body) {
-				var body = body[1].split(/<\/td\>/);
-				var body = body[0];
+			var content = editor.getData();
+			var content = content.split(/\<td id\=\"body\"[^\>]+>/);
+			if (content) {
+				var content = content[1].split(/<\/td\>/);
+				var content = content[0];
 			}
 			else { console.log("error") }
 
