@@ -90,7 +90,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			request += '<apptoken>'+appToken+'</apptoken>';
 			request += '<field fid="'+categoryFid+'">'+category+'</field>';
 			request += '<field fid="'+nameFid+'">'+tempname+'</field>';
-			request += '<field fid="'+contentFid+'">'+content+'</field>';
+			request += '<field fid="'+contentFid+'">"'+content+'"</field>';
 			request += '<field fid="'+noReplyFid+'">'+noreply+'</field>';
 			request += '<field fid="'+sharedFid+'">'+shared+'</field>';
 			request += '<field fid="'+caseOnlyFid+'">'+caseonly+'</field>';
