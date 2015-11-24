@@ -58,10 +58,10 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			var caseOnlyFid = editor.config.PQTemplates.caseOnlyFid
 			var caseFid = editor.config.PQTemplates.caseFid
 
-			var tempname = dialog.getValue("tempname")
-			var noreply = dialog.getValue("noreply")
+			var tempname = dialog.getValueOf("tempname")
+			var noreply = dialog.getValueOf("noreply")
 
-			var caseonly = dialog.getValue("caseonly")
+			var caseonly = dialog.getValueOf("caseonly")
 			if (caseonly == 1) { 
 				var casenum = document.URL.match(/&case=([^&]+)/)
 				if (casenum) { var casenum = casenum[1] }
@@ -69,7 +69,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			}
 			else { var casenum = 0 }
 
-			var shared = dialog.getValue("shared")
+			var shared = dialog.getValueOf("shared")
 			if (shared == 0) { var category = "PQ Customer Responses" }
 			else { var category = "Personal" }
 			
