@@ -68,6 +68,14 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 				else { var casenum = 0 }
 			}
 			else { var casenum = 0 }
+			
+			var body = editor.getData();
+			var body = body.split(/\<td id\=\"body\"[^\>]+>/);
+			if (body) {
+				var body = body[1].split(/<\/td\>/);
+				var body = body[0];
+			}
+			else { console.log("error") }
 
 			var shared = dialog.getValueOf("tab1","share")
 			if (shared == 0) { var category = "PQ Customer Responses" }
