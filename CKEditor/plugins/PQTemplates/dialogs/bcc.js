@@ -93,7 +93,6 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									
 								}
 							}
-                    }
                 ]
             }
         ],
