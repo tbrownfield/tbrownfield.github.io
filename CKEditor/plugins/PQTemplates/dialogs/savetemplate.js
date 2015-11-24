@@ -2,7 +2,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
     return {
         title: 'Save Template',
         minWidth: 300,
-        minHeight: 200,
+        minHeight: 150,
         contents: [
             {
                 id: 'tab1',
@@ -11,14 +11,14 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
                     {
 						
 						type: 'vbox',
-						widths: [ '25%', '75%' ],
+						widths: [ '25%', '25%', '25%' ],
 						children: [
 							{	
 								type: 'text',
 								id: 'tempname',
 								label: 'Name',
-								style: 'width:300px;height:185px',
-								validate: CKEDITOR.dialog.validate.notEmpty( "No template selected." )
+								style: 'width:300px',
+								validate: CKEDITOR.dialog.validate.notEmpty( "Please enter a name for this template." )
 							},
 							{
 								type: 'checkbox',
@@ -69,7 +69,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			}
 			else { var casenum = 0 }
 
-			var shared = dialog.getValueOf("shared")
+			var shared = dialog.getValueOf("share")
 			if (shared == 0) { var category = "PQ Customer Responses" }
 			else { var category = "Personal" }
 			
