@@ -54,7 +54,7 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 								data: request,
 								success: function(xml) {
 									var temps = $("record",xml)
-									$each(temps, function() {
+									$.each(temps, function() {
 										if ($("case_only",this).text == "1") {
 											var tempname = $("name",this).text()
 											var casenum = document.URL.match(/&case=([^&]+)/)
@@ -67,14 +67,14 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 											selbox.add(tempname, tempname)
 										}
 									})
-									$each(temps, function() {
+									$.each(temps, function() {
 										if ($("category", this).text() == "Personal") {
 											var tempname = $(this).text()
 											var tempname = "[Personal] "+tempname
 											selbox.add(tempname, tempname)
 										}
 									})
-									$each(temps, function() {
+									$.each(temps, function() {
 										if ($("category", this).text() == "PQ Customer Responses") {
 											var tempname = $(this).text()
 											selbox.add(tempname, tempname)
