@@ -62,7 +62,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			var noreply = dialog.getValueOf("tab1","noreply")
 
 			var caseonly = dialog.getValueOf("tab1","caseonly")
-			if (caseonly == 1) { 
+			if (caseonly == true) { 
 				var casenum = document.URL.match(/&case=([^&]+)/)
 				if (casenum) { var casenum = casenum[1] }
 				else { var casenum = 0 }
@@ -78,7 +78,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			else { console.log("error") }
 
 			var shared = dialog.getValueOf("tab1","share")
-			if (shared != "1") { var category = "PQ Customer Responses" }
+			if (shared != false) { var category = "PQ Customer Responses" }
 			else { var category = "Personal" }
 			
 			var url="";
