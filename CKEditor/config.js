@@ -56,9 +56,9 @@ CKEDITOR.editorConfig = function( config ) {
 		nameFid: "6",
 		contentFid: "7",
 		categoryFid: "8",
-		noReplyFid: "9"
+		noReplyFid: "9",
 		sharedFid: "10",
-		caseFid: "11",
+		caseFid: "11"
 		
 	}
 	
