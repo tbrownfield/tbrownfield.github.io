@@ -52,7 +52,7 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 									$.each(temps, function(){ 
 										var tempname = this.text()
 										selbox.add(tempname, tempname)
-									}
+									})
 								},
 								error: function() {
 									console.log("Error loading template.")
