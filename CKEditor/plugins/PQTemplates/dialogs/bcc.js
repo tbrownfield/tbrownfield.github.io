@@ -80,8 +80,8 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 											$.each($("record email",xml), function(){
 												bcclist += $(this).text()+";"
 												})
+											if (!bcclist) { editor.showNotification("No matching records found in Quickbase."); return; }
 											var dialog = CKEDITOR.dialog.getCurrent()
-											console.log("bcclist: "+bcclist)
 											dialog.setValueOf("tab1","PQBCCField",bcclist);
 										},
 										error: function() {

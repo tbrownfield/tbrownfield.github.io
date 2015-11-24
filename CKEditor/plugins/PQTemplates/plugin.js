@@ -5,9 +5,12 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 
 		CKEDITOR.dialog.add( 'PQTemplateDialog', this.path + 'dialogs/templates.js' );
 		CKEDITOR.dialog.add( 'PQBatchDialog', this.path + 'dialogs/bcc.js' );
+		CKEDITOR.dialog.add( 'PQSaveTemplateDialog', this.path + 'dialogs/savetemplate.js' );
 
 		editor.addCommand( 'emailtemps', new CKEDITOR.dialogCommand( 'PQTemplateDialog' ) );
-		
+
+		editor.addCommand( 'savetemp', new CKEDITOR.dialogCommand( 'PQSaveTemplateDialog' ) );		
+
 		editor.addCommand( 'bcclist', new CKEDITOR.dialogCommand( 'PQBatchDialog' ) );
 		
         editor.addCommand( 'batch', {
@@ -86,72 +89,9 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				}
 			}
 		});
-		
-		editor.addCommand( 'savetemp', {
-			exec: function ( editor ) {
 
-			var error = new CKEDITOR.plugins.notification( editor, { message: 'Error: Unable to save personal template.', type: 'warning' } );
-			var editor = CKEDITOR.instances.editor;
-			var body = editor.getData();
-			var body = body.split(/\<td id\=\"body\"[^\>]+>/);
-			if (body) {
-				var body = body[1].split(/<\/td\>/);
-				var body = btoa(body[0]);
-			}
-
-			else { error.show(); return; }
-
-			var casenum = document.URL.match(/&case=([^&]+)/);
-			if (casenum) {
-				casenum = casenum[1];
-			}
-			
-			//save personal template to localStorage
-			templatename = prompt("Template Name")
-			var ptemplates = localStorage.getItem("PT"+casenum)
-			if (!ptemplates) { var ptemplates = []; }
-			else { var ptemplates = JSON.parse(ptemplates) }
-
-			ptemplates.push(["[Personal] "+templatename,body])
-			localStorage.setItem("PT"+casenum, JSON.stringify(ptemplates))
-
-			//update history key
-			var PTHistory = localStorage.getItem("PTHistory")
-			if (PTHistory) { var PTHistory = JSON.parse(PTHistory); }
-			else { var PTHistory = { "lastClean": Date.now() } }
-			
-			PTHistory["PT"+casenum] = Date.now();
-			localStorage.setItem("PTHistory",JSON.stringify(PTHistory));
-			var oneday = 24 * 60 * 60 * 1000
-			if (PTHistory.lastClean < Date.now() - oneday) { cleanTemplateStore; }
-			
-			}
-		
-		})
-		
-		
 		
 		//Utility functions
-		function cleanTemplateStore() {
-			var lifespan = editor.config.PQTemplates.pTemplateExpiration
-			var oneday = 24 * 60 * 60 * 1000
-			var lifespan = oneday * lifespan
-			var expiring = Date.now() - lifespan
-			var PTHistory = localStorage.getItem("PTHistory")
-			if (!PTHistory) { return }
-			var PTHistory = JSON.parse(PTHistory)
-			if (PTHistory[lastClean] > Date.now() - oneday) { return; }
-			$.each(PTHistory, function(key) { 
-				if (this < expiring) {
-					localStorage.removeItem(key)
-					delete PTHistory[key]
-					console.log("Deleted old template set: "+key)
-				}
-			})
-			PTHistory[lastClean] = Date.now();
-			localStorage.setItem("PTHistory",JSON.stringify(PTHistory))
-		}
-		
 		function fixCaps(str) {
 			return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		}

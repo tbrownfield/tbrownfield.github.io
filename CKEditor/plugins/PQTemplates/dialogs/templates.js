@@ -22,12 +22,17 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 							selbox = dialog.getContentElement( 'tab1', 'PQTemplatesSelect' );
 							selbox.add("Blank"," ")
 							
-							var dbid = "bke7detga"
-							var apptoken = "cc648mnd9sin2bcpvxbt9dk64w6f"
-							var catfid = "8"
+							var dbid = editor.config.PQTemplates.dbid
+							var appToken = editor.config.PQTemplates.appToken
+							var nameFid = editor.config.PQTemplates.nameFid
+							var categoryFid = editor.config.PQTemplates.categoryFid
+
+							var sharedFid = editor.config.PQTemplates.sharedFid
+							var caseOnlyFid = editor.config.PQTemplates.caseOnlyFid
+							var caseFid = editor.config.PQTemplates.caseFid
 							
-							var query = "{'"+catfid+"'.EX.'PQ Customer Responses'}"
-							var clist = "6"
+							var qid = "5"
+							var clist = nameFid+'.'+categoryFid+'.'+sharedFid+'.'+caseOnlyFid+'.'+caseFid
 
 							var url="";
 							url +="https://intuitcorp.quickbase.com/db/"+dbid;
@@ -35,8 +40,8 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 
 							var request="";
 							request += '<qdbapi>';
-							request += '<apptoken>'+apptoken+'</apptoken>';
-							request += '<query>'+query+'</query>';
+							request += '<apptoken>'+appToken+'</apptoken>';
+							request += '<qid>'+query+'</qid>';
 							request += '<clist>'+clist+'</clist>';
 							request += '</qdbapi>';
 
@@ -48,11 +53,54 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 								processData: false,
 								data: request,
 								success: function(xml) {
-									var temps = $("record name",xml)
+									var temps = $("record",xml)
+									$each(temps, function() {
+										if ($("case_only",this).text == "1") {
+											var tempname = $("name",this).text()
+											var casenum = document.URL.match(/&case=([^&]+)/)
+											if (casenum) {
+												var casenum = casenum[1]
+												if ($("case_number", this).text() != casenum) { return true; }
+												var tempname = "[Case] "+tempname
+											}
+											else { return true; }
+											selbox.add(tempname, tempname)
+										}
+									})
+									$each(temps, function() {
+										if ($("category", this).text() == "Personal") {
+											var tempname = $(this).text()
+											var tempname = "[Personal] "+tempname
+											selbox.add(tempname, tempname)
+										}
+									})
+									$each(temps, function() {
+										if ($("category", this).text() == "PQ Customer Responses") {
+											var tempname = $(this).text()
+											selbox.add(tempname, tempname)
+										}
+									})
+									
+									
+									/*
 									$.each(temps, function(){ 
-										var tempname = $(this).text()
+										var tempname = $("name", this).text()
+
+										if ($("caseonly", this).text() == "1") {
+
+											var casenum = document.URL.match(/&case=([^&]+)/)
+											if (casenum) {
+												var casenum = casenum[1]
+												if ($("case_number", this).text() != casenum) { return true; }
+												var tempname = "[Case] "+tempname
+											}
+											else { return true; }
+												
+										}
+										if ($("category", this).text() == "Personal") { var tempname = "[Personal] "+tempname}
 										selbox.add(tempname, tempname)
 									})
+									*/
 								},
 								error: function() {
 									console.log("Error loading template.")
