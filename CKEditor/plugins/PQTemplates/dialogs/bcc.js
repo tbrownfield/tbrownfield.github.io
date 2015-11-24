@@ -93,9 +93,11 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									
 								}
 							}
-                ]
-            }
-        ],
+						]
+					}
+				]
+			}
+		]
         onOk: function() {
             var dialog = this;
 			var editor = CKEDITOR.instances.editor;
