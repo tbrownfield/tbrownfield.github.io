@@ -50,7 +50,7 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 								success: function(xml) {
 									var temps = $("record name",xml)
 									$.each(temps, function(){ 
-										var tempname = this.text()
+										var tempname = $(this).text()
 										selbox.add(tempname, tempname)
 									})
 								},
