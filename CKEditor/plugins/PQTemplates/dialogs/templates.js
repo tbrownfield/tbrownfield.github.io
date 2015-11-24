@@ -17,38 +17,48 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 						items: [],
 						onLoad: function() {
 							var editor = CKEDITOR.instances.editor
-							var templatefile = editor.config.PQTemplates.templatefile;
 							var dialog = this.getDialog()
-							$("#templates").load(templatefile + " span", function() {
+							
+							selbox = dialog.getContentElement( 'tab1', 'PQTemplatesSelect' );
+							selbox.add("Blank"," ")
+							
+							var dbid = "bke7detga"
+							var apptoken = "cc648mnd9sin2bcpvxbt9dk64w6f"
+							var catfield = "8"
+							
+							var query = "{'"+namefid+"'.EX.'PQ Customer Responses'}"
+							var clist = "6"
 
-								var temps = $("#templates").find("span");
+							var url="";
+							url +="https://intuitcorp.quickbase.com/db/"+dbid;
+							url +="?act=API_DoQuery";
 
-								selbox = dialog.getContentElement( 'tab1', 'PQTemplatesSelect' );
-													
-								//selbox.setAttribute("size",temps.length);
-								var i = document.createElement("option") 
-								selbox.add("Blank"," ")
+							var request="";
+							request += '<qdbapi>';
+							request += '<apptoken>'+apptoken+'</apptoken>';
+							request += '<query>'+query+'</query>';
+							request += '<clist>'+clist+'</clist>';
+							request += '</qdbapi>';
 
-								//populate personal templates
-								var casenum = document.URL.match(/&case=([^&]+)/);
-								if (casenum) {
-									casenum = casenum[1];
-									var ptemplates = localStorage.getItem("PT"+casenum)
-									if (ptemplates) {
-										var ptemplates = JSON.parse(ptemplates);
-										$.each(ptemplates,
-										function() {
-											safename = this[0].replace(new RegExp(/\%20/g), "_").replace(new RegExp(/[^a-zA-Z0-9_.:-]/g), "_")
-											selbox.add(this[0], safename)
-										});
-									};
+							jQuery.ajax({
+								type: "POST",
+								contentType: "text/xml",
+								url: url,
+								dataType: "xml",
+								processData: false,
+								data: request,
+								success: function(xml) {
+									var tempname = $("record name",xml).text();
+									selbox.add(tempname, tempname)
+								},
+								error: function() {
+									console.log("Error loading template.")
 								}
-
-								//populate default templates
-								$.each(temps, function () {
-									var i = document.createElement("option") 
-									selbox.add(this.id.replace(/_/g, " "), this.id)
-								});
+							});
+							
+							//populate default templates
+							$.each(temps, function () {
+								selbox.add(this.id.replace(/_/g, " "), this.id)
 							});
 						},
                         validate: CKEDITOR.dialog.validate.notEmpty( "No template selected." )

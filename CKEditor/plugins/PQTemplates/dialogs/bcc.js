@@ -44,9 +44,9 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 							{
 								type: 'button',
 								id: 'pullemails',
-								label: 'GetEmails',
-								title: 'GetEmails',
-								style: 'width:50px;height:25px',
+								label: 'Get Emails',
+								title: 'Get Emails from Quickbase',
+								//style: 'width:50px;height:25px',
 								onClick: function() {
 									// this = CKEDITOR.ui.dialog.button
 									var dbid = "bkdyrd38n"
