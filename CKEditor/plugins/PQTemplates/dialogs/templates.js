@@ -69,14 +69,14 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 									})
 									$.each(temps, function() {
 										if ($("category", this).text() == "Personal") {
-											var tempname = $(this).text()
+											var tempname = $("name",this).text()
 											var tempname = "[Personal] "+tempname
 											selbox.add(tempname, tempname)
 										}
 									})
 									$.each(temps, function() {
 										if ($("category", this).text() == "PQ Customer Responses") {
-											var tempname = $(this).text()
+											var tempname = $("name",this).text()
 											selbox.add(tempname, tempname)
 										}
 									})
