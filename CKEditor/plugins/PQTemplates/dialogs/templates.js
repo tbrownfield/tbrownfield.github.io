@@ -64,20 +64,20 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 												var tempname = "[Case] "+tempname
 											}
 											else { return true; }
-											selbox.add(tempname, tempname)
+											selbox.add(tempname, $("name",this).text())
 										}
 									})
 									$.each(temps, function() {
 										if ($("category", this).text() == "Personal") {
 											var tempname = $("name",this).text()
 											var tempname = "[Personal] "+tempname
-											selbox.add(tempname, tempname)
+											selbox.add(tempname, $("name",this).text())
 										}
 									})
 									$.each(temps, function() {
 										if ($("category", this).text() == "PQ Customer Responses") {
 											var tempname = $("name",this).text()
-											selbox.add(tempname, tempname)
+											selbox.add(tempname, $("name",this).text())
 										}
 									})
 									
