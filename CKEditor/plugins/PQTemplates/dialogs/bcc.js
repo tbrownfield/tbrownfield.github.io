@@ -66,6 +66,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									request += '<apptoken>'+apptoken+'</apptoken>';
 									request += '<query>'+query+'</query>';
 									request += '<clist>'+clist+'</clist>';
+									request += '<fmt>structured</fmt>';
 									request += '</qdbapi>';
 
 									jQuery.ajax({
@@ -77,7 +78,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 										data: request,
 										success: function(xml) {
 											var bcclist = ""
-											$.each($("record email",xml), function(){
+											$.each($("record "+emailfid,xml), function(){
 												bcclist += $(this).text()+";"
 												})
 											if (!bcclist) { editor.showNotification("No matching records found in Quickbase."); return; }
