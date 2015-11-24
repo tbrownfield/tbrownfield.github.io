@@ -104,5 +104,5 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 			editor.getCommand('batch').setState( 2 );
 			editor.execCommand('batch', editor);
         }
-    };
+    }
 });
