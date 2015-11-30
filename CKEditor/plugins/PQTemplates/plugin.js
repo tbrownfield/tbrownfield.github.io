@@ -96,7 +96,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			var params = document.URL.match(/&([^=]+)([^&]+)/g)
 			for (i=0; i < params.length; i++) {
 				if (params[i].match(/^(&case|&name|&email|&bcc|&temp|&pageID|&noreply|&batch)/)) {
-					return true
+					continue
 				}
 				var replacement = params[i].match(/&([^=]+)\=(.+)/)
 				replaceTxt("\["+decodeURIcomponent(replacement[1]+"\]"), decodeURIcomponent(replacement[2]), 1)
