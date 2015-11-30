@@ -99,7 +99,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					return true
 				}
 				var replacement = params[i].match(/&([^=]+)\=(.+)/)
-				replaceTxt(decodeURIcomponent(replacement[1]), decodeURIcomponent(replacement[2]), 1)
+				replaceTxt("["+decodeURIcomponent(replacement[1]+"]"), decodeURIcomponent(replacement[2]), 1)
 			}
 		}
 		function fixCaps(str) {
@@ -119,6 +119,8 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				editor.setData(content)
 			}
 		}
+		
+		openReplace();
 		
 		var temp = document.URL.match(/&temp=([^&]+)/);
 		if (temp) {
