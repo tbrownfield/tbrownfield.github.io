@@ -12,7 +12,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 						
 						type: 'vbox',
 						heights: [ '195px', null ],
-						styles: [ 'vertical-align:top'],
+						//styles: [ 'vertical-align:top'],
 						children: [
 							{
 								type: 'textarea',
@@ -45,7 +45,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 							],
 							type: 'hbox',
 							widths: [ null, null ],
-							styles: [ 'vertical-align:bottom' ],
+							//styles: [ 'vertical-align:bottom' ],
 							children: [
 								{
 									type: 'button',
