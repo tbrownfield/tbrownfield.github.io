@@ -11,7 +11,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
                     {
 						
 						type: 'vbox',
-						widths: [ '80%', '20%' ],
+						widths: [ '85%', '15%' ],
 						children: [
 							{	
 								type: 'textarea',
@@ -41,6 +41,9 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 								},
 								validate: CKEDITOR.dialog.validate.notEmpty( "No template selected." )
 							},
+							type: 'hbox',
+							widths: [ '45%', '55%' ],
+							children: [
 							{
 								type: 'button',
 								id: 'pullemails',
@@ -111,11 +114,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									var url="";
 									url +="https://intuitcorp.quickbase.com/db/"+dbid+"?a=q&query="+query;
 
-									if ((reportWindow == null) || (report.Window.closed))
-									{
-										reportWindow = window.open(url,"Related Records");
-									}
-									else { reportWindow.focus }
+									window.open(url,"Related Records");
 									
 									/*
 									var request="";
