@@ -11,9 +11,10 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
                     {
 						
 						type: 'vbox',
-						widths: [ '85%', '15%' ],
+						widths: [ null, null ],
+						styles: [ 'vertical-align:top'],
 						children: [
-							{	
+							{
 								type: 'textarea',
 								id: 'PQBCCField',
 								label: '',
@@ -40,116 +41,88 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									}
 								},
 								validate: CKEDITOR.dialog.validate.notEmpty( "No template selected." )
-							},
-							type: 'hbox',
-							widths: [ '45%', '55%' ],
-							children: [
-							{
-								type: 'button',
-								id: 'pullemails',
-								label: 'Get Emails',
-								title: 'Get Emails from Quickbase',
-								//style: 'width:50px;height:25px',
-								onClick: function() {
-									// this = CKEDITOR.ui.dialog.button
-									var dbid = "9df5xdir"
-									var apptoken = "d9qr25tda5rnrb69z3z9de8uy58"
-									var emailfid = 6
-									
-									var casenum = document.URL.match(/&case=([^&]+)/)
-									var query = "{'12'.EX.'"+casenum[1]+"'}"
-									var clist = emailfid
-									
-									var url="";
-									url +="https://intuitcorp.quickbase.com/db/"+dbid;
-									url +="?act=API_DoQuery";
-
-									var request="";
-									request += '<qdbapi>';
-									request += '<apptoken>'+apptoken+'</apptoken>';
-									request += '<query>'+query+'</query>';
-									request += '<clist>'+clist+'</clist>';
-									request += '</qdbapi>';
-
-									jQuery.ajax({
-										type: "POST",
-										contentType: "text/xml",
-										url: url,
-										dataType: "xml",
-										processData: false,
-										data: request,
-										success: function(xml) {
-											var bcclist = ""
-											$.each($("record emai_addr",xml), function(){
-												bcclist += $(this).text()+";"
-												})
-											if (!bcclist) { CKEDITOR.instances.editor.showNotification("No matching records found in Quickbase."); return; }
-											var dialog = CKEDITOR.dialog.getCurrent()
-											dialog.setValueOf("tab1","PQBCCField",bcclist);
-										},
-										error: function() {
-											error.show();
-										}
-									});
-									
-									
-									
-								}
-							},
-							{
-								type: 'button',
-								id: 'openreport',
-								label: 'Open in Quickbase',
-								title: 'Open a report of these emails in the Quickbase',
-								//style: 'width:50px;height:25px',
-								onClick: function() {
-									// this = CKEDITOR.ui.dialog.button
-									var dbid = "9df5xdir"
-									var apptoken = "d9qr25tda5rnrb69z3z9de8uy58"
-									var emailfid = 6
-									
-									var casenum = document.URL.match(/&case=([^&]+)/)
-									var query = "{'12'.EX.'"+casenum[1]+"'}"
-
-									var url="";
-									url +="https://intuitcorp.quickbase.com/db/"+dbid+"?a=q&query="+query;
-
-									window.open(url,"Related Records");
-									
-									/*
-									var request="";
-									request += '<qdbapi>';
-									request += '<apptoken>'+apptoken+'</apptoken>';
-									request += '<query>'+query+'</query>';
-									request += '<clist>'+clist+'</clist>';
-									request += '</qdbapi>';
-
-									jQuery.ajax({
-										type: "POST",
-										contentType: "text/xml",
-										url: url,
-										dataType: "xml",
-										processData: false,
-										data: request,
-										success: function(xml) {
-											var bcclist = ""
-											$.each($("record emai_addr",xml), function(){
-												bcclist += $(this).text()+";"
-												})
-											if (!bcclist) { CKEDITOR.instances.editor.showNotification("No matching records found in Quickbase."); return; }
-											var dialog = CKEDITOR.dialog.getCurrent()
-											dialog.setValueOf("tab1","PQBCCField",bcclist);
-										},
-										error: function() {
-											error.show();
-										}
-									});
-									*/									
-									
-									
-								}
 							}
-						]
+							],
+							{
+							type: 'hbox',
+							widths: [ null, null ],
+							styles: [ 'vertical-align:top' ],
+							children: [
+								{
+									type: 'button',
+									id: 'pullemails',
+									label: 'Get Emails',
+									title: 'Get Emails from Quickbase',
+									//style: 'width:50px;height:25px',
+									onClick: function() {
+										// this = CKEDITOR.ui.dialog.button
+										var dbid = "9df5xdir"
+										var apptoken = "d9qr25tda5rnrb69z3z9de8uy58"
+										var emailfid = 6
+										
+										var casenum = document.URL.match(/&case=([^&]+)/)
+										var query = "{'12'.EX.'"+casenum[1]+"'}"
+										var clist = emailfid
+										
+										var url="";
+										url +="https://intuitcorp.quickbase.com/db/"+dbid;
+										url +="?act=API_DoQuery";
+
+										var request="";
+										request += '<qdbapi>';
+										request += '<apptoken>'+apptoken+'</apptoken>';
+										request += '<query>'+query+'</query>';
+										request += '<clist>'+clist+'</clist>';
+										request += '</qdbapi>';
+
+										jQuery.ajax({
+											type: "POST",
+											contentType: "text/xml",
+											url: url,
+											dataType: "xml",
+											processData: false,
+											data: request,
+											success: function(xml) {
+												var bcclist = ""
+												$.each($("record emai_addr",xml), function(){
+													bcclist += $(this).text()+";"
+													})
+												if (!bcclist) { CKEDITOR.instances.editor.showNotification("No matching records found in Quickbase."); return; }
+												var dialog = CKEDITOR.dialog.getCurrent()
+												dialog.setValueOf("tab1","PQBCCField",bcclist);
+											},
+											error: function() {
+												error.show();
+											}
+										});
+										
+										
+										
+									}
+								},
+								{
+									type: 'button',
+									id: 'openreport',
+									label: 'Open in Quickbase',
+									title: 'Open a report of these emails in the Quickbase',
+									//style: 'width:50px;height:25px',
+									onClick: function() {
+										// this = CKEDITOR.ui.dialog.button
+										var dbid = "9df5xdir"
+										var apptoken = "d9qr25tda5rnrb69z3z9de8uy58"
+										var emailfid = 6
+										
+										var casenum = document.URL.match(/&case=([^&]+)/)
+										var query = "{'12'.EX.'"+casenum[1]+"'}"
+
+										var url="";
+										url +="https://intuitcorp.quickbase.com/db/"+dbid+"?a=q&query="+query;
+
+										window.open(url,"Related Records");
+									}
+								}
+							]
+							}
 					}
 				]
 			}
