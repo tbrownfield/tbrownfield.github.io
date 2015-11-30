@@ -13,7 +13,7 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
                         id: 'PQTemplatesSelect',
                         label: '',
 						style: 'width:300px;height:100%',
-						//size: 15,
+						size: 20,
 						items: [],
 						onLoad: function() {
 							var editor = CKEDITOR.instances.editor

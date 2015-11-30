@@ -43,7 +43,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									dialog.setValueOf("tab1","PQBCCField",bcclist)
 								}
 							},
-							validate: CKEDITOR.dialog.validate.notEmpty( "No template selected." ),
+							validate: CKEDITOR.dialog.validate.notEmpty( "BCC list is blank." ),
 						},
 						{
 							type: 'hbox',
