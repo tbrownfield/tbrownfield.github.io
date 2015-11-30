@@ -40,7 +40,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 								var bcclist = sessionStorage.getItem("bcclist")
 								if (bcclist) {
 									var dialog = CKEDITOR.dialog.getCurrent()
-									dialog.setValueOf("tab1","PQBCCField",);
+									dialog.setValueOf("tab1","PQBCCField",bcclist)
 								}
 							}
 							validate: CKEDITOR.dialog.validate.notEmpty( "No template selected." ),
