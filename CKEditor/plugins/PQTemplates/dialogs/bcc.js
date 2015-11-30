@@ -10,8 +10,8 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
                 elements: [
                     {
 						
-						type: 'hbox',
-						widths: [ '75%', '25%' ],
+						type: 'vbox',
+						widths: [ '80%', '20%' ],
 						children: [
 							{	
 								type: 'textarea',
