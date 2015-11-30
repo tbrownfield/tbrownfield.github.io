@@ -99,7 +99,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					continue
 				}
 				var replacement = params[i].match(/&([^=]+)\=(.+)/)
-				replaceTxt("\["+decodeURIComponent(replacement[1]+"\]"), decodeURIComponent(replacement[2]), 1)
+				replaceTxt("\\["+decodeURIComponent(replacement[1]+"\\]"), decodeURIComponent(replacement[2]), 1)
 			}
 		}
 		function fixCaps(str) {
@@ -119,8 +119,6 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				editor.setData(content)
 			}
 		}
-		
-		openReplace();
 		
 		var temp = document.URL.match(/&temp=([^&]+)/);
 		if (temp) {
@@ -153,6 +151,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			editor.getCommand('setCase').setState( 0 );
 			$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 		}
+		openReplace();
 		
 		editor.ui.addButton( 'emailtemps', {
 			label: 'Email Templates',

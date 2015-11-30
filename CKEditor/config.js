@@ -26,12 +26,12 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
 		{ name: 'styles' },
-		{ name: 'colors' },
+		{ name: 'colors' }
 	];
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Subscript,Superscript,h1,h2,h3,h4,h5,h6,Strike,Format,Cut,Copy,PasteText,PasteFromWord,Templates,bcclist';
+	config.removeButtons = 'Subscript,Superscript,h1,h2,h3,h4,h5,h6,Strike,Format,Cut,Copy,PasteText,PasteFromWord,Templates,bcclist,savetemp';
 
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';
@@ -41,39 +41,38 @@ CKEDITOR.editorConfig = function( config ) {
 		
 	config.fillEmptyBlocks = false;
 	
-	config.extraAllowedContent = '*[id](*){*} '
+	config.extraAllowedContent = '*[id](*){*}'
 	
-	config.templates_files = [ './plugins/templates/templates/TT-templates.js' ];
-	
+	config.templates_files = [ 'https://ProductQualityTeam-InternalTools.github.io/CKEditor/plugins/templates/templates/TT-templates.js' ];
+
 	config.PQTemplates = {
 		templatefile: 'https://intuitcorp.quickbase.com/db/bgkvndpnt?a=dbpage&pageID=127',
 		batchName: 'TurboTax Customer',
 		globalBatchName: 0,
 		footerReply: "This message was sent to inform you of a critical matter. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
 		footerNoReply: "This message was sent to inform you of a critical matter. Replies to this email will not be received. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
-		dbid: "bke7kcnze",
-		appToken: "bxbj722drzze3sb6jc7endytstjq",
+		dbid: "bke7detga",
+		appToken: "cc648mnd9sin2bcpvxbt9dk64w6f",
 		nameFid: "6",
 		contentFid: "7",
 		categoryFid: "8",
 		noReplyFid: "9",
 		sharedFid: "10",
 		caseFid: "11"
-		
 	}
 	
 	config.emailConfig = {
 		defaultSubject: 'TurboTax Support: Response regarding recent TurboTax Support Contact',
-		dbid: 'bkdyrd38n',
-		appToken: 'bxbj722drzze3sb6jc7endytstjq',
-		historyFid: '28'
+		dbid: 'bgkvndp4z',
+		appToken: 'bzp4e3ubmekgnt45z6fucmmai5k',
+		historyFid: '504'
 	}
 	
 	config.droplerConfig = {
 		backend: 'quickbase',
 		settings: {
-			dbid: 'bkejf7qv5',
-			appToken: 'bxbj722drzze3sb6jc7endytstjq',
+			dbid: 'bkemhpvaj',
+			appToken: 'cc648mnd9sin2bcpvxbt9dk64w6f',
 			imagefid: '7',
 			casefid: '6'
 		}

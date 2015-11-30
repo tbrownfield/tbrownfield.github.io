@@ -5,34 +5,24 @@ CKEDITOR.plugins.add( 'email', {
 		editor.addCommand( 'email', { modes: { wysiwyg: 1, source: 1 },
 		exec: function( editor ) {
 			//Set mailto Link from url parameters
-			editor.widgets.destroyAll()
 			var settings = editor.config.emailConfig;
+			editor.widgets.destroyAll()
 			var mailto = "mailto:";
 
-			var emailbcc = sessionStorage.getItem('bcclist')
-			if (!emailbcc) {
-				var emailbcc = document.URL.match(/&bcc=([^&]+)/) 
-				if (emailbcc) {
-					var emailbcc = emailbcc[1];
-				}
-			}
-			
 			var emailaddr = document.URL.match(/&email=([^&]+)/)
-
-			if (emailbcc) {
-				mailto += "&bcc=" + emailbcc;
-				if ((emailaddr) && (mailto.indexOf(emailaddr[1]) == -1)) { mailto += ";"+emailaddr[1]; }
-			}
-			else {
-				if (emailaddr) {
-					mailto += emailaddr[1];
-				}				
+			if (emailaddr) {
+				mailto += emailaddr[1];
 			}
 
 			var emailsubj = document.URL.match(/&sub=([^&]+)/)
 			if (!emailsubj) { var emailsubj = [0,settings.defaultSubject]; }
 			mailto += "?subject="+emailsubj[1];
 			
+			var emailbcc = document.URL.match(/&bcc=([^&]+)/)
+			if (emailbcc) {
+				mailto += "&bcc=" + emailbcc[1];
+			}
+
 			document.location.href=mailto;
 			
 			
@@ -93,7 +83,7 @@ CKEDITOR.plugins.add( 'email', {
 		
 		var editor = CKEDITOR.instances.editor;
 		var body = editor.getData();
-		var body = body.split(/\<td id\=\"body\"\>/);
+		var body = body.split(/\<td id\=\"body\"[^\>]+>/);
 		if (body) {
 			var body = body[1].split(/<\/td\>/);
 			var body = body[0];
