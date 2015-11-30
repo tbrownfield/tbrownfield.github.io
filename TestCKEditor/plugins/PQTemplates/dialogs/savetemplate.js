@@ -78,8 +78,9 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			else { console.log("error") }
 
 			var shared = dialog.getValueOf("tab1","share")
-			if (shared != false) { var category = "PQ Customer Responses" }
-			else { var category = "Personal" }
+			//if (shared != false) { var category = "PQ Customer Responses" }
+			//else { var category = "Personal" }
+			var category = "Personal"
 			
 			var url="";
 			url +="https://intuitcorp.quickbase.com/db/"+dbid;
