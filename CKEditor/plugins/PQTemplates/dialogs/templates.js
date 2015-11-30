@@ -12,8 +12,8 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
                         type: 'select',
                         id: 'PQTemplatesSelect',
                         label: '',
-						style: 'width:100%;height:100%',
-						size: 15,
+						style: 'width:300px;height:100%',
+						//size: 15,
 						items: [],
 						onLoad: function() {
 							var editor = CKEDITOR.instances.editor
