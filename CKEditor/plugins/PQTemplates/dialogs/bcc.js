@@ -43,7 +43,6 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 								validate: CKEDITOR.dialog.validate.notEmpty( "No template selected." )
 							}
 							],
-							{
 							type: 'hbox',
 							widths: [ null, null ],
 							styles: [ 'vertical-align:top' ],
@@ -122,7 +121,6 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									}
 								}
 							]
-							}
 					}
 				]
 			}
