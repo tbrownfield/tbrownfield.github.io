@@ -21,7 +21,7 @@ CKEDITOR.plugins.add( 'email', {
 			if (emailaddr) {var emailaddr = emailaddr[1]}
 			else { var emailaddr = null }
 			var distros = sessionStorage.getItem("distros")
-			if (distros) {emailaddr += distros}
+			if (distros) {emailaddr += ";" + distros}
 
 			if (emailbcc) {
 				mailto += "&bcc=" + emailbcc;
@@ -29,7 +29,7 @@ CKEDITOR.plugins.add( 'email', {
 			}
 			else {
 				if (emailaddr) {
-					mailto += emailaddr[1];
+					mailto += emailaddr;
 				}				
 			}
 
