@@ -22,14 +22,14 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 							selbox = dialog.getContentElement( 'tab1', 'PQTemplatesSelect' );
 							selbox.add("Blank"," ")
 							
-							var dbid = editor.config.PQTemplates.dbid
-							var appToken = editor.config.PQTemplates.appToken
-							var nameFid = editor.config.PQTemplates.nameFid
-							var categoryFid = editor.config.PQTemplates.categoryFid
+							var dbid = editor.config.PQTemplates.TemplateQB.dbid
+							var appToken = editor.config.PQTemplates.TemplateQB.appToken
+							var nameFid = editor.config.PQTemplates.TemplateQB.nameFid
+							var categoryFid = editor.config.PQTemplates.TemplateQB.categoryFid
 
-							var sharedFid = editor.config.PQTemplates.sharedFid
-							var caseOnlyFid = editor.config.PQTemplates.caseOnlyFid
-							var caseFid = editor.config.PQTemplates.caseFid
+							var sharedFid = editor.config.PQTemplates.TemplateQB.sharedFid
+							var caseOnlyFid = editor.config.PQTemplates.TemplateQB.caseOnlyFid
+							var caseFid = editor.config.PQTemplates.TemplateQB.caseFid
 							
 							var qid = "5"
 							var clist = nameFid+'.'+categoryFid+'.'+sharedFid+'.'+caseOnlyFid+'.'+caseFid

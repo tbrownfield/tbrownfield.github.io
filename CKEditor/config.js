@@ -43,24 +43,32 @@ CKEDITOR.editorConfig = function( config ) {
 	
 	config.extraAllowedContent = '*[id](*){*}'
 	
-	config.templates_files = [ 'https://ProductQualityTeam-InternalTools.github.io/CKEditor/plugins/templates/templates/TT-templates.js' ];
+	//depreciated
+	//config.templates_files = [ 'https://ProductQualityTeam-InternalTools.github.io/CKEditor/plugins/templates/templates/TT-templates.js' ];
 
 	config.PQTemplates = {
-		templatefile: 'https://intuitcorp.quickbase.com/db/bgkvndpnt?a=dbpage&pageID=127',
 		batchName: 'TurboTax Customer',
 		globalBatchName: 0,
 		footerReply: "This message was sent to inform you of a critical matter. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
 		footerNoReply: "This message was sent to inform you of a critical matter. Replies to this email will not be received. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
-		dbid: "bke7detga",
-		appToken: "cc648mnd9sin2bcpvxbt9dk64w6f",
-		nameFid: "6",
-		contentFid: "7",
-		categoryFid: "8",
-		noReplyFid: "9",
-		sharedFid: "10",
-		caseFid: "11",
-		subjectFid: "14",
-		distrosFid: "15"
+		TemplateQB: {
+			dbid: "bke7detga",
+			appToken: "cc648mnd9sin2bcpvxbt9dk64w6f",
+			nameFid: "6",
+			contentFid: "7",
+			categoryFid: "8",
+			noReplyFid: "9",
+			sharedFid: "10",
+			caseFid: "11",
+			subjectFid: "14",
+			distrosFid: "15",
+		},
+		EmailQB: {
+			dbid: '9df5xdir',
+			appToken: 'd9qr25tda5rnrb69z3z9de8uy58',
+			emailFid: '6',
+			caseFid: '12'
+		}
 	}
 	
 	config.emailConfig = {
