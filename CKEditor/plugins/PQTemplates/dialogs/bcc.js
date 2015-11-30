@@ -80,7 +80,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 											$.each($("record emai_addr",xml), function(){
 												bcclist += $(this).text()+";"
 												})
-											if (!bcclist) { editor.showNotification("No matching records found in Quickbase."); return; }
+											if (!bcclist) { CKEDITOR.instances.editor.showNotification("No matching records found in Quickbase."); return; }
 											var dialog = CKEDITOR.dialog.getCurrent()
 											dialog.setValueOf("tab1","PQBCCField",bcclist);
 										},
@@ -89,6 +89,62 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 										}
 									});
 									
+									
+									
+								}
+							},
+							{
+								type: 'button',
+								id: 'openreport',
+								label: 'Open in Quickbase',
+								title: 'Open a report of these emails in the Quickbase',
+								//style: 'width:50px;height:25px',
+								onClick: function() {
+									// this = CKEDITOR.ui.dialog.button
+									var dbid = "9df5xdir"
+									var apptoken = "d9qr25tda5rnrb69z3z9de8uy58"
+									var emailfid = 6
+									
+									var casenum = document.URL.match(/&case=([^&]+)/)
+									var query = "{'12'.EX.'"+casenum[1]+"'}"
+
+									var url="";
+									url +="https://intuitcorp.quickbase.com/db/"+dbid+"?a=q&query="+query;
+
+									if(reportWindow == null || report.Window.closed);
+									{
+										reportWindow = window.open(url,"Related Records");
+									}
+									else { reportWindow.focus }
+									/*
+									var request="";
+									request += '<qdbapi>';
+									request += '<apptoken>'+apptoken+'</apptoken>';
+									request += '<query>'+query+'</query>';
+									request += '<clist>'+clist+'</clist>';
+									request += '</qdbapi>';
+
+									jQuery.ajax({
+										type: "POST",
+										contentType: "text/xml",
+										url: url,
+										dataType: "xml",
+										processData: false,
+										data: request,
+										success: function(xml) {
+											var bcclist = ""
+											$.each($("record emai_addr",xml), function(){
+												bcclist += $(this).text()+";"
+												})
+											if (!bcclist) { CKEDITOR.instances.editor.showNotification("No matching records found in Quickbase."); return; }
+											var dialog = CKEDITOR.dialog.getCurrent()
+											dialog.setValueOf("tab1","PQBCCField",bcclist);
+										},
+										error: function() {
+											error.show();
+										}
+									});
+									*/									
 									
 									
 								}
