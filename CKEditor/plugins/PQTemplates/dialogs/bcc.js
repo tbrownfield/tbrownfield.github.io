@@ -113,10 +113,12 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									//style: 'width:50px;height:25px',
 									onClick: function() {
 										// this = CKEDITOR.ui.dialog.button
-										var dbid = editor.config.PQTemplates.EmailQB.dbid;
-										var apptoken = editor.config.PQTemplates.EmailQB.appToken;
-										var emailfid = editor.config.PQTemplates.EmailQB.emailFid;
-										var caseFid = editor.config.PQTemplates.EmailQB.caseFid;
+										var editor = CKEDITOR.instances.editor
+										var settings = editor.config.PQTemplates.EmailQB
+										var dbid = settings.dbid;
+										var apptoken = settings.appToken;
+										var emailfid = settings.emailFid;
+										var caseFid = settings.caseFid;
 										var casenum = document.URL.match(/&case=([^&]+)/)
 										var query = "{'"+ caseFid +"'.EX.'"+casenum[1]+"'}"
 
