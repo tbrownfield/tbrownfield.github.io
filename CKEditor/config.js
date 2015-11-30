@@ -58,7 +58,9 @@ CKEDITOR.editorConfig = function( config ) {
 		categoryFid: "8",
 		noReplyFid: "9",
 		sharedFid: "10",
-		caseFid: "11"
+		caseFid: "11",
+		subjectFid: "14",
+		distrosFid: "15"
 	}
 	
 	config.emailConfig = {
