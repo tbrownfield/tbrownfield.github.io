@@ -92,6 +92,16 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 
 		
 		//Utility functions
+		function openReplace() {
+			var params = document.URL.match(/&([^=]+)([^&]+)/g)
+			for (i=0; i < params.length; i++) {
+				if (params[i].match(/^(&case|&name|&email|&bcc|&temp|&pageID|&noreply|&batch)/)) {
+					return true
+				}
+				var replacement = params[i].match(/&([^=]+)\=(.+)/)
+				replaceTxt(decodeURIcomponent(replacement[1]), decodeURIcomponent(replacement[2]), 1)
+			}
+		}
 		function fixCaps(str) {
 			return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		}
@@ -112,12 +122,11 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		
 		var temp = document.URL.match(/&temp=([^&]+)/);
 		if (temp) {
-			var temp = temp[1].replace(new RegExp(/\%20/g), "_").replace(new RegExp(/[^a-zA-Z0-9_.:-]/g), "_")
-			//var nrtemplates = editor.config.PQTemplates.noReplyTemplates
-			//if (nrtemplates.indexOf(temp) != -1) {
-			//	editor.getCommand('noreply').setState( 2 );
-			//	editor.execCommand('noreply', editor)
-			//}
+			var noreply = sessionStorage.getItem("NoReply")
+			if (noreply == 1) {
+				editor.getCommand('noreply').setState( 2 );
+				editor.execCommand('noreply', editor)
+			}
 		}
 		else { editor.getCommand('noreply').setState( 0 ); }
 
