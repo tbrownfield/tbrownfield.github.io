@@ -111,11 +111,12 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									var url="";
 									url +="https://intuitcorp.quickbase.com/db/"+dbid+"?a=q&query="+query;
 
-									if(reportWindow == null || report.Window.closed);
+									if ((reportWindow == null) || (report.Window.closed))
 									{
 										reportWindow = window.open(url,"Related Records");
 									}
 									else { reportWindow.focus }
+									
 									/*
 									var request="";
 									request += '<qdbapi>';
