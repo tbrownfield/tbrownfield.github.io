@@ -11,7 +11,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
                     {
 						
 						type: 'vbox',
-						heights: [ '85%', '15%' ],
+						heights: [ '195px', null ],
 						styles: [ 'vertical-align:top'],
 						children: [
 							{
