@@ -31,12 +31,18 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 										}
 									}
 								}
-
 								if (bcclist) {
 									var dialog = this;
 									dialog.setValue(bcclist);
 								}
 							},
+							onShow: function() {
+								var bcclist = sessionStorage.getItem("bcclist")
+								if (bcclist) {
+									var dialog = CKEDITOR.dialog.getCurrent()
+									dialog.setValueOf("tab1","PQBCCField",);
+								}
+							}
 							validate: CKEDITOR.dialog.validate.notEmpty( "No template selected." ),
 						},
 						{
