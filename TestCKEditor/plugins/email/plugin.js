@@ -18,6 +18,10 @@ CKEDITOR.plugins.add( 'email', {
 			}
 			
 			var emailaddr = document.URL.match(/&email=([^&]+)/)
+			if (emailaddr) {var emailaddr = emailaddr[1]}
+			else { var emailaddr = null }
+			var distros = sessionStorage.getItem("distros")
+			if (distros) {emailaddr += ";" + distros}
 
 			if (emailbcc) {
 				mailto += "&bcc=" + emailbcc;
@@ -25,13 +29,20 @@ CKEDITOR.plugins.add( 'email', {
 			}
 			else {
 				if (emailaddr) {
-					mailto += emailaddr[1];
+					mailto += emailaddr;
 				}				
 			}
 
-			var emailsubj = document.URL.match(/&sub=([^&]+)/)
-			if (!emailsubj) { var emailsubj = [0,settings.defaultSubject]; }
-			mailto += "?subject="+emailsubj[1];
+			var emailsubj = document.URL.match(/&sub=([^&]+)/);
+			if (!emailsubj) {
+				var emailsubj = sessionStorage.getItem("emailsubj");
+				if (!emailsubj) {
+					var emailsubj = [0,settings.defaultSubject];
+				}
+			}
+			else emailsubj = emailsubj[1];
+			
+			mailto += "?subject="+emailsubj;
 			
 			document.location.href=mailto;
 			
@@ -73,7 +84,7 @@ CKEDITOR.plugins.add( 'email', {
 				editor.showNotification("Copy failed, please use CTRL+C");
 			}
 				editor.showNotification("Email copied to clipboard. CTRL+V into Outlook.");
-				recordEmail( editor );
+				//recordEmail( editor );
 		},
 		
 		canUndo: false

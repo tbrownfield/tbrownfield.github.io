@@ -48,15 +48,15 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			var editor = CKEDITOR.instances.editor;
 			//var bcclist = this.getContentElement('tab1', 'PQBCCField').getValue();
 
-			var dbid = editor.config.PQTemplates.dbid
-			var appToken = editor.config.PQTemplates.appToken
-			var nameFid = editor.config.PQTemplates.nameFid
-			var contentFid = editor.config.PQTemplates.contentFid
-			var categoryFid = editor.config.PQTemplates.categoryFid
-			var noReplyFid = editor.config.PQTemplates.noReplyFid
-			var sharedFid = editor.config.PQTemplates.sharedFid
-			var caseOnlyFid = editor.config.PQTemplates.caseOnlyFid
-			var caseFid = editor.config.PQTemplates.caseFid
+			var dbid = editor.config.PQTemplates.TemplateQB.dbid
+			var appToken = editor.config.PQTemplates.TemplateQB.appToken
+			var nameFid = editor.config.PQTemplates.TemplateQB.nameFid
+			var contentFid = editor.config.PQTemplates.TemplateQB.contentFid
+			var categoryFid = editor.config.PQTemplates.TemplateQB.categoryFid
+			var noReplyFid = editor.config.PQTemplates.TemplateQB.noReplyFid
+			var sharedFid = editor.config.PQTemplates.TemplateQB.sharedFid
+			var caseOnlyFid = editor.config.PQTemplates.TemplateQB.caseOnlyFid
+			var caseFid = editor.config.PQTemplates.TemplateQB.caseFid
 
 			var tempname = dialog.getValueOf("tab1","tempname")
 			var noreply = dialog.getValueOf("tab1","noreply")
