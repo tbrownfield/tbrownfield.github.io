@@ -18,10 +18,10 @@ CKEDITOR.plugins.add( 'email', {
 			}
 			
 			var emailaddr = document.URL.match(/&email=([^&]+)/)
-			if (!emailaddr) {var emailaddr = emailaddr[1]}
+			if (emailaddr) {var emailaddr = emailaddr[1]}
 			else { var emailaddr = null }
 			var distros = sessionStorage.getItem("distros")
-			if (!distros) {emailaddr += distros}
+			if (distros) {emailaddr += distros}
 
 			if (emailbcc) {
 				mailto += "&bcc=" + emailbcc;
@@ -40,7 +40,9 @@ CKEDITOR.plugins.add( 'email', {
 					var emailsubj = [0,settings.defaultSubject];
 				}
 			}
-			mailto += "?subject="+emailsubj[1];
+			else emailsubj = emailsubj[1];
+			
+			mailto += "?subject="+emailsubj;
 			
 			document.location.href=mailto;
 			
