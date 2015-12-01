@@ -82,27 +82,6 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 											selbox.add(tempname, $("name",this).text())
 										}
 									})
-									
-									
-									/*
-									$.each(temps, function(){ 
-										var tempname = $("name", this).text()
-
-										if ($("caseonly", this).text() == "1") {
-
-											var casenum = document.URL.match(/&case=([^&]+)/)
-											if (casenum) {
-												var casenum = casenum[1]
-												if ($("case_number", this).text() != casenum) { return true; }
-												var tempname = "[Case] "+tempname
-											}
-											else { return true; }
-												
-										}
-										if ($("category", this).text() == "Personal") { var tempname = "[Personal] "+tempname}
-										selbox.add(tempname, tempname)
-									})
-									*/
 								},
 								error: function() {
 									console.log("Error loading template.")

@@ -64,10 +64,11 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 										var dbid = settings.dbid;
 										var apptoken = settings.appToken;
 										var emailfid = settings.emailFid;
+										var closedfid = settings.closedFid;
 										var caseFid = settings.caseFid;
 										var casenum = document.URL.match(/&case=([^&]+)/)
 										var query = "{'"+ caseFid +"'.EX.'"+casenum[1]+"'}"
-										var clist = emailfid
+										var clist = emailfid +"."+ closedfid;
 										
 										var url="";
 										url +="https://intuitcorp.quickbase.com/db/"+dbid;
@@ -90,8 +91,10 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 											success: function(xml) {
 												var bcclist = ""
 												$.each($("record emai_addr",xml), function(){
-													bcclist += $(this).text()+";"
-													})
+													if $("record emailed_workaround",this).text() != null) {
+														bcclist += $(this).text()+";"
+													}
+												})
 												if (!bcclist) { CKEDITOR.instances.editor.showNotification("No matching records found in Quickbase."); return; }
 												var dialog = CKEDITOR.dialog.getCurrent()
 												dialog.setValueOf("tab1","PQBCCField",bcclist);

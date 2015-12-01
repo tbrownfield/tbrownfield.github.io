@@ -19,7 +19,7 @@ CKEDITOR.plugins.add( 'email', {
 			
 			var emailaddr = document.URL.match(/&email=([^&]+)/)
 			if (emailaddr) {var emailaddr = emailaddr[1]}
-			else { var emailaddr = null }
+			//else { var emailaddr = mailto: }
 			var distros = sessionStorage.getItem("distros")
 			if (distros) {emailaddr += ";" + distros}
 
