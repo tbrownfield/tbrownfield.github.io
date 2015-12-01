@@ -91,7 +91,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 											success: function(xml) {
 												var bcclist = ""
 												$.each($("record emai_addr",xml), function(){
-													if $("record emailed_workaround",this).text() != null) {
+													if ($("record emailed_workaround",this).text() != null) {
 														bcclist += $(this).text()+";"
 													}
 												})
