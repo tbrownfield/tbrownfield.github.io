@@ -61,7 +61,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									title: 'Get Emails from Quickbase',
 									onClick: function() {
 										var doc = this.getElement().getDocument();
-										doc.getById("bccinfo").innerText = "Retrieving emails from Quickbase...";
+									doc.getById("bccinfo")["$"].innerText = "Retrieving emails from Quickbase...";
 										
 										var editor = CKEDITOR.instances.editor
 										var settings = editor.config.emailConfig.bccQB
@@ -109,7 +109,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 												dialog.setValueOf("tab1","PQBCCField",bcclist);
 
 												//var doc = this.getElement().getDocument();
-												doc.getById("bccinfo").innerText = bcclist.split(";").length+" addresses added. "+dupes+" duplicates skipped.";
+												doc.getById("bccinfo")["$"].innerText = bcclist.split(";").length+" addresses added. "+dupes+" duplicates skipped.";
 												
 												var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
 												if (lentest.length > 1990) {
@@ -118,7 +118,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 												
 											},
 											error: function() {
-												doc.getById("bccinfo").innerText = "Retrieving emails from Quickbase...";
+												doc.getById("bccinfo")["$"].innerText = "Retrieving emails from Quickbase...";
 												error.show();
 											}
 										});
