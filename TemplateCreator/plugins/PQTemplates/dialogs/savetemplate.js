@@ -138,6 +138,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			if (editor.getCommand('noreply').state == 1) {
 				request += '<field fid="'+noReplyFid+'">true</field>';	
 			}
+			else { request += '<field fid="'+noReplyFid+'">false</field>'; }
 			
 			request += '<field fid="'+nameFid+'">'+savename+'</field>';
 			request += '<field fid="'+contentFid+'"><![CDATA['+content+']]></field>';
