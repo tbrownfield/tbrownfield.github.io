@@ -97,7 +97,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 												$.each($("record emai_addr",xml), function(){
 													var dupes = 0
 													if ($("record emailed_workaround",this).text() != null) {
-														var thisemail $(this).text().toLowerCase();
+														var thisemail = $(this).text().toLowerCase();
 														if (bcclist.indexOf(thisemail) == -1) {
 															bcclist += thisemail+";"
 														}
