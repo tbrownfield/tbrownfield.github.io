@@ -86,11 +86,14 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
             var dialog = this;
 			var editor = CKEDITOR.instances.editor;
 			//var bcclist = this.getContentElement('tab1', 'PQBCCField').getValue();
-
+			resetTemplate();
+			
+			var batchName = editor.config.PQTemplates.batchName
 			var dbid = editor.config.PQTemplates.TemplateQB.dbid
 			var appToken = editor.config.PQTemplates.TemplateQB.appToken
 			var nameFid = editor.config.PQTemplates.TemplateQB.nameFid
 			var contentFid = editor.config.PQTemplates.TemplateQB.contentFid
+			var noReplyFid = editor.config.PQTemplates.TemplateQB.noReplyFid
 
 			var savename = dialog.getValueOf("tab1","tempname")
 
@@ -105,6 +108,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 				var content = content[1].split(/<\/td\>/);
 				var content = content[0];
 			}
+			if (content.indexOf(batchName) == -1) { confirm('Your template does not contain the keyphrase "'+batchName+'". Without this phrase, the customer\'s name will not be inserted into the message when appropriate. Do you wish to continue?') }
 			else { console.log("error") }
 
 			var request="";
@@ -123,6 +127,10 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			}
 			else {
 				url +="?act=API_AddRecord";
+			}
+			
+			if (editor.getCommand('noreply').state == 1) {
+				request += '<field fid="'+noReplyFid+'">true</field>';	
 			}
 			
 			request += '<apptoken>'+appToken+'</apptoken>';
@@ -144,4 +152,12 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			});
         }
     }
+	function resetTemplate() {
+		editor.getCommand('batch').setState( 2 );
+		editor.execCommand('batch', editor);
+
+		editor.getCommand('setCase').setState( 1 );
+		editor.execCommand('setCase', editor);
+		}
+	}
 });
