@@ -75,7 +75,7 @@ CKEDITOR.editorConfig = function( config ) {
 		defaultSubject: 'TurboTax Support: Response regarding recent TurboTax Support Contact',
 		dbid: 'bgkvndp4z',
 		appToken: 'bzp4e3ubmekgnt45z6fucmmai5k',
-		historyFid: '504'
+		historyFid: '504',
 		bccQB: {
 			dbid: '9df5xdir',
 			appToken: 'd9qr25tda5rnrb69z3z9de8uy58',
