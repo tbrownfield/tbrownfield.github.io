@@ -133,7 +133,9 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 										var caseFid = settings.caseFid;
 										var closedfid = settings.closedFid;
 										var checkinfid = settings.checkinFid;
-										var query = "{'"+ caseFid +"'.EX.'"+casenum[1]+"'}AND{'"+closedfid+"'.EX.''}AND{'"+checkinfid+"'.CT.'YES'}"
+										var casenum = document.URL.match(/&case=([^&]+)/)
+										if (casenum) { var casenum = casenum[1] }
+										var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}AND{'"+closedfid+"'.EX.''}AND{'"+checkinfid+"'.CT.'YES'}"
 										getEmails(query);
 									}
 								},
@@ -189,7 +191,6 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 		var dbid = settings.dbid;
 		var apptoken = settings.appToken;
 		var emailfid = settings.emailFid;
-		var casenum = document.URL.match(/&case=([^&]+)/)
 		var clist = emailfid;
 
 		var url="";
