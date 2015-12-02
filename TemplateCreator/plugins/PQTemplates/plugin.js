@@ -157,7 +157,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			toolbar: 'PQTemplates,0'
 		});
 		editor.ui.addButton( 'savetemp', {
-			label: 'Save Personal Template',
+			label: 'Save Template',
 			command: 'savetemp',
 			toolbar: 'PQTemplates,1'
 		});
