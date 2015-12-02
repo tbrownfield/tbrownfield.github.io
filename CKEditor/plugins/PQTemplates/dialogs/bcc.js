@@ -10,7 +10,6 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
                 elements: [{
 					type: 'vbox',
 					heights: [ null, null ],
-					//styles: [ 'vertical-align:top'],
 					children: [{
 							type: 'textarea',
 							id: 'PQBCCField',
@@ -56,7 +55,6 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									id: 'pullemails',
 									label: 'Get Emails',
 									title: 'Get Emails from Quickbase',
-									//style: 'width:50px;height:25px',
 									onClick: function() {
 										
 										var editor = CKEDITOR.instances.editor
@@ -98,6 +96,12 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 												if (!bcclist) { CKEDITOR.instances.editor.showNotification("No matching records found in Quickbase."); return; }
 												var dialog = CKEDITOR.dialog.getCurrent()
 												dialog.setValueOf("tab1","PQBCCField",bcclist);
+												
+												var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
+												if (lentest.length > 1990) {
+													alert("Too many email addresses.")
+												}
+												
 											},
 											error: function() {
 												error.show();
@@ -113,9 +117,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									id: 'openreport',
 									label: 'Open in Quickbase',
 									title: 'Open a report of these emails in the Quickbase',
-									//style: 'width:50px;height:25px',
 									onClick: function() {
-										// this = CKEDITOR.ui.dialog.button
 										var editor = CKEDITOR.instances.editor
 										var settings = editor.config.PQTemplates.EmailQB
 										var dbid = settings.dbid;
@@ -142,6 +144,12 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
             var dialog = this;
 			var editor = CKEDITOR.instances.editor;
 			var bcclist = this.getContentElement('tab1', 'PQBCCField').getValue();
+			
+			var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
+			if (lentest.length > 1990) {
+				alert("Too many email addresses.")
+			}
+			
 			sessionStorage.setItem('bcclist', bcclist);
 			editor.getCommand('batch').setState( 2 );
 			editor.execCommand('batch', editor);

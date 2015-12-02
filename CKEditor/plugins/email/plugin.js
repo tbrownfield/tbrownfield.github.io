@@ -23,16 +23,6 @@ CKEDITOR.plugins.add( 'email', {
 			var distros = sessionStorage.getItem("distros")
 			if (distros) {emailaddr += ";" + distros}
 
-			if (emailbcc) {
-				mailto += "&bcc=" + emailbcc;
-				if ((emailaddr) && (mailto.indexOf(emailaddr[1]) == -1)) { mailto += ";"+emailaddr[1]; }
-			}
-			else {
-				if (emailaddr) {
-					mailto += emailaddr;
-				}				
-			}
-
 			var emailsubj = document.URL.match(/&sub=([^&]+)/);
 			if (!emailsubj) {
 				var emailsubj = sessionStorage.getItem("emailsubj");
@@ -43,6 +33,20 @@ CKEDITOR.plugins.add( 'email', {
 			else emailsubj = emailsubj[1];
 			
 			mailto += "?subject="+emailsubj;
+			
+			if (emailbcc) {
+				if ((mailto.length + emailbcc.length) > 2000) {
+					var error = new CKEDITOR.plugins.notification( editor, { message: 'Too many BCC addresses to auto-populate. Please copy/paste the list manually.', type: 'warning' } );
+					error.show()
+					editor.execCommand("bcclist")
+				}
+				else { mailto += "&bcc=" + emailbcc; }
+			}
+			else {
+				if (emailaddr) {
+					//mailto += emailaddr;
+				}
+			}
 			
 			document.location.href=mailto;
 			
@@ -104,7 +108,7 @@ CKEDITOR.plugins.add( 'email', {
 		
 		var editor = CKEDITOR.instances.editor;
 		var body = editor.getData();
-		var body = body.split(/\<td id\=\"body\"\>/);
+		var body = body.split(/\<td id\=\"body\"[^\>]+>/);
 		if (body) {
 			var body = body[1].split(/<\/td\>/);
 			var body = body[0];
@@ -139,9 +143,9 @@ CKEDITOR.plugins.add( 'email', {
 	}
 		editor.ui.addButton( 'email',
 		{
-		label: 'Copy & Email',
-		command: 'email',
-		toolbar: 'finalize'
+			label: 'Copy & Email',
+			command: 'email',
+			toolbar: 'finalize'
 		} );
 	}
 

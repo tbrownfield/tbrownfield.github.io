@@ -76,6 +76,12 @@ CKEDITOR.editorConfig = function( config ) {
 		dbid: 'bgkvndp4z',
 		appToken: 'bzp4e3ubmekgnt45z6fucmmai5k',
 		historyFid: '504'
+		bccQB: {
+			dbid: '9df5xdir',
+			appToken: 'd9qr25tda5rnrb69z3z9de8uy58',
+			emailFid: '6',
+			caseFid: '12'
+		}
 	}
 	
 	config.droplerConfig = {
