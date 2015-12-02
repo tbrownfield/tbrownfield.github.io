@@ -9,7 +9,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
                 label: 'Only Tab',
                 elements: [{
 					type: 'vbox',
-					heights: [ null, null ],
+					heights: [ null, null, null ],
 					children: [{
 							type: 'textarea',
 							id: 'PQBCCField',
@@ -45,6 +45,10 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 							validate: CKEDITOR.dialog.validate.notEmpty( "BCC list is blank." ),
 						},
 						{
+							type: 'html',
+							html: '<span id="bccinfo"></span>',
+						},
+						{
 							type: 'hbox',
 							widths: [ null, null ],
 							height: [ '20px' ],
@@ -56,9 +60,11 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									label: 'Get Emails',
 									title: 'Get Emails from Quickbase',
 									onClick: function() {
+										var doc = this.getElement().getDocument();
+										doc.getElementById("bccinfo").innerText = "Retrieving emails from Quickbase...";
 										
 										var editor = CKEDITOR.instances.editor
-										var settings = editor.config.PQTemplates.EmailQB
+										var settings = editor.config.emailConfig.bccQB
 										var dbid = settings.dbid;
 										var apptoken = settings.appToken;
 										var emailfid = settings.emailFid;
@@ -89,13 +95,21 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 											success: function(xml) {
 												var bcclist = ""
 												$.each($("record emai_addr",xml), function(){
+													var dupes = 0
 													if ($("record emailed_workaround",this).text() != null) {
-														bcclist += $(this).text()+";"
+														var thisemail $(this).text().toLowerCase();
+														if (bcclist.indexOf(thisemail) == -1) {
+															bcclist += thisemail+";"
+														}
+														else { dupes++ }
 													}
 												})
 												if (!bcclist) { CKEDITOR.instances.editor.showNotification("No matching records found in Quickbase."); return; }
 												var dialog = CKEDITOR.dialog.getCurrent()
 												dialog.setValueOf("tab1","PQBCCField",bcclist);
+
+												//var doc = this.getElement().getDocument();
+												doc.getElementById("bccinfo").innerText = bcclist.split(";").length+" addresses added. "+dupes+" duplicates skipped.";
 												
 												var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
 												if (lentest.length > 1990) {
@@ -104,12 +118,10 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 												
 											},
 											error: function() {
+												doc.getElementById("bccinfo").innerText = "Retrieving emails from Quickbase...";
 												error.show();
 											}
 										});
-										
-										
-										
 									}
 								},
 								{
@@ -119,7 +131,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									title: 'Open a report of these emails in the Quickbase',
 									onClick: function() {
 										var editor = CKEDITOR.instances.editor
-										var settings = editor.config.PQTemplates.EmailQB
+										var settings = editor.config.emailConfig.bccQB
 										var dbid = settings.dbid;
 										var apptoken = settings.appToken;
 										var emailfid = settings.emailFid;
