@@ -118,6 +118,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 
 			var request="";
 			request += '<qdbapi>';
+			request += '<apptoken>'+appToken+'</apptoken>';
 
 			var url="";
 			url +="https://intuitcorp.quickbase.com/db/"+dbid;
@@ -135,10 +136,9 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			}
 			
 			if (editor.getCommand('noreply').state == 1) {
-				request += '<field fid="'+noReplyFid+'">"true"</field>';	
+				request += '<field fid="'+noReplyFid+'">true</field>';	
 			}
 			
-			request += '<apptoken>'+appToken+'</apptoken>';
 			request += '<field fid="'+nameFid+'">'+savename+'</field>';
 			request += '<field fid="'+contentFid+'"><![CDATA['+content+']]></field>';
 			request += '</qdbapi>';
