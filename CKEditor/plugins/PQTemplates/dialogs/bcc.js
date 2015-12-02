@@ -182,8 +182,8 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 			editor.execCommand('batch', editor);
         }
     }
-	function getEmails(this, query) {
-		var doc = this.getElement().getDocument();
+	function getEmails(dlg, query) {
+		var doc = dlg.getElement().getDocument();
 		doc.getById("bccinfo")["$"].innerText = "Retrieving emails from Quickbase...";
 
 		var editor = CKEDITOR.instances.editor
