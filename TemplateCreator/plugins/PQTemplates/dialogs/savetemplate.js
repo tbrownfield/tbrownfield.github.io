@@ -25,7 +25,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 										dialog.setValueOf("tab1","tempname",tempname)
 									}
 								},
-								validate: CKEDITOR.dialog.validate.notEmpty( "Please enter a name for this template." )
+								validate: CKEDITOR.dialog.validate.notEmpty( "Please enter a name for this template." ),
 							},
 							{
 								type: 'checkbox',
@@ -37,7 +37,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 								type: 'text',
 								id: 'distros',
 								label: 'Default Distros',
-								title: 'Email addresses to populate to the To field for every email using this template.'
+								title: 'Email addresses to populate to the To field for every email using this template.',
 							},
 							{
 								type: 'select',
