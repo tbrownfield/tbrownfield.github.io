@@ -19,7 +19,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 							var tempname = decodeURIComponent(document.URL.match(/&temp=([^&]+)/))
 							if (tempname) {
 								var dialog = CKEDITOR.dialog.getCurrent()
-								dialog.setValueOf("tab1","tempname",tempname)
+								dialog.setValueOf("tab1","tempname",tempname[1])
 							}
 						},
 						validate: CKEDITOR.dialog.validate.notEmpty( "Please enter a name for this template." )
@@ -43,6 +43,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 						title: 'Default subject line for emails using this template.',
 						items: [ ['Other'] ],
 						onLoad: function() {
+							var editor = CKEDITOR.instances.editor
 							var dbid = editor.config.PQTemplates.TemplateQB.dbid
 							var appToken = editor.config.PQTemplates.TemplateQB.appToken
 							var subjectFid = editor.config.PQTemplates.TemplateQB.subjectFid
