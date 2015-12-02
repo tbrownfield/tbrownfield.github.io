@@ -63,12 +63,6 @@ CKEDITOR.editorConfig = function( config ) {
 			subjectFid: "14",
 			distrosFid: "15",
 		},
-		EmailQB: {
-			dbid: '9df5xdir',
-			appToken: 'd9qr25tda5rnrb69z3z9de8uy58',
-			emailFid: '6',
-			caseFid: '12'
-		}
 	}
 	
 	config.emailConfig = {
@@ -80,7 +74,9 @@ CKEDITOR.editorConfig = function( config ) {
 			dbid: '9df5xdir',
 			appToken: 'd9qr25tda5rnrb69z3z9de8uy58',
 			emailFid: '6',
-			caseFid: '12'
+			caseFid: '12',
+			closedFid: '17',
+			checkinFid: '222'
 		}
 	}
 	

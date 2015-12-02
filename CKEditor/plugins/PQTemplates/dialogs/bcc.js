@@ -50,18 +50,18 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 						},
 						{
 							type: 'hbox',
-							widths: [ null, null ],
+							widths: [ null, null, null ],
 							height: [ '20px' ],
 							styles: [ 'vertical-align:bottom' ],
 							children: [
 								{
 									type: 'button',
-									id: 'pullemails',
-									label: 'Get Emails',
-									title: 'Get Emails from Quickbase',
+									id: 'pullallemails',
+									label: 'Get All Emails',
+									title: 'Get All Emails from Quickbase',
 									onClick: function() {
 										var doc = this.getElement().getDocument();
-									doc.getById("bccinfo")["$"].innerText = "Retrieving emails from Quickbase...";
+										doc.getById("bccinfo")["$"].innerText = "Retrieving emails from Quickbase...";
 										
 										var editor = CKEDITOR.instances.editor
 										var settings = editor.config.emailConfig.bccQB
@@ -71,8 +71,8 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 										var closedfid = settings.closedFid;
 										var caseFid = settings.caseFid;
 										var casenum = document.URL.match(/&case=([^&]+)/)
-										var query = "{'"+ caseFid +"'.EX.'"+casenum[1]+"'}"
-										var clist = emailfid +"."+ closedfid;
+										var query = "{'"+ caseFid +"'.EX.'"+casenum[1]+"'}AND{'"+closedfid+"'.EX.''}"
+										var clist = emailfid;
 										
 										var url="";
 										url +="https://intuitcorp.quickbase.com/db/"+dbid;
@@ -96,13 +96,11 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 												var bcclist = "";
 												var dupes = 0;
 												$.each($("record emai_addr",xml), function(){
-													if ($("record emailed_workaround",this).text() != null) {
-														var thisemail = $(this).text().toLowerCase();
-														if (bcclist.indexOf(thisemail) == -1) {
-															bcclist += thisemail+";"
-														}
-														else { dupes++ }
+													var thisemail = $(this).text().toLowerCase();
+													if (bcclist.indexOf(thisemail) == -1) {
+														bcclist += thisemail+";"
 													}
+													else { dupes++ }
 												})
 												if (!bcclist) { doc.getById("bccinfo")["$"].innerText = "No matching records found in Quickbase."; return; }
 												var dialog = CKEDITOR.dialog.getCurrent()
@@ -118,11 +116,21 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 												
 											},
 											error: function() {
-												doc.getById("bccinfo")["$"].innerText = "Retrieving emails from Quickbase...";
+												doc.getById("bccinfo")["$"].innerText = "Error retrieving emails from Quickbase...";
 												error.show();
 											}
 										});
 									}
+								},
+								{
+									type: 'button',
+									id: 'pullcheckinemails',
+									label: 'Get Check-In Emails',
+									title: 'Get Check-In Emails from Quickbase',
+									onClick: function() {
+										var query = "{'"+ caseFid +"'.EX.'"+casenum[1]+"'}AND{'"+closedfid+"'.EX.''}AND{'"+checkinfid+"'.CT.'YES'}"
+										getEmails(query);
+									});
 								},
 								{
 									type: 'button',
@@ -167,4 +175,65 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 			editor.execCommand('batch', editor);
         }
     }
+	function getEmails(query) {
+		var doc = this.getElement().getDocument();
+		doc.getById("bccinfo")["$"].innerText = "Retrieving emails from Quickbase...";
+
+		var editor = CKEDITOR.instances.editor
+		var settings = editor.config.emailConfig.bccQB
+		var dbid = settings.dbid;
+		var apptoken = settings.appToken;
+		var emailfid = settings.emailFid;
+		var closedfid = settings.closedFid;
+		var caseFid = settings.caseFid;
+		var casenum = document.URL.match(/&case=([^&]+)/)
+		var clist = emailfid;
+
+		var url="";
+		url +="https://intuitcorp.quickbase.com/db/"+dbid;
+		url +="?act=API_DoQuery";
+
+		var request="";
+		request += '<qdbapi>';
+		request += '<apptoken>'+apptoken+'</apptoken>';
+		request += '<query>'+query+'</query>';
+		request += '<clist>'+clist+'</clist>';
+		request += '</qdbapi>';
+
+		jQuery.ajax({
+			type: "POST",
+			contentType: "text/xml",
+			url: url,
+			dataType: "xml",
+			processData: false,
+			data: request,
+			success: function(xml) {
+				var bcclist = "";
+				var dupes = 0;
+				$.each($("record emai_addr",xml), function(){
+					var thisemail = $(this).text().toLowerCase();
+					if (bcclist.indexOf(thisemail) == -1) {
+						bcclist += thisemail+";"
+					}
+					else { dupes++ }
+				})
+				if (!bcclist) { doc.getById("bccinfo")["$"].innerText = "No matching records found in Quickbase."; return; }
+				var dialog = CKEDITOR.dialog.getCurrent()
+				dialog.setValueOf("tab1","PQBCCField",bcclist);
+
+				//var doc = this.getElement().getDocument();
+				doc.getById("bccinfo")["$"].innerText = (bcclist.split(";").length - 1)+" addresses added. "+dupes+" duplicates skipped.";
+				
+				var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
+				if (lentest.length > 1990) {
+					alert("Too many email addresses.")
+				}
+				
+			},
+			error: function() {
+				doc.getById("bccinfo")["$"].innerText = "Error retrieving emails from Quickbase...";
+				error.show();
+			}
+		});
+	}
 });
