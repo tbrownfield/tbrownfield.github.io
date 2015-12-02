@@ -92,7 +92,12 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			var nameFid = editor.config.PQTemplates.TemplateQB.nameFid
 			var contentFid = editor.config.PQTemplates.TemplateQB.contentFid
 
-			var tempname = dialog.getValueOf("tab1","tempname")
+			var savename = dialog.getValueOf("tab1","tempname")
+
+			var loadname = document.URL.match(/&temp=([^&]+)/)
+			if (loadname) {
+				loadname = decodeURIComponent(loadname[1])
+			}
 
 			var content = editor.getData();
 			var content = content.split(/\<td id\=\"body\"[^\>]+>/);
@@ -102,14 +107,26 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			}
 			else { console.log("error") }
 
-			var url="";
-			url +="https://intuitcorp.quickbase.com/db/"+dbid;
-			url +="?act=API_AddRecord";
-
 			var request="";
 			request += '<qdbapi>';
+
+			var url="";
+			url +="https://intuitcorp.quickbase.com/db/"+dbid;
+			
+			if (loadname == savename) {
+				var casenum = document.URL.match(/&case=([^&]+)/)
+				if (!casenum) { console.log("No record ID, unable to update record.") }
+				var casenum = casenum[1]
+				
+				url +="?act=API_EditRecord";
+				request += '<rid>'+casenum+'</rid>';
+			}
+			else {
+				url +="?act=API_AddRecord";
+			}
+			
 			request += '<apptoken>'+appToken+'</apptoken>';
-			request += '<field fid="'+nameFid+'">'+tempname+'</field>';
+			request += '<field fid="'+nameFid+'">'+savename+'</field>';
 			request += '<field fid="'+contentFid+'"><![CDATA['+content+']]></field>';
 			request += '</qdbapi>';
 
