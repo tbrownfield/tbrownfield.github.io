@@ -128,6 +128,11 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									label: 'Get Check-In Emails',
 									title: 'Get Check-In Emails from Quickbase',
 									onClick: function() {
+										var editor = CKEDITOR.instances.editor
+										var settings = editor.config.emailConfig.bccQB
+										var caseFid = settings.caseFid;
+										var closedfid = settings.closedFid;
+										var checkinfid = settings.checkinFid;
 										var query = "{'"+ caseFid +"'.EX.'"+casenum[1]+"'}AND{'"+closedfid+"'.EX.''}AND{'"+checkinfid+"'.CT.'YES'}"
 										getEmails(query);
 									}
@@ -184,8 +189,6 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 		var dbid = settings.dbid;
 		var apptoken = settings.appToken;
 		var emailfid = settings.emailFid;
-		var closedfid = settings.closedFid;
-		var caseFid = settings.caseFid;
 		var casenum = document.URL.match(/&case=([^&]+)/)
 		var clist = emailfid;
 
