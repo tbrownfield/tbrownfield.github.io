@@ -136,7 +136,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 										var casenum = document.URL.match(/&case=([^&]+)/)
 										if (casenum) { var casenum = casenum[1] }
 										var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}AND{'"+closedfid+"'.EX.''}AND{'"+checkinfid+"'.CT.'YES'}"
-										getEmails(query);
+										getEmails(this, query);
 									}
 								},
 								{
@@ -182,7 +182,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 			editor.execCommand('batch', editor);
         }
     }
-	function getEmails(query) {
+	function getEmails(this, query) {
 		var doc = this.getElement().getDocument();
 		doc.getById("bccinfo")["$"].innerText = "Retrieving emails from Quickbase...";
 
