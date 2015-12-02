@@ -2,13 +2,13 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
     return {
         title: 'Save Template',
         minWidth: 300,
-        minHeight: 150,
+        minHeight: 75,
         contents: [{
 			id: 'tab1',
 			label: 'Only Tab',
 			elements: [{
 				type: 'vbox',
-				widths: [ '25%', '25%', '25%', '25%' ],
+				widths: [ null ],
 				children: [
 					{	
 						type: 'text',
@@ -23,8 +23,8 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 							}
 						},
 						validate: CKEDITOR.dialog.validate.notEmpty( "Please enter a name for this template." )
-					},
-					{
+					}
+					/*{
 						type: 'checkbox',
 						id: 'noreply',
 						label: 'No Reply',
@@ -78,7 +78,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 								}
 							});
 						}
-					}
+					}*/
 				]
 			}]
 		}],
@@ -91,23 +91,9 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			var appToken = editor.config.PQTemplates.TemplateQB.appToken
 			var nameFid = editor.config.PQTemplates.TemplateQB.nameFid
 			var contentFid = editor.config.PQTemplates.TemplateQB.contentFid
-			var categoryFid = editor.config.PQTemplates.TemplateQB.categoryFid
-			var noReplyFid = editor.config.PQTemplates.TemplateQB.noReplyFid
-			var sharedFid = editor.config.PQTemplates.TemplateQB.sharedFid
-			var caseOnlyFid = editor.config.PQTemplates.TemplateQB.caseOnlyFid
-			var caseFid = editor.config.PQTemplates.TemplateQB.caseFid
 
 			var tempname = dialog.getValueOf("tab1","tempname")
-			var noreply = dialog.getValueOf("tab1","noreply")
 
-			var caseonly = dialog.getValueOf("tab1","caseonly")
-			if (caseonly == true) { 
-				var casenum = document.URL.match(/&case=([^&]+)/)
-				if (casenum) { var casenum = casenum[1] }
-				else { var casenum = 0 }
-			}
-			else { var casenum = 0 }
-			
 			var content = editor.getData();
 			var content = content.split(/\<td id\=\"body\"[^\>]+>/);
 			if (content) {
@@ -116,10 +102,6 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			}
 			else { console.log("error") }
 
-			var shared = dialog.getValueOf("tab1","share")
-			if (shared != false) { var category = "PQ Customer Responses" }
-			else { var category = "Personal" }
-			
 			var url="";
 			url +="https://intuitcorp.quickbase.com/db/"+dbid;
 			url +="?act=API_AddRecord";
@@ -130,10 +112,6 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			request += '<field fid="'+categoryFid+'">'+category+'</field>';
 			request += '<field fid="'+nameFid+'">'+tempname+'</field>';
 			request += '<field fid="'+contentFid+'"><![CDATA['+content+']]></field>';
-			request += '<field fid="'+noReplyFid+'">'+noreply+'</field>';
-			request += '<field fid="'+sharedFid+'">'+shared+'</field>';
-			request += '<field fid="'+caseOnlyFid+'">'+caseonly+'</field>';
-			request += '<field fid="'+caseFid+'">'+casenum+'</field>';
 			request += '</qdbapi>';
 
 			jQuery.ajax({
