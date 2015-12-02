@@ -153,6 +153,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
         }
     }
 	function resetTemplate() {
+		var editor = CKEDITOR.instances.editor
 		editor.getCommand('batch').setState( 2 );
 		editor.execCommand('batch', editor);
 
