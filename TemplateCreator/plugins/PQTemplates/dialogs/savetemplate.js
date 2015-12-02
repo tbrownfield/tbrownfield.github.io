@@ -43,7 +43,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 								type: 'select',
 								id: 'subject',
 								label: 'Subject',
-								title: 'Default subject line for emails using this template.'
+								title: 'Default subject line for emails using this template.',
 								onLoad: function() {
 									var dbid = editor.config.PQTemplates.TemplateQB.dbid
 									var appToken = editor.config.PQTemplates.TemplateQB.appToken
