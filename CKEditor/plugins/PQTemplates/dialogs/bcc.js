@@ -130,7 +130,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 									onClick: function() {
 										var query = "{'"+ caseFid +"'.EX.'"+casenum[1]+"'}AND{'"+closedfid+"'.EX.''}AND{'"+checkinfid+"'.CT.'YES'}"
 										getEmails(query);
-									});
+									}
 								},
 								{
 									type: 'button',
