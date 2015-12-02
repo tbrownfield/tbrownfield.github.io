@@ -46,7 +46,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 						},
 						{
 							type: 'html',
-							html: '<span id="bccinfo"></span>',
+							html: '<div id="bccinfo"></div>',
 						},
 						{
 							type: 'hbox',
@@ -93,9 +93,9 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 											processData: false,
 											data: request,
 											success: function(xml) {
-												var bcclist = ""
+												var bcclist = "";
+												var dupes = 0;
 												$.each($("record emai_addr",xml), function(){
-													var dupes = 0
 													if ($("record emailed_workaround",this).text() != null) {
 														var thisemail = $(this).text().toLowerCase();
 														if (bcclist.indexOf(thisemail) == -1) {
