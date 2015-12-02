@@ -108,8 +108,13 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 				var content = content[1].split(/<\/td\>/);
 				var content = content[0];
 			}
-			if (content.indexOf(batchName) == -1) { confirm('Your template does not contain the keyphrase "'+batchName+'". Without this phrase, the customer\'s name will not be inserted into the message when appropriate. Do you wish to continue?') }
 			else { console.log("error") }
+
+			if (content.indexOf(batchName) == -1) {
+				if (confirm('Your template does not contain the keyphrase "'+batchName+'". Without this phrase, the customer\'s name will not be inserted into the message when appropriate. Do you wish to continue?') == false) {
+					return false;
+				}
+			}
 
 			var request="";
 			request += '<qdbapi>';
@@ -130,7 +135,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			}
 			
 			if (editor.getCommand('noreply').state == 1) {
-				request += '<field fid="'+noReplyFid+'">true</field>';	
+				request += '<field fid="'+noReplyFid+'">"true"</field>';	
 			}
 			
 			request += '<apptoken>'+appToken+'</apptoken>';
