@@ -68,10 +68,11 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 								processData: false,
 								data: request,
 								success: function(xml) {
-									var options = $("#"+subjectFid+" choices",xml);
+									var options = $("#"+subjectFid+" choice",xml);
 									$.each(options, function() {
 										selbox.add($(this).text())
 									})
+									selbox.add("other")
 								},
 								error: function() {
 								}
