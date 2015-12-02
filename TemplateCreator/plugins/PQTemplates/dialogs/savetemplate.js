@@ -158,6 +158,5 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 
 		editor.getCommand('setCase').setState( 1 );
 		editor.execCommand('setCase', editor);
-		}
 	}
 });
