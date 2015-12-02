@@ -152,8 +152,11 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 				processData: false,
 				data: request,
 				success: function(xml) {
+					if ($("errcode",xml).text() != 0) { editor.showNotification("Failed to save template. "+$("errtext",xml).text()); }
+					else { editor.showNotification("Template saved."); }
 				},
 				error: function() {
+					editor.showNotification("Failed to save template.");
 				}
 			});
         }

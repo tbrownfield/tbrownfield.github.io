@@ -97,7 +97,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					continue
 				}
 				var replacement = params[i].match(/&([^=]+)\=(.+)/)
-				replaceTxt("\\["+decodeURIComponent(replacement[1]+"\\]"), decodeURIComponent(replacement[2]), 1)
+				if (replacement) { replaceTxt("\\["+decodeURIComponent(replacement[1]+"\\]"), decodeURIComponent(replacement[2]), 1) }
 			}
 		}
 		function fixCaps(str) {
@@ -157,7 +157,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			toolbar: 'PQTemplates,0'
 		});
 		editor.ui.addButton( 'savetemp', {
-			label: 'Save Personal Template',
+			label: 'Save Template',
 			command: 'savetemp',
 			toolbar: 'PQTemplates,1'
 		});

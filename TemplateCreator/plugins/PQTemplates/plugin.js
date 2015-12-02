@@ -97,7 +97,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					continue
 				}
 				var replacement = params[i].match(/&([^=]+)\=(.+)/)
-				replaceTxt("\\["+decodeURIComponent(replacement[1]+"\\]"), decodeURIComponent(replacement[2]), 1)
+				if (replacement) { replaceTxt("\\["+decodeURIComponent(replacement[1]+"\\]"), decodeURIComponent(replacement[2]), 1) }
 			}
 		}
 		function fixCaps(str) {
