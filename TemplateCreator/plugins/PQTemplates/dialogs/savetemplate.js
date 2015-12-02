@@ -41,9 +41,12 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 						id: 'subject',
 						label: 'Subject',
 						title: 'Default subject line for emails using this template.',
-						items: [ ['Other'] ],
+						items: [ [] ],
 						onLoad: function() {
 							var editor = CKEDITOR.instances.editor
+							
+							selbox = this;
+							
 							var dbid = editor.config.PQTemplates.TemplateQB.dbid
 							var appToken = editor.config.PQTemplates.TemplateQB.appToken
 							var subjectFid = editor.config.PQTemplates.TemplateQB.subjectFid
@@ -65,9 +68,9 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 								processData: false,
 								data: request,
 								success: function(xml) {
-									var options = $("field #"+subjectFid+" choices",xml);
+									var options = $("#"+subjectFid+" choices",xml);
 									$.each(options, function() {
-										this.add($(this).text())
+										selbox.add($(this).text())
 									})
 								},
 								error: function() {
