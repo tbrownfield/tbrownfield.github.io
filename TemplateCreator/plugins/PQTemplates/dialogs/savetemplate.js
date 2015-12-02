@@ -16,10 +16,10 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 						label: 'Name',
 						style: 'width:300px',
 						onShow: function() {
-							var tempname = decodeURIComponent(document.URL.match(/&temp=([^&]+)/))
+							var tempname = document.URL.match(/&temp=([^&]+)/)
 							if (tempname) {
 								var dialog = CKEDITOR.dialog.getCurrent()
-								dialog.setValueOf("tab1","tempname",tempname[1])
+								dialog.setValueOf("tab1","tempname",decodeURIComponent(tempname[1]))
 							}
 						},
 						validate: CKEDITOR.dialog.validate.notEmpty( "Please enter a name for this template." )
@@ -50,7 +50,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 							
 							var url="";
 							url +="https://intuitcorp.quickbase.com/db/"+dbid;
-							url +="?act=API_AddRecord";
+							url +="?act=API_GetSchema";
 
 							var request="";
 							request += '<qdbapi>';
