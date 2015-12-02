@@ -11,7 +11,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
                     {
 						
 						type: 'vbox',
-						widths: [ '25%', '25%', '25%' ],
+						widths: [ '25%', '25%', '25%', '25%' ],
 						children: [
 							{	
 								type: 'text',
