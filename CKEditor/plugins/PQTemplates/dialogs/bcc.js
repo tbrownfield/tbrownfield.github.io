@@ -104,12 +104,12 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 														else { dupes++ }
 													}
 												})
-												if (!bcclist) { CKEDITOR.instances.editor.showNotification("No matching records found in Quickbase."); return; }
+												if (!bcclist) { doc.getById("bccinfo")["$"].innerText = "No matching records found in Quickbase."; return; }
 												var dialog = CKEDITOR.dialog.getCurrent()
 												dialog.setValueOf("tab1","PQBCCField",bcclist);
 
 												//var doc = this.getElement().getDocument();
-												doc.getById("bccinfo")["$"].innerText = bcclist.split(";").length+" addresses added. "+dupes+" duplicates skipped.";
+												doc.getById("bccinfo")["$"].innerText = (bcclist.split(";").length - 1)+" addresses added. "+dupes+" duplicates skipped.";
 												
 												var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
 												if (lentest.length > 1990) {

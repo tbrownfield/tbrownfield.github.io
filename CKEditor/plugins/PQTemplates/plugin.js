@@ -10,8 +10,6 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		editor.addCommand( 'emailtemps', new CKEDITOR.dialogCommand( 'PQTemplateDialog' ) );
 
 		editor.addCommand( 'savetemp', new CKEDITOR.dialogCommand( 'PQSaveTemplateDialog' ) );		
-
-		editor.addCommand( 'bcclist', new CKEDITOR.dialogCommand( 'PQBatchDialog' ) );
 		
         editor.addCommand( 'batch', {
             exec: function( editor ) {
@@ -162,26 +160,21 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			label: 'Save Personal Template',
 			command: 'savetemp',
 			toolbar: 'PQTemplates,1'
-		})
-		editor.ui.addButton( 'bcclist', {
-			label: 'BCC List',
-			command: 'bcclist',
-			toolbar: 'PQTemplates,2'
-		})
+		});
         editor.ui.addButton( 'Batch', {
             label: 'Multiple Customers',
             command: 'batch',
-            toolbar: 'PQTemplates,3'
+            toolbar: 'PQTemplates,2'
         });
 		editor.ui.addButton( 'noreply', {
             label: 'No Reply',
             command: 'noreply',
-            toolbar: 'PQTemplates,4'
+            toolbar: 'PQTemplates,3'
         });
 		editor.ui.addButton( 'setCase', {
             label: 'Insert Case #',
             command: 'setCase',
-            toolbar: 'PQTemplates,5'
+            toolbar: 'PQTemplates,4'
         });
     }
 });

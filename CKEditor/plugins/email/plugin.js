@@ -2,6 +2,9 @@ CKEDITOR.plugins.add( 'email', {
 	icons: 'email',
 	init: function( editor )
 	{
+		
+		editor.addCommand( 'bcclist', new CKEDITOR.dialogCommand( 'PQBatchDialog' ) );
+		
 		editor.addCommand( 'email', { modes: { wysiwyg: 1, source: 1 },
 		exec: function( editor ) {
 			//Set mailto Link from url parameters
@@ -141,12 +144,16 @@ CKEDITOR.plugins.add( 'email', {
 			}
 		});
 	}
-		editor.ui.addButton( 'email',
-		{
+		editor.ui.addButton( 'bcclist', {
+			label: 'BCC List',
+			command: 'bcclist',
+			toolbar: 'finalize,0'
+		});
+		editor.ui.addButton( 'email', {
 			label: 'Copy & Email',
 			command: 'email',
-			toolbar: 'finalize'
-		} );
+			toolbar: 'finalize,1'
+		});
 	}
 
 } );
