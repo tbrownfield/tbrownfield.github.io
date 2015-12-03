@@ -130,8 +130,8 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 						console.log("Error loading template.")
 					}
 				});
+			}
 		}
-		
 		
 		function openReplace() {
 			var params = document.URL.match(/&([^=]+)([^&]+)/g)
