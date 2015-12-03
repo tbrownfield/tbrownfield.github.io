@@ -85,56 +85,60 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				}
 			}
 		});
+		
+		editor.addCommand( 'loadtemplate', {
+			exec: function ( editor ) {
+				var template = sessionStorage.getItem('template')
+				if (template) {
+
+					var dbid = "bke7kcnze"
+					var apptoken = "bxbj722drzze3sb6jc7endytstjq"
+					var namefid = "6"
+					
+					var query = "{'"+namefid+"'.EX.'"+template+"'}"
+					var clist = "7.9.14.15"
+					
+					var url="";
+					url +="https://intuitcorp.quickbase.com/db/"+dbid;
+					url +="?act=API_DoQuery";
+
+					var request="";
+					request += '<qdbapi>';
+					request += '<apptoken>'+apptoken+'</apptoken>';
+					request += '<query>'+query+'</query>';
+					request += '<clist>'+clist+'</clist>';
+					request += '</qdbapi>';
+
+					jQuery.ajax({
+						type: "POST",
+						contentType: "text/xml",
+						url: url,
+						dataType: "xml",
+						processData: false,
+						data: request,
+						success: function(xml) {
+							var content = $("record content",xml).text();
+							sessionStorage.setItem("NoReply", $("record no_reply",xml).text());
+							sessionStorage.setItem("emailsubj", $("record email_subject",xml).text());
+							sessionStorage.setItem("distros", $("record default_recipients",xml).text());
+
+							editor.setData(content)
+							
+							openReplace();
+							document.getElementById("loadOverlay").style.display = "none";
+						},
+						error: function() {
+							document.getElementById("loadOverlay").style.display = "none";
+							console.log("Error loading template.")
+						}
+					});
+				}
+
+			}
+		})
 
 		
 		//Utility functions
-		function loadTemplate() {
-			var template = sessionStorage.getItem('template')
-			if (template) {
-
-				var dbid = "bke7kcnze"
-				var apptoken = "bxbj722drzze3sb6jc7endytstjq"
-				var namefid = "6"
-				
-				var query = "{'"+namefid+"'.EX.'"+template+"'}"
-				var clist = "7.9.14.15"
-				
-				var url="";
-				url +="https://intuitcorp.quickbase.com/db/"+dbid;
-				url +="?act=API_DoQuery";
-
-				var request="";
-				request += '<qdbapi>';
-				request += '<apptoken>'+apptoken+'</apptoken>';
-				request += '<query>'+query+'</query>';
-				request += '<clist>'+clist+'</clist>';
-				request += '</qdbapi>';
-
-				jQuery.ajax({
-					type: "POST",
-					contentType: "text/xml",
-					url: url,
-					dataType: "xml",
-					processData: false,
-					data: request,
-					success: function(xml) {
-						var content = $("record content",xml).text();
-						sessionStorage.setItem("NoReply", $("record no_reply",xml).text());
-						sessionStorage.setItem("emailsubj", $("record email_subject",xml).text());
-						sessionStorage.setItem("distros", $("record default_recipients",xml).text());
-
-						editor.setData(content)
-						
-						openReplace();
-						document.getElementById("loadOverlay").style.display = "none";
-					},
-					error: function() {
-						document.getElementById("loadOverlay").style.display = "none";
-						console.log("Error loading template.")
-					}
-				});
-			}
-		}
 		
 		function openReplace() {
 			var params = document.URL.match(/&([^=]+)([^&]+)/g)
@@ -196,7 +200,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 		}
 		
-		loadTemplate()
+		editor.execCommand('loadTemplate', editor)
 		
 		editor.ui.addButton( 'emailtemps', {
 			label: 'Email Templates',
