@@ -122,12 +122,14 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 						sessionStorage.setItem("NoReply", $("record no_reply",xml).text());
 						sessionStorage.setItem("emailsubj", $("record email_subject",xml).text());
 						sessionStorage.setItem("distros", $("record default_recipients",xml).text());
-						$("main #body").html(content);
+
+						editor.setData(content)
+						
 						openReplace();
-						document.getElementById("loadoverlay").style.display = "none";
+						document.getElementById("loadOverlay").style.display = "none";
 					},
 					error: function() {
-						document.getElementById("loadoverlay").style.display = "none";
+						document.getElementById("loadOverlay").style.display = "none";
 						console.log("Error loading template.")
 					}
 				});
