@@ -42,7 +42,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			exec: function ( editor ) {
 
 				var casenum = sessionStorage.getItem('casenum');
-
+				if (casenum) { this.setState( 1 ); }
 				else { this.setState( 0 ); }
 			
 				if (this.state == "2") {
