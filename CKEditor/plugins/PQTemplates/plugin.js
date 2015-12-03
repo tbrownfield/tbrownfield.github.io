@@ -88,8 +88,6 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 
 		
 		//Utility functions
-		
-		
 		function loadTemplate() {
 			var template = sessionStorage.getItem('template')
 			if (template) {
@@ -125,8 +123,11 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 						sessionStorage.setItem("emailsubj", $("record email_subject",xml).text());
 						sessionStorage.setItem("distros", $("record default_recipients",xml).text());
 						$("main #body").html(content);
+						openReplace();
+						document.getElementById("loadoverlay").style.display = "none";
 					},
 					error: function() {
+						document.getElementById("loadoverlay").style.display = "none";
 						console.log("Error loading template.")
 					}
 				});
@@ -192,7 +193,8 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			editor.getCommand('setCase').setState( 0 );
 			$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 		}
-		openReplace();
+		
+		loadTemplate()
 		
 		editor.ui.addButton( 'emailtemps', {
 			label: 'Email Templates',
