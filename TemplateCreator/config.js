@@ -8,7 +8,7 @@ CKEDITOR.editorConfig = function( config ) {
 	// For complete reference see:
 	// http://docs.ckeditor.com/#!/api/CKEDITOR.config
 
-	config.extraPlugins = 'dropler,image2,PQTemplates',
+	config.extraPlugins = 'email,dropler,image2,PQTemplates',
 	
 	// The toolbar groups arrangement, optimized for two toolbar rows.
 	config.toolbarGroups = [
@@ -31,7 +31,7 @@ CKEDITOR.editorConfig = function( config ) {
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
-	config.removeButtons = 'Subscript,Superscript,h1,h2,h3,h4,h5,h6,Strike,Format,Cut,Copy,PasteText,PasteFromWord,Templates,emailtemps';
+	config.removeButtons = 'Subscript,Superscript,h1,h2,h3,h4,h5,h6,Strike,Format,Cut,Copy,PasteText,PasteFromWord,Templates,savetemp';
 
 	// Set the most common block elements.
 	config.format_tags = 'p;h1;h2;h3;pre';
@@ -52,22 +52,39 @@ CKEDITOR.editorConfig = function( config ) {
 		footerReply: "This message was sent to inform you of a critical matter. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
 		footerNoReply: "This message was sent to inform you of a critical matter. Replies to this email will not be received. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
 		TemplateQB: {
-			dbid: "bke7kcnze",
-			appToken: "bxbj722drzze3sb6jc7endytstjq",
+			dbid: "bke7detga",
+			appToken: "cc648mnd9sin2bcpvxbt9dk64w6f",
 			nameFid: "6",
 			contentFid: "7",
 			categoryFid: "8",
 			noReplyFid: "9",
+			sharedFid: "10",
+			caseFid: "11",
 			subjectFid: "14",
 			distrosFid: "15",
 		},
 	}
 	
+	config.emailConfig = {
+		defaultSubject: 'TurboTax Support: Response regarding recent TurboTax Support Contact',
+		dbid: 'bgkvndp4z',
+		appToken: 'bzp4e3ubmekgnt45z6fucmmai5k',
+		historyFid: '504',
+		bccQB: {
+			dbid: '9df5xdir',
+			appToken: 'd9qr25tda5rnrb69z3z9de8uy58',
+			emailFid: '6',
+			caseFid: '12',
+			closedFid: '17',
+			checkinFid: '222'
+		}
+	}
+	
 	config.droplerConfig = {
 		backend: 'quickbase',
 		settings: {
-			dbid: 'bkejf7qv5',
-			appToken: 'bxbj722drzze3sb6jc7endytstjq',
+			dbid: 'bkemhpvaj',
+			appToken: 'cc648mnd9sin2bcpvxbt9dk64w6f',
 			imagefid: '7',
 			casefid: '6'
 		}

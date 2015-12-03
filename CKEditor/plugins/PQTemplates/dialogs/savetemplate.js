@@ -16,10 +16,10 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 						label: 'Name',
 						style: 'width:300px',
 						onShow: function() {
-							var tempname = document.URL.match(/&temp=([^&]+)/)
-							if (tempname) {
+							var template = sessionStorage.getItem('template')
+							if (template) {
 								var dialog = CKEDITOR.dialog.getCurrent()
-								dialog.setValueOf("tab1","tempname",decodeURIComponent(tempname[1]))
+								dialog.setValueOf("tab1","tempname",template)
 							}
 						},
 						validate: CKEDITOR.dialog.validate.notEmpty( "Please enter a name for this template." )
@@ -85,22 +85,19 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
         onOk: function() {
             var dialog = this;
 			var editor = CKEDITOR.instances.editor;
-			//var bcclist = this.getContentElement('tab1', 'PQBCCField').getValue();
+			var settings = editor.config.PQTemplates.TemplateQB
 			resetTemplate();
 			
 			var batchName = editor.config.PQTemplates.batchName
-			var dbid = editor.config.PQTemplates.TemplateQB.dbid
-			var appToken = editor.config.PQTemplates.TemplateQB.appToken
-			var nameFid = editor.config.PQTemplates.TemplateQB.nameFid
-			var contentFid = editor.config.PQTemplates.TemplateQB.contentFid
-			var noReplyFid = editor.config.PQTemplates.TemplateQB.noReplyFid
+			var dbid = settings.dbid
+			var appToken = settings.appToken
+			var nameFid = settings.nameFid
+			var contentFid = settings.contentFid
+			var noReplyFid = settings.noReplyFid
 
 			var savename = dialog.getValueOf("tab1","tempname")
 
-			var loadname = document.URL.match(/&temp=([^&]+)/)
-			if (loadname) {
-				loadname = decodeURIComponent(loadname[1])
-			}
+			var loadname = sessionStorage.getItem('template')
 
 			var content = editor.getData();
 			var content = content.split(/\<td id\=\"body\"[^\>]+>/);
@@ -124,9 +121,8 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			url +="https://intuitcorp.quickbase.com/db/"+dbid;
 			
 			if (loadname == savename) {
-				var casenum = document.URL.match(/&case=([^&]+)/)
+				var casenum = sessionStorage.getItem('casenum')
 				if (!casenum) { console.log("No record ID, unable to update record.") }
-				var casenum = casenum[1]
 				
 				url +="?act=API_EditRecord";
 				request += '<rid>'+casenum+'</rid>';

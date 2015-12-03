@@ -17,19 +17,20 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 						items: [],
 						onLoad: function() {
 							var editor = CKEDITOR.instances.editor
+							var settings = editor.config.PQTemplates.TemplateQB
 							var dialog = this.getDialog()
 							
 							selbox = dialog.getContentElement( 'tab1', 'PQTemplatesSelect' );
 							selbox.add("Blank"," ")
 							
-							var dbid = editor.config.PQTemplates.TemplateQB.dbid
-							var appToken = editor.config.PQTemplates.TemplateQB.appToken
-							var nameFid = editor.config.PQTemplates.TemplateQB.nameFid
-							var categoryFid = editor.config.PQTemplates.TemplateQB.categoryFid
+							var dbid = settings.dbid
+							var appToken = settings.appToken
+							var nameFid = settings.nameFid
+							var categoryFid = settings.categoryFid
 
-							var sharedFid = editor.config.PQTemplates.TemplateQB.sharedFid
-							var caseOnlyFid = editor.config.PQTemplates.TemplateQB.caseOnlyFid
-							var caseFid = editor.config.PQTemplates.TemplateQB.caseFid
+							var sharedFid = settings.sharedFid
+							var caseOnlyFid = settings.caseOnlyFid
+							var caseFid = settings.caseFid
 							
 							var qid = "5"
 							var clist = nameFid+'.'+categoryFid+'.'+sharedFid+'.'+caseOnlyFid+'.'+caseFid
@@ -57,9 +58,8 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 									$.each(temps, function() {
 										if ($("case_only",this).text == "1") {
 											var tempname = $("name",this).text()
-											var casenum = document.URL.match(/&case=([^&]+)/)
+											var casenum = sessionStorage.getItem('casenum')
 											if (casenum) {
-												var casenum = casenum[1]
 												if ($("case_number", this).text() != casenum) { return true; }
 												var tempname = "[Case] "+tempname
 											}
@@ -80,27 +80,6 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 											selbox.add(tempname, $("name",this).text())
 										}
 									})
-									
-									
-									/*
-									$.each(temps, function(){ 
-										var tempname = $("name", this).text()
-
-										if ($("caseonly", this).text() == "1") {
-
-											var casenum = document.URL.match(/&case=([^&]+)/)
-											if (casenum) {
-												var casenum = casenum[1]
-												if ($("case_number", this).text() != casenum) { return true; }
-												var tempname = "[Case] "+tempname
-											}
-											else { return true; }
-												
-										}
-										if ($("category", this).text() == "Personal") { var tempname = "[Personal] "+tempname}
-										selbox.add(tempname, tempname)
-									})
-									*/
 								},
 								error: function() {
 									console.log("Error loading template.")

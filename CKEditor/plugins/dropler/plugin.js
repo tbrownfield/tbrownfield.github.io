@@ -28,7 +28,6 @@ CKEDITOR.plugins.add( 'dropler', {
             var missing = requiredKeys.filter(function(key) {
                 return suppliedKeys.indexOf(key) < 0
             });
-
             if (missing.length > 0) {
                 throw 'Invalid Config: Missing required keys: ' + missing.join(', ')
             }
@@ -75,10 +74,7 @@ CKEDITOR.plugins.add( 'dropler', {
 					var blob = reader.result;
 					var blob = blob.split(",");
 
-					var csicase = document.URL.match(/&case=([^&]+)/);
-					if (csicase) {
-						var casenum = csicase[1];
-					}
+					var casenum = sessionStorage.getItem('casenum');
 					
 					var apptoken = settings.appToken
 					var dbid = settings.dbid
@@ -92,7 +88,7 @@ CKEDITOR.plugins.add( 'dropler', {
 					request += '<qdbapi>';
 					request += '<apptoken>'+apptoken+'</apptoken>';
 					request += "<field fid='"+fid+"' filename='"+file.name+"'>"+blob[1]+"</field>";
-					if (csicase) {
+					if (casenum) {
 						request += "<field fid='"+casefid+"'>"+casenum+"</field>";
 					}
 					request += '</qdbapi>';

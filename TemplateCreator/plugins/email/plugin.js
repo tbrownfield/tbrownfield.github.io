@@ -13,12 +13,28 @@ CKEDITOR.plugins.add( 'email', {
 			var mailto = "mailto:";
 
 			var emailbcc = sessionStorage.getItem('bcclist')
-			var emailaddr = sessionStorage.getItem('custEmail')
+			if (!emailbcc) {
+				var emailbcc = document.URL.match(/&bcc=([^&]+)/) 
+				if (emailbcc) {
+					var emailbcc = emailbcc[1];
+				}
+			}
+			
+			var emailaddr = document.URL.match(/&email=([^&]+)/)
+			if (emailaddr) {var emailaddr = emailaddr[1]}
+			//else { var emailaddr = mailto: }
 			var distros = sessionStorage.getItem("distros")
 			if (distros) {emailaddr += ";" + distros}
 
-			var emailsubj = sessionStorage.getItem("emailsubj");
-
+			var emailsubj = document.URL.match(/&sub=([^&]+)/);
+			if (!emailsubj) {
+				var emailsubj = sessionStorage.getItem("emailsubj");
+				if (!emailsubj) {
+					var emailsubj = [0,settings.defaultSubject];
+				}
+			}
+			else emailsubj = emailsubj[1];
+			
 			mailto += "?subject="+emailsubj;
 			
 			if (emailbcc) {
@@ -87,11 +103,11 @@ CKEDITOR.plugins.add( 'email', {
 		var qbdbid = settings.dbid;
 		var qbfid = settings.historyFid;
 		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to record email in Quickbase. Please do so manually.', type: 'warning' } );
-		var rid = sessionStorage.getItem('casenum');
+		var rid = document.URL.match(/&case=([^&]+)/);
 		if (!rid) { error.show(); return; }
 		
-		var template = sessionStorage.getItem('template');
-		if (!template) { error.show(); return; }
+		var temp = document.URL.match(/&temp=([^&]+)/);
+		if (!temp) { error.show(); return; }
 		
 		var editor = CKEDITOR.instances.editor;
 		var body = editor.getData();
@@ -109,7 +125,7 @@ CKEDITOR.plugins.add( 'email', {
 		request += '<qdbapi>';
 		request += '<apptoken>'+apptoken+'</apptoken>';
 		request += '<rid>'+rid[1]+'</rid>';
-		request += "<field fid='"+qbfid+"'><![CDATA[<h3>Template: "+template+"</h3>"+body+"]]></field>";
+		request += "<field fid='"+qbfid+"'><![CDATA[<h3>Template: "+decodeURI(temp[1])+"</h3>"+body+"]]></field>";
 		request += '</qdbapi>';
 
 		jQuery.ajax({

@@ -20,26 +20,17 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 								var editor = CKEDITOR.instances.editor;
 								
 								var bcclist = sessionStorage.getItem('bcclist')
-								if (!bcclist) {
-									var bcclist = document.URL.match(/&bcc=([^&]+)/) 
-									if (bcclist) {
-										var bcclist = bcclist[1];
-										var emailaddr = document.URL.match(/&email=([^&]+)/)
-										if (emailaddr) {
-											bcclist += ";"+emailaddr[1];
-										}
-									}
-								}
+
 								if (bcclist) {
 									var dialog = this;
 									dialog.setValue(bcclist);
 								}
 							},
 							onShow: function() {
-								var bcclist = sessionStorage.getItem("bcclist")
+								var bcclist = sessionStorage.getItem('bcclist')
 								if (bcclist) {
 									var dialog = CKEDITOR.dialog.getCurrent()
-									dialog.setValueOf("tab1","PQBCCField",bcclist)
+									dialog.setValueOf('tab1','PQBCCField',bcclist)
 								}
 							},
 							validate: CKEDITOR.dialog.validate.notEmpty( "BCC list is blank." ),
@@ -65,9 +56,8 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 										var caseFid = settings.caseFid;
 										var closedfid = settings.closedFid;
 										var checkinfid = settings.checkinFid;
-										var casenum = document.URL.match(/&case=([^&]+)/)
-										if (casenum) { var casenum = casenum[1] }
-										var query = "{'"+ caseFid +"'.EX.'"+casenum[1]+"'}AND{'"+closedfid+"'.EX.''}"
+										var casenum = sessionStorage.getItem('casenum')
+										var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}AND{'"+closedfid+"'.EX.''}"
 										getEmails(this,query)
 									}
 								},
@@ -82,8 +72,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 										var caseFid = settings.caseFid;
 										var closedfid = settings.closedFid;
 										var checkinfid = settings.checkinFid;
-										var casenum = document.URL.match(/&case=([^&]+)/)
-										if (casenum) { var casenum = casenum[1] }
+										var casenum = sessionStorage.getItem('casenum')
 										var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}AND{'"+closedfid+"'.EX.''}AND{'"+checkinfid+"'.CT.'YES'}"
 										getEmails(this, query);
 									}
@@ -100,8 +89,8 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 										var apptoken = settings.appToken;
 										var emailfid = settings.emailFid;
 										var caseFid = settings.caseFid;
-										var casenum = document.URL.match(/&case=([^&]+)/)
-										var query = "{'"+ caseFid +"'.EX.'"+casenum[1]+"'}"
+										var casenum = sessionStorage.getItem('casenum')
+										var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}"
 
 										var url="";
 										url +="https://intuitcorp.quickbase.com/db/"+dbid+"?a=q&query="+query;

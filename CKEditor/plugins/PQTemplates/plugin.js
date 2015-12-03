@@ -13,9 +13,9 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		
         editor.addCommand( 'batch', {
             exec: function( editor ) {
-				var custname = document.URL.match(/&name=([^&]+)/);
+				var custname = sessionStorage.getItem('custName');
 				if (custname) {
-					custname = fixCaps(decodeURI(custname[1]))
+					custname = fixCaps(custname)
 				}
 				var batchname = editor.config.PQTemplates.batchName
 				var global = editor.config.PQTemplates.globalBatchName
@@ -41,10 +41,8 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		editor.addCommand( 'setCase', {
 			exec: function ( editor ) {
 
-				var casenum = document.URL.match(/&case=([^&]+)/);
-				if (casenum) {
-					casenum = casenum[1];
-				}
+				var casenum = sessionStorage.getItem('casenum');
+
 				else { this.setState( 0 ); }
 			
 				if (this.state == "2") {
@@ -90,6 +88,51 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 
 		
 		//Utility functions
+		
+		
+		function loadTemplate() {
+			var template = sessionStorage.getItem('template')
+			if (template) {
+
+				var dbid = "bke7kcnze"
+				var apptoken = "bxbj722drzze3sb6jc7endytstjq"
+				var namefid = "6"
+				
+				var query = "{'"+namefid+"'.EX.'"+template+"'}"
+				var clist = "7.9.14.15"
+				
+				var url="";
+				url +="https://intuitcorp.quickbase.com/db/"+dbid;
+				url +="?act=API_DoQuery";
+
+				var request="";
+				request += '<qdbapi>';
+				request += '<apptoken>'+apptoken+'</apptoken>';
+				request += '<query>'+query+'</query>';
+				request += '<clist>'+clist+'</clist>';
+				request += '</qdbapi>';
+
+				jQuery.ajax({
+					type: "POST",
+					contentType: "text/xml",
+					url: url,
+					dataType: "xml",
+					processData: false,
+					data: request,
+					success: function(xml) {
+						var content = $("record content",xml).text();
+						sessionStorage.setItem("NoReply", $("record no_reply",xml).text());
+						sessionStorage.setItem("emailsubj", $("record email_subject",xml).text());
+						sessionStorage.setItem("distros", $("record default_recipients",xml).text());
+						$("main #body").html(content);
+					},
+					error: function() {
+						console.log("Error loading template.")
+					}
+				});
+		}
+		
+		
 		function openReplace() {
 			var params = document.URL.match(/&([^=]+)([^&]+)/g)
 			for (i=0; i < params.length; i++) {
@@ -118,7 +161,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			}
 		}
 		
-		var temp = document.URL.match(/&temp=([^&]+)/);
+		var temp = sessionStorage.getItem('template');
 		if (temp) {
 			var noreply = sessionStorage.getItem("NoReply")
 			if (noreply == 1) {
@@ -129,7 +172,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		else { editor.getCommand('noreply').setState( 0 ); }
 
 		var batch = document.URL.match(/&batch=([^&]+)/);
-		var custname = document.URL.match(/&name=([^&]+)/);
+		var custname = sessionStorage.getItem('custName');
 		sessionStorage.removeItem('bcclist')
 		if (!batch) { var batch = [1,1] }
 		if (batch[1] == 0) {
@@ -140,7 +183,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		}
 		else { editor.getCommand('batch').setState( 1 ); }
 
-		var casenum = document.URL.match(/&case=([^&]+)/);
+		var casenum = sessionStorage.getItem('casenum');
 		if (casenum) {
 			editor.getCommand('setCase').setState( 2 );
 			editor.execCommand('setCase', editor);
