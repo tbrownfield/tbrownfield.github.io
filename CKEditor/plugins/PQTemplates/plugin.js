@@ -200,7 +200,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 		}
 		
-		CKEDITOR.on('instanceReady', editor.execCommand('loadTemplate', editor));
+		CKEDITOR.on('instanceReady', function() { editor.execCommand('loadTemplate', editor)});
 		
 		editor.ui.addButton( 'emailtemps', {
 			label: 'Email Templates',
