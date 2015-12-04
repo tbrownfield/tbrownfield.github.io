@@ -131,7 +131,8 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							var content = $.parseHTML(content)[0]
 							$("#body",content).html(templateContent)
 							
-							editor.setData(initTemplate(editor, $(content)[0].outerHTML))
+							var content2 = initTemplate(editor, $(content)[0].outerHTML)
+							editor.setData(content2)
 							
 							document.getElementById("loadOverlay").style.display = "none";
 						},
