@@ -132,8 +132,9 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							var editorData = $.parseHTML(editorData)[0]
 							$("#body",editorData).html(templateContent)
 							
+							var editorData = $(editorData)[0].outerHTML
 							var content = initTemplate(editor, editorData)
-							var content = $(content)[0].outerHTML
+							
 							editor.setData(content)
 							
 							document.getElementById("loadOverlay").style.display = "none";
@@ -154,17 +155,17 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		function initTemplate(editor, content) {
 			
 			//If footer exists, replace with the appropriate reply/noreply footer, otherwise disable the button
-			if ($("#footer",content).length != 0) {
+			if ($("#footer").length != 0) {
 				if (sessionStorage.NoReply == 1) {
 					var footer = editor.config.PQTemplates.footerNoReply;
-					var cfooter = $("#footer", content)[0].innerHTML;
-					var content = content[0].replace(cfooter, footer);
+					var cfooter = $("#footer")[0].innerHTML;
+					var content = content.replace(cfooter, footer);
 					editor.getCommand('noreply').setState( 1 )
 				}
 				else {
 					var footer = editor.config.PQTemplates.footerNoReply;
-					var cfooter = $("#footer", content)[0].innerHTML;
-					var content = content[0].replace(cfooter, footer);
+					var cfooter = $("#footer")[0].innerHTML;
+					var content = content.replace(cfooter, footer);
 				}
 			}
 			else { editor.getCommand('noreply').setState( 0 ); }
