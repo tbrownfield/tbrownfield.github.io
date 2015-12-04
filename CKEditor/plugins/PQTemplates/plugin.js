@@ -158,13 +158,13 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				if (sessionStorage.NoReply == 1) {
 					var footer = editor.config.PQTemplates.footerNoReply;
 					var cfooter = $("#footer", content)[0].innerHTML;
-					var content = content.replace(cfooter, footer);
+					var content = content[0].replace(cfooter, footer);
 					editor.getCommand('noreply').setState( 1 )
 				}
 				else {
 					var footer = editor.config.PQTemplates.footerNoReply;
 					var cfooter = $("#footer", content)[0].innerHTML;
-					var content = content.replace(cfooter, footer);
+					var content = content[0].replace(cfooter, footer);
 				}
 			}
 			else { editor.getCommand('noreply').setState( 0 ); }
