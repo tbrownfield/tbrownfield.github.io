@@ -172,7 +172,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			var custName = sessionStorage.custName
 			var casenum = sessionStorage.casenum
 			
-			if (content.textContent.match(/\[CUSTOMER NAME\]/)) {
+			if (content.match(/\[CUSTOMER NAME\]/)) {
 				if (custName) {
 					replaceTxt("\\[CUSTOMER NAME\\]",fixCaps(custName))
 				}
@@ -189,18 +189,18 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			}
 			
 			
-			if (content.textContent.match(/\[ANALYST NAME\]/)) {
+			if (content.match(/\[ANALYST NAME\]/)) {
 				if (analystName) {
 					replaceTxt("\\[ANALYST NAME\\]",fixCaps(analystName), 1)
 				}
 			}
 			
-			if (content.textContent.match(/\[ANALYST EMAIL\]/)) {
+			if (content.match(/\[ANALYST EMAIL\]/)) {
 				if (analystEmail) {
 					replaceTxt("\\[ANALYST EMAIL\\]",analystEmail, 1)
 				}
 			}
-			editor.setData()
+			editor.setData(content)
 			
 		}
 
