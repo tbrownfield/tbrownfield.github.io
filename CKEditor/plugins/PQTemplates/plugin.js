@@ -126,12 +126,12 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							sessionStorage.setItem("emailsubj", $("record email_subject",xml).text());
 							sessionStorage.setItem("distros", $("record default_recipients",xml).text());
 
-							var content = editor.getData();
+							var editorData = editor.getData();
 
-							var content = $.parseHTML(content)[0]
+							var editorData = $.parseHTML(editorData)[0]
 							$("#body",content).html(templateContent)
 							
-							var content2 = initTemplate(editor, $(content)[0].outerHTML)
+							var content2 = initTemplate(editor, $(editorData)[0].outerHTML)
 							editor.setData(content2)
 							
 							document.getElementById("loadOverlay").style.display = "none";
