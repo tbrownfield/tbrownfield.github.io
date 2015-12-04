@@ -99,7 +99,7 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
     };
 	function loadTemplate(template) {
 		var editor = CKEDITOR.instances.editor;
-		sessionStorage('template',template);
+		sessionStorage.setItem('template',template);
 		editor.execCommand('loadTemplate',editor)
 	}
 });
