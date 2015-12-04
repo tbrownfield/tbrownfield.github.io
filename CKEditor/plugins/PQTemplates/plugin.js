@@ -37,13 +37,13 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				}
             }
         });
-
+		
+		/*
 		editor.addCommand( 'setCase', {
 			exec: function ( editor ) {
 
 				var casenum = sessionStorage.getItem('casenum');
-				if (casenum) { this.setState( 1 ); }
-				else { this.setState( 0 ); }
+				if (!casenum) { this.setState( 0 ); }
 			
 				if (this.state == "2") {
 					if (casenum) {
@@ -60,12 +60,15 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				}
 			}
 		});
-
+		*/
+		
 		editor.addCommand( 'noreply', {
 			exec: function ( editor ) {
 
+				//If footer is not found, disable button
 				if ($("#footer").length == 0) { this.setState( 0 ); }
 
+				//If button is currently 'Off' then turn it on and insert no reply footer.
 				if (this.state == "2") {
 					var footer = editor.config.PQTemplates.footerNoReply;
 					var content = editor.getData();
@@ -75,6 +78,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					this.setState( 1 );
 					return;
 				}
+				//If button is currently 'On' then turn it off and insert reply footer
 				if (this.state == "1") {
 					var footer = editor.config.PQTemplates.footerReply;
 					var content = editor.getData();
@@ -127,9 +131,8 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							var content = $.parseHTML(content)[0]
 							$("#body",content).html(templateContent)
 							
-							editor.setData($(content)[0].outerHTML)
+							initTemplate(editor, editor.setData($(content)[0].outerHTML));
 							
-							openReplace();
 							document.getElementById("loadOverlay").style.display = "none";
 						},
 						error: function() {
@@ -145,16 +148,62 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		
 		//Utility functions
 		
-		function openReplace() {
-			var params = document.URL.match(/&([^=]+)([^&]+)/g)
-			for (i=0; i < params.length; i++) {
-				if (params[i].match(/^(&case|&name|&email|&bcc|&temp|&pageID|&noreply|&batch)/)) {
-					continue
+		function initTemplate(editor, content) {
+			
+			//If footer exists, replace with the appropriate reply/noreply footer, otherwise disable the button
+			if ($("#footer",content).length != 0) {
+				if (sessionStorage.NoReply == 1) {
+					var footer = editor.config.PQTemplates.footerNoReply;
+					var cfooter = $("#footer", content)[0].innerHTML;
+					var content = content.replace(cfooter, footer);
+					editor.getCommand('noreply').setState( 1 )
 				}
-				var replacement = params[i].match(/&([^=]+)\=(.+)/)
-				if (replacement) { replaceTxt("\\["+decodeURIComponent(replacement[1]+"\\]"), decodeURIComponent(replacement[2]), 1) }
+				else {
+					var footer = editor.config.PQTemplates.footerNoReply;
+					var cfooter = $("#footer", content)[0].innerHTML;
+					var content = content.replace(cfooter, footer);
+				}
 			}
+			else { editor.getCommand('noreply').setState( 0 ); }
+
+			//Keyword replacements
+			var analystName = sessionStorage.analystName
+			var analystEmail = sessionStorage.analystEmail
+			var custName = sessionStorage.custName
+			var casenum = sessionStorage.casenum
+			
+			if (content.textContent.match(/\[CUSTOMER NAME\]/)) {
+				if (custName) {
+					replaceTxt("\\[CUSTOMER NAME\\]",fixCaps(custName))
+				}
+				else {
+					replaceTxt("\\[CUSTOMER NAME\\]",editor.config.PQTemplates.batchName)
+				}
+			}
+
+			if (sessionStorage.getItem('casenum')) {
+				replaceTxt("\\[CASE NUMBER\\]", casenum, 1)
+			}
+			else {
+				$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
+			}
+			
+			
+			if (content.textContent.match(/\[ANALYST NAME\]/)) {
+				if (analystName) {
+					replaceTxt("\\[ANALYST NAME\\]",fixCaps(analystName), 1)
+				}
+			}
+			
+			if (content.textContent.match(/\[ANALYST EMAIL\]/)) {
+				if (analystEmail) {
+					replaceTxt("\\[ANALYST EMAIL\\]",analystEmail, 1)
+				}
+			}
+
+			
 		}
+
 		function fixCaps(str) {
 			return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		}
@@ -163,46 +212,16 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			if (global == 1) {
 				var regex = new RegExp(str1,"g")
 				var content = editor.getData();
-				var content = content.replace(regex, str2);
-				editor.setData(content)
+				var content = $.parseHTML(content)[0]
+				$("#body", content).html().replace(regex, str2);				
+				editor.setData($(content)[0].outerHTML)
 			}
 			else {
 				var content = editor.getData();
-				var content = content.replace(str1, str2);
-				editor.setData(content)
+				var content = $.parseHTML(content)[0]
+				$("#body", content).html().replace(str1, str2);				
+				editor.setData($(content)[0].outerHTML)
 			}
-		}
-		
-		var temp = sessionStorage.getItem('template');
-		if (temp) {
-			var noreply = sessionStorage.getItem("NoReply")
-			if (noreply == 1) {
-				editor.getCommand('noreply').setState( 2 );
-				editor.execCommand('noreply', editor)
-			}
-		}
-		else { editor.getCommand('noreply').setState( 0 ); }
-
-		var batch = document.URL.match(/&batch=([^&]+)/);
-		var custname = sessionStorage.getItem('custName');
-		sessionStorage.removeItem('bcclist')
-		if (!batch) { var batch = [1,1] }
-		if (batch[1] == 0) {
-			if (custname) {
-				editor.getCommand('batch').setState( 1 );
-				editor.execCommand('batch', editor);
-			}
-		}
-		else { editor.getCommand('batch').setState( 1 ); }
-
-		var casenum = sessionStorage.getItem('casenum');
-		if (casenum) {
-			editor.getCommand('setCase').setState( 2 );
-			editor.execCommand('setCase', editor);
-		}
-		else {
-			editor.getCommand('setCase').setState( 0 );
-			$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 		}
 		
 		CKEDITOR.on('instanceReady', function() { console.log("ready."); editor.execCommand('loadTemplate', editor)});
@@ -217,20 +236,24 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			command: 'savetemp',
 			toolbar: 'PQTemplates,1'
 		});
+		/*
         editor.ui.addButton( 'Batch', {
             label: 'Multiple Customers',
             command: 'batch',
             toolbar: 'PQTemplates,2'
         });
+		*/
 		editor.ui.addButton( 'noreply', {
             label: 'No Reply',
             command: 'noreply',
             toolbar: 'PQTemplates,3'
         });
+		/*
 		editor.ui.addButton( 'setCase', {
             label: 'Insert Case #',
             command: 'setCase',
             toolbar: 'PQTemplates,4'
         });
+		*/
     }
 });
