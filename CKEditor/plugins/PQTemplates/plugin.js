@@ -93,6 +93,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		editor.addCommand( 'loadTemplate', {
 			exec: function ( editor ) {
 				var template = sessionStorage.getItem('template')
+				var editorData
 				if (template) {
 
 					var dbid = "bke7kcnze"
@@ -131,8 +132,8 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							var editorData = $.parseHTML(editorData)[0]
 							$("#body",editorData).html(templateContent)
 							
-							var content2 = initTemplate(editor, $(editorData)[0].outerHTML)
-							editor.setData(content2)
+							var content = initTemplate(editor, $(editorData)[0].outerHTML)
+							
 							
 							document.getElementById("loadOverlay").style.display = "none";
 						},
@@ -142,6 +143,8 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 						}
 					});
 				}
+				
+				editor.setData(content)
 
 			}
 		})
