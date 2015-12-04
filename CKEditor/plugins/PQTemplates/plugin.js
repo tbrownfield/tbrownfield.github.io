@@ -131,7 +131,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							var content = $.parseHTML(content)[0]
 							$("#body",content).html(templateContent)
 							
-							initTemplate(editor, editor.setData($(content)[0].outerHTML));
+							initTemplate(editor, $(content)[0].outerHTML);
 							
 							document.getElementById("loadOverlay").style.display = "none";
 						},
@@ -200,7 +200,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					replaceTxt("\\[ANALYST EMAIL\\]",analystEmail, 1)
 				}
 			}
-
+			editor.setData()
 			
 		}
 
