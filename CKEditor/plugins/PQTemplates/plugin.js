@@ -178,19 +178,19 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			
 			if (content.match(/\[CUSTOMER NAME\]/)) {
 				if (custName) {
-					var regex = new RegExp("\[CUSTOMER NAME\]")
+					var regex = new RegExp("\\[CUSTOMER NAME\\]")
 					//$("#body", content).html().replace(regex, fixCaps(custName));
-					content.replace(regex, fixCaps(custName));
+					var content = content.replace(regex, fixCaps(custName));
 				}
 				else {
-					var regex = new RegExp("\[CUSTOMER NAME\]")
-					content.replace(regex, editor.config.PQTemplates.batchName);
+					var regex = new RegExp("\\[CUSTOMER NAME\\]")
+					var content = content.replace(regex, editor.config.PQTemplates.batchName);
 				}
 			}
 
 			if (sessionStorage.getItem('casenum')) {
-				var regex = new RegExp("\[CASE NUMBER\]","g")
-				content.replace(regex, casenum);
+				var regex = new RegExp("\\[CASE NUMBER\\]","g")
+				var content = content.replace(regex, casenum);
 			}
 			else {
 				$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
@@ -198,13 +198,13 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			
 			
 			if (analystName) {
-				var regex = new RegExp("\[ANALYST NAME\]","g")
-				content.replace(regex, fixCaps(analystName));
+				var regex = new RegExp("\\[ANALYST NAME\\]","g")
+				var content = content.replace(regex, fixCaps(analystName));
 			}
 			
 			if (analystEmail) {
-				var regex = new RegExp("\[ANALYST EMAIL\]","g")
-				content.replace(regex, analystEmail);
+				var regex = new RegExp("\\[ANALYST EMAIL\\]","g")
+				var content = content.replace(regex, analystEmail);
 			}
 			return(content)
 			
