@@ -117,12 +117,17 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 						processData: false,
 						data: request,
 						success: function(xml) {
-							var content = $("record content",xml).text();
+							var templateContent = $("record content",xml).text();
 							sessionStorage.setItem("NoReply", $("record no_reply",xml).text());
 							sessionStorage.setItem("emailsubj", $("record email_subject",xml).text());
 							sessionStorage.setItem("distros", $("record default_recipients",xml).text());
 
-							editor.setData(content)
+							var content = editor.getData();
+
+							var content = $.parseHTML(content)[0]
+							$("#body",content).html(templateContent)
+							
+							editor.setData($(content).html())
 							
 							openReplace();
 							document.getElementById("loadOverlay").style.display = "none";
