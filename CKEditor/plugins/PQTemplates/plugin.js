@@ -129,7 +129,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							var editorData = editor.getData();
 
 							var editorData = $.parseHTML(editorData)[0]
-							$("#body",content).html(templateContent)
+							$("#body",editorData).html(templateContent)
 							
 							var content2 = initTemplate(editor, $(editorData)[0].outerHTML)
 							editor.setData(content2)
