@@ -86,7 +86,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			}
 		});
 		
-		editor.addCommand( 'loadtemplate', {
+		editor.addCommand( 'loadTemplate', {
 			exec: function ( editor ) {
 				var template = sessionStorage.getItem('template')
 				if (template) {
@@ -127,7 +127,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							var content = $.parseHTML(content)[0]
 							$("#body",content).html(templateContent)
 							
-							editor.setData($(content).html())
+							editor.setData($(content)[0].outerHTML)
 							
 							openReplace();
 							document.getElementById("loadOverlay").style.display = "none";

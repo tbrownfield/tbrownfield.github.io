@@ -93,12 +93,13 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
         ],
         onOk: function() {
             var dialog = this;
-			var tempname = this.getContentElement('tab1', 'PQTemplatesSelect').getValue();
-			loadTemplate(tempname)
+			var template = this.getContentElement('tab1', 'PQTemplatesSelect').getValue();
+			loadTemplate(template)
         }
     };
-	function loadTemplate(tempname) {
-		var newurl = document.URL.replace(/&temp=([^&]*)/,"\&temp="+tempname);
-		location.href = newurl;
+	function loadTemplate(template) {
+		var editor = CKEDITOR.instances.editor;
+		sessionStorage('template',template);
+		editor.execCommand('loadTemplate',editor)
 	}
 });
