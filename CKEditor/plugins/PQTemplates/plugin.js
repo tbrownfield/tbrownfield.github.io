@@ -132,8 +132,9 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							var editorData = $.parseHTML(editorData)[0]
 							$("#body",editorData).html(templateContent)
 							
-							var content = initTemplate(editor, $(editorData)[0].outerHTML)
-							
+							var content = initTemplate(editor, editorData)
+							var content = $(content)[0].outerHTML
+							editor.setData(content)
 							
 							document.getElementById("loadOverlay").style.display = "none";
 						},
@@ -143,8 +144,6 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 						}
 					});
 				}
-				
-				editor.setData(content)
 
 			}
 		})
@@ -176,33 +175,34 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			var custName = sessionStorage.custName
 			var casenum = sessionStorage.casenum
 			
-			if (content.match(/\[CUSTOMER NAME\]/)) {
+			if (content.textContent.match(/\[CUSTOMER NAME\]/)) {
 				if (custName) {
-					replaceTxt("\\[CUSTOMER NAME\\]",fixCaps(custName))
+					var regex = new RegExp("\[CUSTOMER NAME\]")
+					$("#body", content).html().replace(regex, fixCaps(custName));
 				}
 				else {
-					replaceTxt("\\[CUSTOMER NAME\\]",editor.config.PQTemplates.batchName)
+					var regex = new RegExp("\[CUSTOMER NAME\]")
+					$("#body", content).html().replace(regex, editor.config.PQTemplates.batchName);
 				}
 			}
 
 			if (sessionStorage.getItem('casenum')) {
-				replaceTxt("\\[CASE NUMBER\\]", casenum, 1)
+				var regex = new RegExp("\[CASE NUMBER\]","g")
+				$("#body", content).html().replace(regex, casenum);
 			}
 			else {
 				$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 			}
 			
 			
-			if (content.match(/\[ANALYST NAME\]/)) {
-				if (analystName) {
-					replaceTxt("\\[ANALYST NAME\\]",fixCaps(analystName), 1)
-				}
+			if (analystName) {
+				var regex = new RegExp("\[ANALYST NAME\]","g")
+				$("#body", content).html().replace(regex, fixCaps(analystName));
 			}
 			
-			if (content.match(/\[ANALYST EMAIL\]/)) {
-				if (analystEmail) {
-					replaceTxt("\\[ANALYST EMAIL\\]",analystEmail, 1)
-				}
+			if (analystEmail) {
+				var regex = new RegExp("\[ANALYST EMAIL\]","g")
+				$("#body", content).html().replace(regex, analystEmail);
 			}
 			return(content)
 			
@@ -217,7 +217,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				var regex = new RegExp(str1,"g")
 				var content = editor.getData();
 				var content = $.parseHTML(content)[0]
-				$("#body", content).html().replace(regex, str2);				
+				$("#body", content).html().replace(regex, str2);
 				editor.setData($(content)[0].outerHTML)
 			}
 			else {
