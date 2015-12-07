@@ -27,7 +27,7 @@ CKEDITOR.plugins.add( 'email', {
 					error.show()
 					editor.execCommand("bcclist")
 				}
-				else { mailto += "&bcc=" + emailbcc; }
+				else { mailto += "?bcc=" + emailbcc; }
 			}
 			else {
 				if (emailaddr) {
