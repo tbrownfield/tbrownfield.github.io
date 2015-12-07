@@ -103,7 +103,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			var content = content.split(/\<td id\=\"body\"[^\>]+>/);
 			if (content) {
 				var content = content[1].split(/<\/td\>/);
-				var content = content[0];
+				var content = content[0]
 			}
 			else { console.log("error") }
 
@@ -121,11 +121,11 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			url +="https://intuitcorp.quickbase.com/db/"+dbid;
 			
 			if (loadname == savename) {
-				var templateid = sessionStorage.getItem('templateid')
-				if (!templateid) { console.log("No record ID, unable to update record.") }
+				var casenum = sessionStorage.getItem('casenum')
+				if (!casenum) { console.log("No record ID, unable to update record.") }
 				
 				url +="?act=API_EditRecord";
-				request += '<rid>'+templateid+'</rid>';
+				request += '<rid>'+casenum+'</rid>';
 			}
 			else {
 				url +="?act=API_AddRecord";
