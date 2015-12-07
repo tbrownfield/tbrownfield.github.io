@@ -66,6 +66,7 @@ CKEDITOR.editorConfig = function( config ) {
 	}
 	
 	config.emailConfig = {
+		batchName: 'TurboTax Customer',
 		defaultSubject: 'TurboTax Support: Response regarding recent TurboTax Support Contact',
 		dbid: 'bgkvndp4z',
 		appToken: 'bzp4e3ubmekgnt45z6fucmmai5k',

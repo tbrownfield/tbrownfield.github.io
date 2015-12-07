@@ -9,7 +9,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		editor.addCommand( 'emailtemps', new CKEDITOR.dialogCommand( 'PQTemplateDialog' ) );
 
 		editor.addCommand( 'savetemp', new CKEDITOR.dialogCommand( 'PQSaveTemplateDialog' ) );		
-		
+		/*
         editor.addCommand( 'batch', {
             exec: function( editor ) {
 				var custname = sessionStorage.getItem('custName');
@@ -36,7 +36,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				}
             }
         });
-		
+		*/
 		/*
 		editor.addCommand( 'setCase', {
 			exec: function ( editor ) {

@@ -114,10 +114,19 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 			if (lentest.length > 1990) {
 				alert("Too many email addresses.")
 			}
-			
+
+			var custName = sessionStorage.getItem("custName")
+			if (custName) {
+				var content = editor.getData()
+				var batchName = editor.config.emailConfig.batchName
+				
+				var regex = new RegExp(custName)
+				var content = content.replace(regex,batchName)
+				
+				editor.setData(content)
+			}
 			sessionStorage.setItem('bcclist', bcclist);
-			editor.getCommand('batch').setState( 2 );
-			editor.execCommand('batch', editor);
+			
         }
     }
 	function getEmails(dlg, query) {
