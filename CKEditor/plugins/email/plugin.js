@@ -16,9 +16,11 @@ CKEDITOR.plugins.add( 'email', {
 			var emailbcc = sessionStorage.getItem('bcclist')
 			var emailaddr = sessionStorage.getItem('custEmail')
 			var distros = sessionStorage.getItem("distros")
+			var issueTitle = sessionStorage.getItem("issueTitle")
 			if (distros) {emailaddr += ";" + distros}
 
 			var emailsubj = sessionStorage.getItem("emailsubj");
+			if (issueTitle) { emailsubj = emailsubj.replace(/\[ENTER ISSUE SUBJECT\]/,issueTitle) }
 
 			mailto += "?subject="+emailsubj;
 			
@@ -32,7 +34,7 @@ CKEDITOR.plugins.add( 'email', {
 			}
 			else {
 				if (emailaddr) {
-					//mailto += emailaddr;
+					mailto += emailaddr;
 				}
 			}
 			
