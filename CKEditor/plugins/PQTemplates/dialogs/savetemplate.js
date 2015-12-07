@@ -107,7 +107,7 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			}
 			else { console.log("error") }
 
-			if (content.indexOf(batchName) == -1) {
+			if (content.indexOf("[CUSTOMER NAME]") == -1) {
 				if (confirm('Your template does not contain the keyphrase "[CUSTOMER NAME]". Without this phrase, the customer\'s name will not be inserted into the message when appropriate. Do you wish to continue?') == false) {
 					return false;
 				}
