@@ -1,4 +1,4 @@
-CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
+CKEDITOR.dialog.add( 'bccdialog', function(  ) {
     return {
         title: 'Customer Response BCC recipients',
         minWidth: 300,
