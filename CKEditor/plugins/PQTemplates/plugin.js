@@ -144,7 +144,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 						}
 					});
 				}
-
+				else { document.getElementById("loadOverlay").style.display = "none"; }
 			}
 		})
 

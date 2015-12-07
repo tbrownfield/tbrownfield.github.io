@@ -31,13 +31,15 @@ CKEDITOR.plugins.add( 'email', {
 			}
 			else {
 				if (emailaddr) {
-					mailto += emailaddr;
+					mailto += emailaddr+"?";
 				}
 			}
 
 			if (issueTitle) { emailsubj = emailsubj.replace(/\[ENTER ISSUE SUBJECT\]/,issueTitle) }
-
-			mailto += "?subject="+emailsubj;
+			if (mailto.indexOf("?") == -1) { mailto += "?" }
+			else { mailto += "&"}
+			
+			mailto += "subject="+emailsubj;
 			
 			document.location.href=mailto;
 			
