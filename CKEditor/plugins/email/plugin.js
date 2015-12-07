@@ -2,7 +2,7 @@ CKEDITOR.plugins.add( 'email', {
 	icons: 'email',
 	init: function( editor )
 	{
-		CKEDITOR.dialog.add( 'bccDialog', this.path + 'dialogs/bcc.js' );
+		CKEDITOR.dialog.add( 'bccdialog', this.path + 'dialogs/bcc.js' );
 		
 		editor.addCommand( 'bcclist', new CKEDITOR.dialogCommand( 'bccDialog' ) );
 		
