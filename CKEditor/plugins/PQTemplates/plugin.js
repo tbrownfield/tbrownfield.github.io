@@ -4,7 +4,6 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		var editor = CKEDITOR.instances.editor
 
 		CKEDITOR.dialog.add( 'PQTemplateDialog', this.path + 'dialogs/templates.js' );
-		CKEDITOR.dialog.add( 'PQBatchDialog', this.path + 'dialogs/bcc.js' );
 		CKEDITOR.dialog.add( 'PQSaveTemplateDialog', this.path + 'dialogs/savetemplate.js' );
 
 		editor.addCommand( 'emailtemps', new CKEDITOR.dialogCommand( 'PQTemplateDialog' ) );
@@ -163,7 +162,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					editor.getCommand('noreply').setState( 1 )
 				}
 				else {
-					var footer = editor.config.PQTemplates.footerNoReply;
+					var footer = editor.config.PQTemplates.footerReply;
 					var cfooter = $("#footer")[0].innerHTML;
 					var content = content.replace(cfooter, footer);
 				}
@@ -195,7 +194,6 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			else {
 				$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 			}
-			
 			
 			if (analystName) {
 				var regex = new RegExp("\\[ANALYST NAME\\]","g")

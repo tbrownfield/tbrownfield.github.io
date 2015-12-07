@@ -2,8 +2,9 @@ CKEDITOR.plugins.add( 'email', {
 	icons: 'email',
 	init: function( editor )
 	{
+		CKEDITOR.dialog.add( 'bccDialog', this.path + 'dialogs/bcc.js' );
 		
-		editor.addCommand( 'bcclist', new CKEDITOR.dialogCommand( 'PQBatchDialog' ) );
+		editor.addCommand( 'bcclist', new CKEDITOR.dialogCommand( 'bccDialog' ) );
 		
 		editor.addCommand( 'email', { modes: { wysiwyg: 1, source: 1 },
 		exec: function( editor ) {
