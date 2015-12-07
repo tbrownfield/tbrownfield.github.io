@@ -171,7 +171,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 
 			var skipInit = sessionStorage.getItem("skipInit")
 			
-			if (skipInit == 1) {
+			if (skipInit != 1) {
 				//Keyword replacements
 				var analystName = sessionStorage.analystName
 				var analystEmail = sessionStorage.analystEmail

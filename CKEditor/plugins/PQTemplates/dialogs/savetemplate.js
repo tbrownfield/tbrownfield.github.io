@@ -121,11 +121,11 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			url +="https://intuitcorp.quickbase.com/db/"+dbid;
 			
 			if (loadname == savename) {
-				var casenum = sessionStorage.getItem('casenum')
-				if (!casenum) { console.log("No record ID, unable to update record.") }
+				var templateid = sessionStorage.getItem('templateid')
+				if (!templateid) { console.log("No record ID, unable to update record.") }
 				
 				url +="?act=API_EditRecord";
-				request += '<rid>'+casenum+'</rid>';
+				request += '<rid>'+templateid+'</rid>';
 			}
 			else {
 				url +="?act=API_AddRecord";
