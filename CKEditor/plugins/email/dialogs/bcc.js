@@ -134,7 +134,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 	
 	function getEmails(dlg, query) {
 		var doc = dlg.getElement().getDocument();
-		doc.getById("bccinfo")["$"].innerText = "Retrieving emails from Quickbase...";
+		doc.getById("bccinfo")["$"].innerHTML = "Retrieving emails from Quickbase...";
 
 		var editor = CKEDITOR.instances.editor
 		var settings = editor.config.emailConfig.bccQB
@@ -162,7 +162,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 			processData: false,
 			data: request,
 			success: function(xml) {
-				if ($("errcode",xml).text() != 0) { doc.getById("bccinfo")["$"].innerText = "Error: "+$("errtext",xml).text(); return; }
+				if ($("errcode",xml).text() != 0) { doc.getById("bccinfo")["$"].innerHTML = "Error: "+$("errtext",xml).text(); return; }
 				var bcclist = "";
 				var dupes = 0;
 				$.each($("record emai_addr",xml), function(){
@@ -172,12 +172,12 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 					}
 					else { dupes++ }
 				})
-				if (!bcclist) { doc.getById("bccinfo")["$"].innerText = "No matching records found in Quickbase."; return; }
+				if (!bcclist) { doc.getById("bccinfo")["$"].innerHTML = "No matching records found in Quickbase."; return; }
 				var dialog = CKEDITOR.dialog.getCurrent()
 				dialog.setValueOf("tab1","BCCField",bcclist);
 
 				//var doc = this.getElement().getDocument();
-				doc.getById("bccinfo")["$"].innerText = (bcclist.split(";").length - 1)+" addresses added. "+dupes+" duplicates skipped.";
+				doc.getById("bccinfo")["$"].innerHTML = (bcclist.split(";").length - 1)+" addresses added. "+dupes+" duplicates skipped.";
 				
 				var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
 				if (lentest.length > 1990) {
@@ -186,7 +186,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 				
 			},
 			error: function() {
-				doc.getById("bccinfo")["$"].innerText = "Error retrieving emails from Quickbase...";
+				doc.getById("bccinfo")["$"].innerHTML = "Error retrieving emails from Quickbase...";
 				error.show();
 			}
 		});
