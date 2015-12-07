@@ -12,7 +12,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 					heights: [ null, null, null ],
 					children: [{
 							type: 'textarea',
-							id: 'PQBCCField',
+							id: 'BCCField',
 							label: '',
 							rows: '10',
 							style: 'width:100%;height:100%',
@@ -30,7 +30,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 								var bcclist = sessionStorage.getItem('bcclist')
 								if (bcclist) {
 									var dialog = CKEDITOR.dialog.getCurrent()
-									dialog.setValueOf('tab1','PQBCCField',bcclist)
+									dialog.setValueOf('tab1','BCCField',bcclist)
 								}
 							},
 							validate: CKEDITOR.dialog.validate.notEmpty( "BCC list is blank." ),
@@ -108,7 +108,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
         onOk: function() {
             var dialog = this;
 			var editor = CKEDITOR.instances.editor;
-			var bcclist = this.getContentElement('tab1', 'PQBCCField').getValue();
+			var bcclist = this.getContentElement('tab1', 'BCCField').getValue();
 			
 			var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
 			if (lentest.length > 1990) {
@@ -162,7 +162,7 @@ CKEDITOR.dialog.add( 'PQBatchDialog', function(  ) {
 				})
 				if (!bcclist) { doc.getById("bccinfo")["$"].innerText = "No matching records found in Quickbase."; return; }
 				var dialog = CKEDITOR.dialog.getCurrent()
-				dialog.setValueOf("tab1","PQBCCField",bcclist);
+				dialog.setValueOf("tab1","BCCField",bcclist);
 
 				//var doc = this.getElement().getDocument();
 				doc.getById("bccinfo")["$"].innerText = (bcclist.split(";").length - 1)+" addresses added. "+dupes+" duplicates skipped.";

@@ -4,7 +4,7 @@ CKEDITOR.plugins.add( 'email', {
 	{
 		CKEDITOR.dialog.add( 'bccdialog', this.path + 'dialogs/bcc.js' );
 		
-		editor.addCommand( 'bcclist', new CKEDITOR.dialogCommand( 'bccDialog' ) );
+		editor.addCommand( 'bcclist', new CKEDITOR.dialogCommand( 'bccdialog' ) );
 		
 		editor.addCommand( 'email', { modes: { wysiwyg: 1, source: 1 },
 		exec: function( editor ) {
