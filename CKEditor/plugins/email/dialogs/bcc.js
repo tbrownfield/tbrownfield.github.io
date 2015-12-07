@@ -120,15 +120,18 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 				var content = editor.getData()
 				var batchName = editor.config.emailConfig.batchName
 				
-				var regex = new RegExp(custName)
+				var regex = new RegExp(fixCaps(custName))
 				var content = content.replace(regex,batchName)
 				
 				editor.setData(content)
 			}
 			sessionStorage.setItem('bcclist', bcclist);
-			
         }
     }
+	function fixCaps(str) {
+		return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+	}
+	
 	function getEmails(dlg, query) {
 		var doc = dlg.getElement().getDocument();
 		doc.getById("bccinfo")["$"].innerText = "Retrieving emails from Quickbase...";
