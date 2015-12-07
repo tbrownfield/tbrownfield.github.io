@@ -86,9 +86,9 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
             var dialog = this;
 			var editor = CKEDITOR.instances.editor;
 			var settings = editor.config.PQTemplates.TemplateQB
-			resetTemplate();
 			
-			var batchName = editor.config.PQTemplates.batchName
+			
+			var batchName = editor.config.emailConfig.batchName
 			var dbid = settings.dbid
 			var appToken = settings.appToken
 			var nameFid = settings.nameFid
@@ -157,12 +157,4 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 			});
         }
     }
-	function resetTemplate() {
-		var editor = CKEDITOR.instances.editor
-		editor.getCommand('batch').setState( 2 );
-		editor.execCommand('batch', editor);
-
-		editor.getCommand('setCase').setState( 1 );
-		editor.execCommand('setCase', editor);
-	}
 });

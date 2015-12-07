@@ -169,40 +169,44 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			}
 			else { editor.getCommand('noreply').setState( 0 ); }
 
-			//Keyword replacements
-			var analystName = sessionStorage.analystName
-			var analystEmail = sessionStorage.analystEmail
-			var custName = sessionStorage.custName
-			var casenum = sessionStorage.casenum
+			var skipInit = sessionStorage.getItem("skipInit")
 			
-			if (content.match(/\[CUSTOMER NAME\]/)) {
-				if (custName) {
-					var regex = new RegExp("\\[CUSTOMER NAME\\]")
-					//$("#body", content).html().replace(regex, fixCaps(custName));
-					var content = content.replace(regex, fixCaps(custName));
+			if (skipInit == 1) {
+				//Keyword replacements
+				var analystName = sessionStorage.analystName
+				var analystEmail = sessionStorage.analystEmail
+				var custName = sessionStorage.custName
+				var casenum = sessionStorage.casenum
+				
+				if (content.match(/\[CUSTOMER NAME\]/)) {
+					if (custName) {
+						var regex = new RegExp("\\[CUSTOMER NAME\\]")
+						//$("#body", content).html().replace(regex, fixCaps(custName));
+						var content = content.replace(regex, fixCaps(custName));
+					}
+					else {
+						var regex = new RegExp("\\[CUSTOMER NAME\\]")
+						var content = content.replace(regex, editor.config.PQTemplates.batchName);
+					}
+				}
+
+				if (sessionStorage.getItem('casenum')) {
+					var regex = new RegExp("\\[CASE NUMBER\\]","g")
+					var content = content.replace(regex, casenum);
 				}
 				else {
-					var regex = new RegExp("\\[CUSTOMER NAME\\]")
-					var content = content.replace(regex, editor.config.PQTemplates.batchName);
+					$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 				}
-			}
-
-			if (sessionStorage.getItem('casenum')) {
-				var regex = new RegExp("\\[CASE NUMBER\\]","g")
-				var content = content.replace(regex, casenum);
-			}
-			else {
-				$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
-			}
-			
-			if (analystName) {
-				var regex = new RegExp("\\[ANALYST NAME\\]","g")
-				var content = content.replace(regex, fixCaps(analystName));
-			}
-			
-			if (analystEmail) {
-				var regex = new RegExp("\\[ANALYST EMAIL\\]","g")
-				var content = content.replace(regex, analystEmail);
+				
+				if (analystName) {
+					var regex = new RegExp("\\[ANALYST NAME\\]","g");
+					var content = content.replace(regex, fixCaps(analystName));
+				}
+				
+				if (analystEmail) {
+					var regex = new RegExp("\\[ANALYST EMAIL\\]","g");
+					var content = content.replace(regex, analystEmail);
+				}
 			}
 			return(content)
 			
