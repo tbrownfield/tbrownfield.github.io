@@ -17,12 +17,9 @@ CKEDITOR.plugins.add( 'email', {
 			var emailaddr = sessionStorage.getItem('custEmail')
 			var distros = sessionStorage.getItem("distros")
 			var issueTitle = sessionStorage.getItem("issueTitle")
-			if (distros) {emailaddr += ";" + distros}
+			if (distros) { var emailaddr = distros }
 
 			var emailsubj = sessionStorage.getItem("emailsubj");
-			if (issueTitle) { emailsubj = emailsubj.replace(/\[ENTER ISSUE SUBJECT\]/,issueTitle) }
-
-			mailto += "?subject="+emailsubj;
 			
 			if (emailbcc) {
 				if ((mailto.length + emailbcc.length) > 2000) {
@@ -37,6 +34,10 @@ CKEDITOR.plugins.add( 'email', {
 					mailto += emailaddr;
 				}
 			}
+
+			if (issueTitle) { emailsubj = emailsubj.replace(/\[ENTER ISSUE SUBJECT\]/,issueTitle) }
+
+			mailto += "?subject="+emailsubj;
 			
 			document.location.href=mailto;
 			
