@@ -101,7 +101,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					var editorData = editor.getData();
 
 					var editorData = $.parseHTML(editorData)[0]
-					$("#body",editorData).html(decodeURIComponent(emailbody))
+					$("#body",editorData).text(decodeURIComponent(emailbody))
 					
 					var editorData = $(editorData)[0].outerHTML
 					var content = initTemplate(editor, editorData)
