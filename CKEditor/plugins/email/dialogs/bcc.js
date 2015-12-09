@@ -111,8 +111,8 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 			var bcclist = this.getContentElement('tab1', 'BCCField').getValue();
 			
 			var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
-			if (lentest.length > 1990) {
-				alert("Too many email addresses.")
+			if (lentest.length > 2000) {
+				editor.showNotification("Too many email addresses to autopopulate. You will be prompted to copy/paste them manually.")
 			}
 
 			var custName = sessionStorage.getItem("custName")

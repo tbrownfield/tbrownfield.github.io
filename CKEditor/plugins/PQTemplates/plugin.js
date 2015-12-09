@@ -7,59 +7,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		CKEDITOR.dialog.add( 'PQSaveTemplateDialog', this.path + 'dialogs/savetemplate.js' );
 
 		editor.addCommand( 'emailtemps', new CKEDITOR.dialogCommand( 'PQTemplateDialog' ) );
-
 		editor.addCommand( 'savetemp', new CKEDITOR.dialogCommand( 'PQSaveTemplateDialog' ) );		
-		/*
-        editor.addCommand( 'batch', {
-            exec: function( editor ) {
-				var custname = sessionStorage.getItem('custName');
-				if (custname) {
-					custname = fixCaps(custname)
-				}
-				var batchname = editor.config.PQTemplates.batchName
-				var global = editor.config.PQTemplates.globalBatchName
-				
-				if (!custname) { this.setState( 0 );}
-
-				if (this.state == "1") {
-					if (custname) {
-						replaceTxt(batchname, custname, global)
-						this.setState( 2 )
-						return;
-					}
-				}
-				if (this.state == "2") {
-					if (custname) {
-						replaceTxt(custname, batchname, global);
-						this.setState( 1 )
-					}
-				}
-            }
-        });
-		*/
-		/*
-		editor.addCommand( 'setCase', {
-			exec: function ( editor ) {
-
-				var casenum = sessionStorage.getItem('casenum');
-				if (!casenum) { this.setState( 0 ); }
-			
-				if (this.state == "2") {
-					if (casenum) {
-						replaceTxt("\\[CASE NUMBER\\]", casenum, 1)
-						this.setState( 1 );
-						return;
-					}
-				}
-				if (this.state == "1") {
-					if (casenum) {
-						replaceTxt(casenum, "\[CASE NUMBER\]", 1);
-						this.setState( 2 );
-					}
-				}
-			}
-		});
-		*/
 		
 		editor.addCommand( 'noreply', {
 			exec: function ( editor ) {
@@ -88,19 +36,24 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				}
 			}
 		});
-		
+	
 		editor.addCommand( 'loadTemplate', {
 			exec: function ( editor ) {
 				var template = sessionStorage.getItem('template')
+				var emailbody = sessionStorage.getItem('emailbody')
 				var editorData
 				if (template) {
 
-					var dbid = "bke7kcnze"
-					var apptoken = "bxbj722drzze3sb6jc7endytstjq"
-					var namefid = "6"
+					var dbid = editor.config.PQTemplates.TemplateQB.dbid
+					var apptoken = editor.config.PQTemplates.TemplateQB.appToken
+					var namefid = editor.config.PQTemplates.TemplateQB.nameFid
+					var contentFid = editor.config.PQTemplates.TemplateQB.contentFid
+					var noReplyFid = editor.config.PQTemplates.TemplateQB.noReplyFid
+					var subjectFid = editor.config.PQTemplates.TemplateQB.subjectFid
+					var distrosFid = editor.config.PQTemplates.TemplateQB.distrosFid
 					
 					var query = "{'"+namefid+"'.EX.'"+template+"'}"
-					var clist = "7.9.14.15"
+					var clist = contentFid+"."+noReplyFid+"."+subjectFid+"."+distrosFid
 					
 					var url="";
 					url +="https://intuitcorp.quickbase.com/db/"+dbid;
@@ -144,6 +97,19 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 						}
 					});
 				}
+				else if (emailbody) {
+					var editorData = editor.getData();
+
+					var editorData = $.parseHTML(editorData)[0]
+					$("#body",editorData).html(decodeURIComponent(emailbody))
+					
+					var editorData = $(editorData)[0].outerHTML
+					var content = initTemplate(editor, editorData)
+					
+					editor.setData(content)
+					
+					document.getElementById("loadOverlay").style.display = "none";					
+				}
 				else { document.getElementById("loadOverlay").style.display = "none"; }
 			}
 		})
@@ -168,25 +134,35 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				}
 			}
 			else { editor.getCommand('noreply').setState( 0 ); }
+			
+			var thisyear = new Date().getFullYear()
+			var regex = new RegExp("\\[COPYRIGHT YEAR\\]","g")
+			var content = content.replace(regex, thisyear);
 
 			var skipInit = sessionStorage.getItem("skipInit")
 			
 			if (skipInit != 1) {
 				//Keyword replacements
 				var analystName = sessionStorage.analystName
+				if (analystName == "undefined") { var analystName = "" }
+				
 				var analystEmail = sessionStorage.analystEmail
+				if (analystEmail == "undefined") { var analystEmail = "" }
+				
 				var custName = sessionStorage.custName
+				if (custName == "undefined") { var custName = "" }
+				
 				var casenum = sessionStorage.casenum
+				if (casenum == "undefined") { var casenum = "" }
 				
 				if (content.match(/\[CUSTOMER NAME\]/)) {
 					if (custName) {
-						var regex = new RegExp("\\[CUSTOMER NAME\\]")
-						//$("#body", content).html().replace(regex, fixCaps(custName));
+						var regex = new RegExp("\\[CUSTOMER NAME\\]","g")
 						var content = content.replace(regex, fixCaps(custName));
 					}
 					else {
-						var regex = new RegExp("\\[CUSTOMER NAME\\]")
-						var content = content.replace(regex, editor.config.PQTemplates.batchName);
+						var regex = new RegExp("\\[CUSTOMER NAME\\]","g")
+						var content = content.replace(regex, editor.config.emailConfig.batchName);
 					}
 				}
 
@@ -209,30 +185,13 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				}
 			}
 			return(content)
-			
 		}
 
 		function fixCaps(str) {
 			return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		}
 		
-		function replaceTxt(str1, str2, global) {
-			if (global == 1) {
-				var regex = new RegExp(str1,"g")
-				var content = editor.getData();
-				var content = $.parseHTML(content)[0]
-				$("#body", content).html().replace(regex, str2);
-				editor.setData($(content)[0].outerHTML)
-			}
-			else {
-				var content = editor.getData();
-				var content = $.parseHTML(content)[0]
-				$("#body", content).html().replace(str1, str2);				
-				editor.setData($(content)[0].outerHTML)
-			}
-		}
-		
-		CKEDITOR.on('instanceReady', function() { console.log("ready."); editor.execCommand('loadTemplate', editor)});
+		CKEDITOR.on('instanceReady', function() { editor.execCommand('loadTemplate', editor)});
 		
 		editor.ui.addButton( 'emailtemps', {
 			label: 'Email Templates',
@@ -244,24 +203,10 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			command: 'savetemp',
 			toolbar: 'PQTemplates,1'
 		});
-		/*
-        editor.ui.addButton( 'Batch', {
-            label: 'Multiple Customers',
-            command: 'batch',
-            toolbar: 'PQTemplates,2'
-        });
-		*/
 		editor.ui.addButton( 'noreply', {
             label: 'No Reply',
             command: 'noreply',
-            toolbar: 'PQTemplates,3'
+            toolbar: 'PQTemplates,2'
         });
-		/*
-		editor.ui.addButton( 'setCase', {
-            label: 'Insert Case #',
-            command: 'setCase',
-            toolbar: 'PQTemplates,4'
-        });
-		*/
     }
 });

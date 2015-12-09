@@ -23,7 +23,7 @@ CKEDITOR.plugins.add( 'email', {
 			
 			if (emailbcc) {
 				if ((mailto.length + emailbcc.length) > 2000) {
-					var error = new CKEDITOR.plugins.notification( editor, { message: 'Too many BCC addresses to auto-populate. Please copy/paste the list manually.', type: 'warning' } );
+					var error = new CKEDITOR.plugins.notification( editor, { message: 'Too many BCC addresses to auto-populate. Please paste the email, then copy/paste the BCC list.', type: 'warning' } );
 					error.show()
 					editor.execCommand("bcclist")
 				}
@@ -31,11 +31,11 @@ CKEDITOR.plugins.add( 'email', {
 			}
 			else {
 				if (emailaddr) {
-					mailto += emailaddr+"?";
+					mailto += emailaddr;
 				}
 			}
 
-			if (issueTitle) { emailsubj = emailsubj.replace(/\[ENTER ISSUE SUBJECT\]/,issueTitle) }
+			//if (issueTitle) { emailsubj = emailsubj.replace(/\[ENTER ISSUE SUBJECT\]/,issueTitle) }
 			if (mailto.indexOf("?") == -1) { mailto += "?" }
 			else { mailto += "&"}
 			
@@ -67,13 +67,12 @@ CKEDITOR.plugins.add( 'email', {
 					range.select();
 				}
 
-				// Force triggering selectionChange (#7008)
+				//Force triggering selectionChange (#7008)
 				editor.forceNextSelectionCheck();
 				editor.selectionChange();
 			}
 
 			//Copy
-			
 			try {
 				// Other browsers throw an error if the command is disabled.
 				editor.document.$.execCommand( 'Copy', false, null );
@@ -81,7 +80,7 @@ CKEDITOR.plugins.add( 'email', {
 				editor.showNotification("Copy failed, please use CTRL+C");
 			}
 				editor.showNotification("Email copied to clipboard. CTRL+V into Outlook.");
-				//recordEmail( editor );
+				recordEmail( editor );
 		},
 		
 		canUndo: false
@@ -114,7 +113,7 @@ CKEDITOR.plugins.add( 'email', {
 		var request="";
 		request += '<qdbapi>';
 		request += '<apptoken>'+apptoken+'</apptoken>';
-		request += '<rid>'+rid[1]+'</rid>';
+		request += '<rid>'+rid+'</rid>';
 		request += "<field fid='"+qbfid+"'><![CDATA[<h3>Template: "+template+"</h3>"+body+"]]></field>";
 		request += '</qdbapi>';
 

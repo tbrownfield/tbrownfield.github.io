@@ -33,7 +33,7 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 							var caseFid = settings.caseFid
 							
 							var qid = "5"
-							var clist = nameFid+'.'+categoryFid+'.'+sharedFid+'.'+caseOnlyFid+'.'+caseFid
+							var clist = nameFid
 
 							var url="";
 							url +="https://intuitcorp.quickbase.com/db/"+dbid;
@@ -55,30 +55,10 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 								data: request,
 								success: function(xml) {
 									var temps = $("record",xml)
+
 									$.each(temps, function() {
-										if ($("case_only",this).text == "1") {
-											var tempname = $("name",this).text()
-											var casenum = sessionStorage.getItem('casenum')
-											if (casenum) {
-												if ($("case_number", this).text() != casenum) { return true; }
-												var tempname = "[Case] "+tempname
-											}
-											else { return true; }
-											selbox.add(tempname, $("name",this).text())
-										}
-									})
-									$.each(temps, function() {
-										if ($("category", this).text() == "Personal") {
-											var tempname = $("name",this).text()
-											var tempname = "[Personal] "+tempname
-											selbox.add(tempname, $("name",this).text())
-										}
-									})
-									$.each(temps, function() {
-										if ($("category", this).text() == "PQ Customer Responses") {
-											var tempname = $("name",this).text()
-											selbox.add(tempname, $("name",this).text())
-										}
+										var tempname = $("name",this).text()
+										selbox.add(tempname, $("name",this).text())
 									})
 								},
 								error: function() {
