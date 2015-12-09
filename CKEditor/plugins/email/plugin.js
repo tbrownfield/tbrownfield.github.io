@@ -20,6 +20,7 @@ CKEDITOR.plugins.add( 'email', {
 			if (distros) { var emailaddr = distros }
 
 			var emailsubj = sessionStorage.getItem("emailsubj");
+			if (!emailsubj) { var emailsubj = settings.defaultSubject }
 			
 			if (emailbcc) {
 				if ((mailto.length + emailbcc.length) > 2000) {
