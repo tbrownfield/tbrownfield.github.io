@@ -7,8 +7,8 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		CKEDITOR.dialog.add( 'PQSaveTemplateDialog', this.path + 'dialogs/savetemplate.js' );
 
 		editor.addCommand( 'emailtemps', new CKEDITOR.dialogCommand( 'PQTemplateDialog' ) );
-		editor.addCommand( 'savetemp', new CKEDITOR.dialogCommand( 'PQSaveTemplateDialog' ) );		
-		
+		editor.addCommand( 'savetemp', new CKEDITOR.dialogCommand( 'PQSaveTemplateDialog' ) );
+
 		editor.addCommand( 'noreply', {
 			exec: function ( editor ) {
 
@@ -36,25 +36,26 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				}
 			}
 		});
-	
+
+		//Load template from quickbase
 		editor.addCommand( 'loadTemplate', {
 			exec: function ( editor ) {
-				var template = sessionStorage.getItem('template')
-				var emailbody = sessionStorage.getItem('emailbody')
-				var editorData
+				var template = sessionStorage.getItem('template');
+				var emailbody = sessionStorage.getItem('emailbody');
+				var editorData;
 				if (template) {
+					var settings = editor.config.PQTemplates.TemplateQB;
+					var dbid = settings.dbid;
+					var apptoken = settings.appToken;
+					var namefid = settings.nameFid;
+					var contentFid = settings.contentFid;
+					var noReplyFid = settings.noReplyFid;
+					var subjectFid = settings.subjectFid;
+					var distrosFid = settings.distrosFid;
 
-					var dbid = editor.config.PQTemplates.TemplateQB.dbid
-					var apptoken = editor.config.PQTemplates.TemplateQB.appToken
-					var namefid = editor.config.PQTemplates.TemplateQB.nameFid
-					var contentFid = editor.config.PQTemplates.TemplateQB.contentFid
-					var noReplyFid = editor.config.PQTemplates.TemplateQB.noReplyFid
-					var subjectFid = editor.config.PQTemplates.TemplateQB.subjectFid
-					var distrosFid = editor.config.PQTemplates.TemplateQB.distrosFid
-					
-					var query = "{'"+namefid+"'.EX.'"+template+"'}"
-					var clist = contentFid+"."+noReplyFid+"."+subjectFid+"."+distrosFid
-					
+					var query = "{'"+namefid+"'.EX.'"+template+"'}";
+					var clist = contentFid+"."+noReplyFid+"."+subjectFid+"."+distrosFid;
+
 					var url="";
 					url +="https://intuitcorp.quickbase.com/db/"+dbid;
 					url +="?act=API_DoQuery";
@@ -83,12 +84,12 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 
 							var editorData = $.parseHTML(editorData)[0]
 							$("#body",editorData).html(templateContent)
-							
+
 							var editorData = $(editorData)[0].outerHTML
 							var content = initTemplate(editor, editorData)
-							
+
 							editor.setData(content)
-							
+
 							document.getElementById("loadOverlay").style.display = "none";
 						},
 						error: function() {
@@ -101,25 +102,23 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					var editorData = editor.getData();
 
 					var editorData = $.parseHTML(editorData)[0]
-					var emailbody = decodeURIComponent(emailbody).replace(/\n/g,'<br \\>')
+					var emailbody = unescape(emailbody).replace(/\n/g,'<br \\>')
 					$("#body",editorData).html(emailbody)
-					
+
 					var editorData = $(editorData)[0].outerHTML
 					var content = initTemplate(editor, editorData)
-					
+
 					editor.setData(content)
-					
-					document.getElementById("loadOverlay").style.display = "none";					
+
+					document.getElementById("loadOverlay").style.display = "none";
 				}
 				else { document.getElementById("loadOverlay").style.display = "none"; }
 			}
 		})
 
-		
+
 		//Utility functions
-		
 		function initTemplate(editor, content) {
-			
 			//If footer exists, replace with the appropriate reply/noreply footer, otherwise disable the button
 			if ($("#footer").length != 0) {
 				if (sessionStorage.NoReply == 1) {
@@ -135,27 +134,35 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				}
 			}
 			else { editor.getCommand('noreply').setState( 0 ); }
-			
+
 			var thisyear = new Date().getFullYear()
 			var regex = new RegExp("\\[COPYRIGHT YEAR\\]","g")
 			var content = content.replace(regex, thisyear);
 
+			//skiInit is set for the template editor to prevent it from replacing keywords in the template. [COPYRIGHT YEAR] and the footer are still replaced, as they're not part of the template.
 			var skipInit = sessionStorage.getItem("skipInit")
-			
 			if (skipInit != 1) {
 				//Keyword replacements
 				var analystName = sessionStorage.analystName
+				var analystName = unescape(analystName)
 				if (analystName == "undefined") { var analystName = "" }
-				
+
 				var analystEmail = sessionStorage.analystEmail
+				var analystEmail = unescape(analystEmail)
 				if (analystEmail == "undefined") { var analystEmail = "" }
-				
+
 				var custName = sessionStorage.custName
+				var custName = unescape(custName)
 				if (custName == "undefined") { var custName = "" }
-				
+
 				var casenum = sessionStorage.casenum
+				var casenum = unescape(casenum)
 				if (casenum == "undefined") { var casenum = "" }
-				
+
+				var issueTitle = sessionStorage.issueTitle
+				var issueTitle = unescape(issueTitle)
+				if (issueTitle == "undefined") { var issueTitle = "" }
+
 				if (content.match(/\[CUSTOMER NAME\]/)) {
 					if (custName) {
 						var regex = new RegExp("\\[CUSTOMER NAME\\]","g")
@@ -167,6 +174,18 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					}
 				}
 
+				//special case to handle existing response templates that use %CUSTOMER_NAME%
+				if (content.match(/\%CUSTOMER_NAME\%/)) {
+					if (custName) {
+						var regex = new RegExp("\\%CUSTOMER_NAME\\%","g")
+						var content = content.replace(regex, fixCaps(custName));
+					}
+					else {
+						var regex = new RegExp("\\%CUSTOMER_NAME\\%","g")
+						var content = content.replace(regex, editor.config.emailConfig.batchName);
+					}
+				}
+
 				if (sessionStorage.getItem('casenum')) {
 					var regex = new RegExp("\\[CASE NUMBER\\]","g")
 					var content = content.replace(regex, casenum);
@@ -174,15 +193,20 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				else {
 					$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 				}
-				
+
 				if (analystName) {
 					var regex = new RegExp("\\[ANALYST NAME\\]","g");
 					var content = content.replace(regex, fixCaps(analystName));
 				}
-				
+
 				if (analystEmail) {
 					var regex = new RegExp("\\[ANALYST EMAIL\\]","g");
 					var content = content.replace(regex, analystEmail);
+				}
+
+				if (issueTitle) {
+					var regex = new RegExp("\\[ISSUE TITLE\\]","g");
+					var content = content.replace(regex, issueTitle);
 				}
 			}
 			return(content)
@@ -191,9 +215,9 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		function fixCaps(str) {
 			return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 		}
-		
+
 		CKEDITOR.on('instanceReady', function() { editor.execCommand('loadTemplate', editor)});
-		
+
 		editor.ui.addButton( 'emailtemps', {
 			label: 'Email Templates',
 			command: 'emailtemps',

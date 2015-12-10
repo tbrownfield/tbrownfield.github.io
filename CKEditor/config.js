@@ -44,7 +44,6 @@ CKEDITOR.editorConfig = function( config ) {
 	config.extraAllowedContent = '*[id](*){*}'
 
 	config.PQTemplates = {
-		globalBatchName: 0,
 		footerReply: "This message was sent to inform you of a critical matter. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
 		footerNoReply: "This message was sent to inform you of a critical matter. Replies to this email will not be received. Please note that if you have chosen not to receive marketing messages from Intuit, that choice applies <u>only</u> to promotional materials. You will continue to receive critical notifications that are legally required or could affect your service or software.&#160;",
 		TemplateQB: {
