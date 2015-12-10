@@ -137,6 +137,10 @@ CKEDITOR.plugins.add( 'email', {
 		});
 	}
 	
+	function fixCaps(str) {
+		return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+	}
+	
 	function replaceKeywords(content) {
 		//Keyword replacements
 		var analystName = sessionStorage.analystName
