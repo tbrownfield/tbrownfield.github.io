@@ -155,9 +155,9 @@ CKEDITOR.plugins.add( 'email', {
 		var custName = unescape(custName)
 		if (custName == "undefined") { var custName = "" }
 		
-		var custName = sessionStorage.custEmail
-		var custName = unescape(custEmail)
-		if (custName == "undefined") { var custEmail = "" }
+		var custEmail = sessionStorage.custEmail
+		var custEmail = unescape(custEmail)
+		if (custEmail == "undefined") { var custEmail = "" }
 
 		var casenum = sessionStorage.casenum
 		var casenum = unescape(casenum)
@@ -178,18 +178,6 @@ CKEDITOR.plugins.add( 'email', {
 			}
 			else {
 				var regex = new RegExp("\\[CUSTOMER NAME\\]","g")
-				var content = content.replace(regex, editor.config.emailConfig.batchName);
-			}
-		}
-
-		//special case to handle existing response templates that use %CUSTOMER_NAME%
-		if (content.match(/\%CUSTOMER_NAME\%/)) {
-			if (custName) {
-				var regex = new RegExp("\\%CUSTOMER_NAME\\%","g")
-				var content = content.replace(regex, fixCaps(custName));
-			}
-			else {
-				var regex = new RegExp("\\%CUSTOMER_NAME\\%","g")
 				var content = content.replace(regex, editor.config.emailConfig.batchName);
 			}
 		}
