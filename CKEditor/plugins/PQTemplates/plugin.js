@@ -323,7 +323,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			var regex = new RegExp("\\[CURRENT YEAR\\]","g");
 			var content = content.replace(regex, curYear);
 
-			var curDate = new Date().toJSON.slice(0,10).split('-')
+			var curDate = new Date().toJSON().slice(0,10).split('-')
 			var curDate = curDate[1]+"/"+curDate[2]+"/"+curDate[0]
 			var regex = new RegExp("\\[CURRENT DATE\\]","g");
 			var content = content.replace(regex, curDate);
