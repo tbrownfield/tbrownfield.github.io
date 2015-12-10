@@ -239,7 +239,9 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				var content = content.replace(regex, curYear);
 			}
 			*/
-			return(content)
+			}
+		return(content)
+		
 		}
 
 		function fixCaps(str) {
