@@ -315,10 +315,10 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			}
 			
 			var regex = new RegExp("\\[KB ([A-Za-z]{3}[0-9]+)\\]","g")
-			x.replace(regex, function(x,y){return "http://turbotax.intuit.com/support/go/"+y })
+			content.replace(regex, function(x,y){return "http://turbotax.intuit.com/support/go/"+y })
 			
 			var regex = new RegExp("\\[AXC ([0-9]+)\\]","g")
-			x.replace(regex, function(x,y){return "https://ttlc.intuit.com/questions/"+y })
+			content.replace(regex, function(x,y){return "https://ttlc.intuit.com/questions/"+y })
 
 			var regex = new RegExp("\\[CURRENT YEAR\\]","g");
 			var content = content.replace(regex, curYear);
