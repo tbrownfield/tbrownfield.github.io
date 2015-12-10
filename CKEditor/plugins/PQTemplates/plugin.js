@@ -142,6 +142,20 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			//skiInit is set for the template editor to prevent it from replacing keywords in the template. [COPYRIGHT YEAR] and the footer are still replaced, as they're not part of the template.
 			var skipInit = sessionStorage.getItem("skipInit")
 			if (skipInit != 1) {
+				
+				if (sessionStorage.getItem('casenum')) {
+					$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
+				}
+				
+				var content = replaceKeywords(content)
+				
+				var subject = unescape(sessionStorage.getItem('emailsubj'))
+				if (subject) {
+					var subject = replaceKeywords(subject)
+					sessionStorage.setItem("emailsubj",subject)
+				}
+
+				/*
 				//Keyword replacements
 				var analystName = sessionStorage.analystName
 				var analystName = unescape(analystName)
@@ -217,12 +231,109 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					var regex = new RegExp("\\[ISSUE TITLE\\]","g");
 					var content = content.replace(regex, issueTitle);
 				}
+
+				var regex = new RegExp("\\[TAX YEAR\\]","g");
+				var content = content.replace(regex, taxyear);
+				
+				var regex = new RegExp("\\[CURRENT YEAR\\]","g");
+				var content = content.replace(regex, curYear);
 			}
+			*/
 			return(content)
 		}
 
 		function fixCaps(str) {
 			return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+		}
+		
+		function replaceKeywords(content) {
+			//Keyword replacements
+			var analystName = sessionStorage.analystName
+			var analystName = unescape(analystName)
+			if (analystName == "undefined") { var analystName = "" }
+
+			var analystEmail = sessionStorage.analystEmail
+			var analystEmail = unescape(analystEmail)
+			if (analystEmail == "undefined") { var analystEmail = "" }
+
+			var custName = sessionStorage.custName
+			var custName = unescape(custName)
+			if (custName == "undefined") { var custName = "" }
+			
+			var custEmail = sessionStorage.custEmail
+			var custEmail = unescape(custEmail)
+			if (custEmail == "undefined") { var custEmail = "" }
+
+			var casenum = sessionStorage.casenum
+			var casenum = unescape(casenum)
+			if (casenum == "undefined") { var casenum = "" }
+
+			var issueTitle = sessionStorage.issueTitle
+			var issueTitle = unescape(issueTitle)
+			if (issueTitle == "undefined") { var issueTitle = "" }
+
+			var curYear = new Date().getFullYear()
+			var regex = new RegExp("\\[COPYRIGHT YEAR\\]","g")
+			var content = content.replace(regex, curYear);
+			
+			if (content.match(/\[CUSTOMER NAME\]/)) {
+				if (custName) {
+					var regex = new RegExp("\\[CUSTOMER NAME\\]","g")
+					var content = content.replace(regex, fixCaps(custName));
+				}
+				else {
+					var regex = new RegExp("\\[CUSTOMER NAME\\]","g")
+					var content = content.replace(regex, editor.config.emailConfig.batchName);
+				}
+			}
+
+			if (custEmail) {
+				var regex = new RegExp("\\[CUSTOMER EMAIL\\]","g");
+				var content = content.replace(regex, custEmail.toLowerCase());
+			}
+			
+			if (sessionStorage.getItem('casenum')) {
+				var regex = new RegExp("\\[CASE NUMBER\\]","g")
+				var content = content.replace(regex, casenum);
+			}
+
+			if (analystName) {
+				var regex = new RegExp("\\[ANALYST NAME\\]","g");
+				var content = content.replace(regex, fixCaps(analystName));
+			}
+
+			if (analystEmail) {
+				var regex = new RegExp("\\[ANALYST EMAIL\\]","g");
+				var content = content.replace(regex, analystEmail.toLowerCase());
+			}
+
+			if (issueTitle) {
+				var regex = new RegExp("\\[ISSUE TITLE\\]","g");
+				var content = content.replace(regex, issueTitle);
+			}
+			
+			var regex = new RegExp("\\[KB ([A-Za-z]{3}[0-9]+)\\]","g")
+			x.replace(regex, function(x,y){return "http://turbotax.intuit.com/support/go/"+y })
+			
+			var regex = new RegExp("\\[AXC ([0-9]+)\\]","g")
+			x.replace(regex, function(x,y){return "https://ttlc.intuit.com/questions/"+y })
+
+			var regex = new RegExp("\\[CURRENT YEAR\\]","g");
+			var content = content.replace(regex, curYear);
+
+			var curDate = new Date().toJSON.slice(0,10).split('-')
+			var curDate = curDate[1]+"/"+curDate[2]+"/"+curDate[0]
+			var regex = new RegExp("\\[CURRENT DATE\\]","g");
+			var content = content.replace(regex, curDate);
+			
+			//Current Tax Year - If before November, then (current year - 1), otherwise current year
+			var taxyear = curYear
+			var curmonth = new Date().getMonth()
+			if (curmonth < 10) { taxyear-- }
+			var regex = new RegExp("\\[TAX YEAR\\]","g");
+			var content = content.replace(regex, taxyear);
+			
+			return(content)
 		}
 
 		CKEDITOR.on('instanceReady', function() { editor.execCommand('loadTemplate', editor)});
