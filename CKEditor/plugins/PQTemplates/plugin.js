@@ -155,9 +155,9 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				var custName = unescape(custName)
 				if (custName == "undefined") { var custName = "" }
 				
-				var custName = sessionStorage.custEmail
-				var custName = unescape(custEmail)
-				if (custName == "undefined") { var custEmail = "" }
+				var custEmail = sessionStorage.custEmail
+				var custEmail = unescape(custEmail)
+				if (custEmail == "undefined") { var custEmail = "" }
 
 				var casenum = sessionStorage.casenum
 				var casenum = unescape(casenum)
