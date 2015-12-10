@@ -154,6 +154,10 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				var custName = sessionStorage.custName
 				var custName = unescape(custName)
 				if (custName == "undefined") { var custName = "" }
+				
+				var custName = sessionStorage.custEmail
+				var custName = unescape(custEmail)
+				if (custName == "undefined") { var custEmail = "" }
 
 				var casenum = sessionStorage.casenum
 				var casenum = unescape(casenum)
@@ -186,6 +190,11 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					}
 				}
 
+				if (custEmail) {
+					var regex = new RegExp("\\[CUSTOMER EMAIL\\]","g");
+					var content = content.replace(regex, custEmail.toLowerCase());
+				}
+				
 				if (sessionStorage.getItem('casenum')) {
 					var regex = new RegExp("\\[CASE NUMBER\\]","g")
 					var content = content.replace(regex, casenum);
@@ -201,7 +210,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 
 				if (analystEmail) {
 					var regex = new RegExp("\\[ANALYST EMAIL\\]","g");
-					var content = content.replace(regex, analystEmail);
+					var content = content.replace(regex, analystEmail.toLowerCase());
 				}
 
 				if (issueTitle) {

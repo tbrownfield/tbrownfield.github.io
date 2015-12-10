@@ -16,17 +16,13 @@ CKEDITOR.plugins.add( 'email', {
 			var emailbcc = sessionStorage.getItem('bcclist')
 			var emailaddr = sessionStorage.getItem('custEmail')
 			var distros = sessionStorage.getItem("distros")
-			var issueTitle = sessionStorage.getItem("issueTitle")
 			if (distros) { var emailaddr = distros }
 
 			var emailsubj = sessionStorage.getItem("emailsubj");
 			if (!emailsubj) { var emailsubj = settings.defaultSubject }
 			if (emailsubj) {
 				var emailsubj = unescape(emailsubj)
-				if (issueTitle) {
-					var issueTitle = unescape(issueTitle);
-					emailsubj = emailsubj.replace(/\[ENTER ISSUE SUBJECT\]/,issueTitle);
-				}
+				var emailsubj = replaceKeywords(emailsubj)
 			}
 			
 			if (emailbcc) {
@@ -140,6 +136,90 @@ CKEDITOR.plugins.add( 'email', {
 			}
 		});
 	}
+	
+	function replaceKeywords(content) {
+		//Keyword replacements
+		var analystName = sessionStorage.analystName
+		var analystName = unescape(analystName)
+		if (analystName == "undefined") { var analystName = "" }
+
+		var analystEmail = sessionStorage.analystEmail
+		var analystEmail = unescape(analystEmail)
+		if (analystEmail == "undefined") { var analystEmail = "" }
+
+		var custName = sessionStorage.custName
+		var custName = unescape(custName)
+		if (custName == "undefined") { var custName = "" }
+		
+		var custName = sessionStorage.custEmail
+		var custName = unescape(custEmail)
+		if (custName == "undefined") { var custEmail = "" }
+
+		var casenum = sessionStorage.casenum
+		var casenum = unescape(casenum)
+		if (casenum == "undefined") { var casenum = "" }
+
+		var issueTitle = sessionStorage.issueTitle
+		var issueTitle = unescape(issueTitle)
+		if (issueTitle == "undefined") { var issueTitle = "" }
+
+		var thisyear = new Date().getFullYear()
+		var regex = new RegExp("\\[COPYRIGHT YEAR\\]","g")
+		var content = content.replace(regex, thisyear);
+		
+		if (content.match(/\[CUSTOMER NAME\]/)) {
+			if (custName) {
+				var regex = new RegExp("\\[CUSTOMER NAME\\]","g")
+				var content = content.replace(regex, fixCaps(custName));
+			}
+			else {
+				var regex = new RegExp("\\[CUSTOMER NAME\\]","g")
+				var content = content.replace(regex, editor.config.emailConfig.batchName);
+			}
+		}
+
+		//special case to handle existing response templates that use %CUSTOMER_NAME%
+		if (content.match(/\%CUSTOMER_NAME\%/)) {
+			if (custName) {
+				var regex = new RegExp("\\%CUSTOMER_NAME\\%","g")
+				var content = content.replace(regex, fixCaps(custName));
+			}
+			else {
+				var regex = new RegExp("\\%CUSTOMER_NAME\\%","g")
+				var content = content.replace(regex, editor.config.emailConfig.batchName);
+			}
+		}
+
+		if (custEmail) {
+			var regex = new RegExp("\\[CUSTOMER EMAIL\\]","g");
+			var content = content.replace(regex, custEmail.toLowerCase());
+		}
+		
+		if (sessionStorage.getItem('casenum')) {
+			var regex = new RegExp("\\[CASE NUMBER\\]","g")
+			var content = content.replace(regex, casenum);
+		}
+		else {
+			$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
+		}
+
+		if (analystName) {
+			var regex = new RegExp("\\[ANALYST NAME\\]","g");
+			var content = content.replace(regex, fixCaps(analystName));
+		}
+
+		if (analystEmail) {
+			var regex = new RegExp("\\[ANALYST EMAIL\\]","g");
+			var content = content.replace(regex, analystEmail.toLowerCase());
+		}
+
+		if (issueTitle) {
+			var regex = new RegExp("\\[ISSUE TITLE\\]","g");
+			var content = content.replace(regex, issueTitle);
+		}
+		return(content)
+	}
+	
 		editor.ui.addButton( 'bcclist', {
 			label: 'BCC List',
 			command: 'bcclist',
