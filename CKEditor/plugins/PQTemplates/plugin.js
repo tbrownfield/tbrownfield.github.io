@@ -318,7 +318,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			var content = content.replace(regex, function(x,y){return "<a href='https://turbotax.intuit.com/support/go/"+y+"'>https://turbotax.intuit.com/support/go/"+y+"</a>" })
 			
 			var regex = new RegExp("\\[AXC ([0-9]+)\\]","g")
-			var content = content.replace(regex, function(x,y){return "<a href='https://ttlc.intuit.com/questions/"+y"'>https://ttlc.intuit.com/questions/"+y+"</a>" })
+			var content = content.replace(regex, function(x,y){return "<a href='https://ttlc.intuit.com/questions/"+y+"'>https://ttlc.intuit.com/questions/"+y+"</a>" })
 
 			var regex = new RegExp("\\[CURRENT YEAR\\]","g");
 			var content = content.replace(regex, curYear);
