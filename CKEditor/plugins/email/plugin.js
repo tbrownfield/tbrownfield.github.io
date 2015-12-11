@@ -164,13 +164,13 @@ CKEDITOR.plugins.add( 'email', {
 		var curDate = new Date().toJSON().slice(0,10).split('-')
 		var curDate = curDate[1]+"/"+curDate[2]+"/"+curDate[0]
 		
-		var batchcsv = ridlist.replace(regex,","+curDate)+","+curDate
+		var batchcsv = ridlist.replace(regex,","+curDate+"\n")+","+curDate
 		var clist = "3."+dateFid
 		
 		var request="";
 		request += '<qdbapi>';
 		request += '<apptoken>'+apptoken+'</apptoken>';
-		request += '<records_csv>'+batchcsv+'</records_csv>';
+		request += '<records_csv><![CDATA['+batchcsv+']]></records_csv>';
 		request += '<clist>'+clist+'</clist>';
 		request += '</qdbapi>';
 
