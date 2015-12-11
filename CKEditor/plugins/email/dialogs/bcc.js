@@ -47,7 +47,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 								{
 									type: 'button',
 									id: 'pullallemails',
-									label: 'Get All Emails',
+									label: 'Get Emails',
 									title: 'Get All Emails from Quickbase',
 									onClick: function() {
 										var editor = CKEDITOR.instances.editor
@@ -57,7 +57,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 										var checkinfid = settings.checkinFid;
 										var casenum = sessionStorage.getItem('casenum')
 										var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}AND{'"+closedfid+"'.EX.''}"
-										sessionStorage.setItem('bulkType','response')
+										//sessionStorage.setItem('bulkType','Response')
 										getEmails(this,query)
 									}
 								},
@@ -82,12 +82,12 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 								*/
 								{
 									type: 'select',
-									id: 'updatetype',
+									id: 'bulkType',
 									label: '',
 									title: 'Response Type',
 									items: [ [ 'Check-In' ], [ 'Response' ] ],
 									'default': 'Check-In',
-									onChange: function() {
+									onLoad: function() {
 										if (sessionStorage.getItem("bulkType") == 'Response') {
 											this.setValue('Response')
 										}
@@ -124,13 +124,15 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
         onOk: function() {
             var dialog = this;
 			var editor = CKEDITOR.instances.editor;
+			var bulkType = this.getContentElement('tab1', 'bulkType').getValue();
+			sessionStorage.setItem("bulkType", bulkType)
 			var bcclist = this.getContentElement('tab1', 'BCCField').getValue();
 			if (!bcclist) { sessionStorage.setItem('bulkType','none') }
 			var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
 			if (lentest.length > 2000) {
 				editor.showNotification("Too many email addresses to autopopulate. You will be prompted to copy/paste them manually.")
 			}
-
+			
 			var custName = sessionStorage.getItem("custName")
 			if (custName) {
 				var content = editor.getData()

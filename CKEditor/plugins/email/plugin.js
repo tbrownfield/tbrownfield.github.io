@@ -140,6 +140,7 @@ CKEDITOR.plugins.add( 'email', {
 	
 	//takes FID of field to update as parameter. Pass checkin or workaround fid to update checkin or close.
 	function updateResponses(dateFid) {
+		var editor = CKEDITOR.instances.editor
 		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' } );
 
 		if (!dateFid) { error.show; return false }
