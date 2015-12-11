@@ -194,7 +194,7 @@ CKEDITOR.plugins.add( 'email', {
 					badupdate++
 				}
 			});
-		}
+		})
 		editor.showNotification("Successfully updated "+goodupdate+" Quickbase records.");
 		if (badupdate != 0) {
 			var error = new CKEDITOR.plugins.notification( editor, { message: 'Failed to update '+badupdate+' records. Please review the records and update them manually.', type: 'warning' } )
