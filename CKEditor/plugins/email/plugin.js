@@ -211,8 +211,9 @@ CKEDITOR.plugins.add( 'email', {
 		var qbdbid = settings.dbid;
 		
 		//var bulkType = sessionStorage.getItem('bulkType');
-		var ridlist = sessionStorage.getItem("ridlist").split(",")
+		var ridlist = sessionStorage.getItem("ridlist")
 		if (!ridlist) { error.show(); return; }
+		var ridlist = ridlist.split(",")
 
 		var url="";
 		url +="https://intuitcorp.quickbase.com/db/"+qbdbid;
