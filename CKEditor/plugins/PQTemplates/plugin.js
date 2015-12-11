@@ -143,7 +143,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			var skipInit = sessionStorage.getItem("skipInit")
 			if (skipInit != 1) {
 				
-				if (sessionStorage.getItem('casenum')) {
+				if (!sessionStorage.getItem('casenum')) {
 					$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 				}
 				
