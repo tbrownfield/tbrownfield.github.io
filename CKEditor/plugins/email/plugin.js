@@ -88,6 +88,7 @@ CKEDITOR.plugins.add( 'email', {
 				var bulkType = sessionStorage.getItem('bulkType')
 				if (bulkType == 'Response') { var dateFid = editor.config.emailConfig.bccQB.closedFid }
 				if (bulkType == 'Check-In') { var dateFid = editor.config.emailConfig.bccQB.checkinFid }
+				if (!sessionStorage.getItem("bcclist")) { var datefid = "" }
 				if (dateFid) { updateResponses(dateFid) }
 		},
 		
@@ -201,7 +202,7 @@ CKEDITOR.plugins.add( 'email', {
 	function updateResponses(dateFid) {
 		var editor = CKEDITOR.instances.editor
 		if (editor.config.emailConfig.bccQB.safeMode == 1) { updateResponsesSafeMode(dateFid); }
-		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' } );
+		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' });
 
 		if (!dateFid) { error.show; return false }
 
