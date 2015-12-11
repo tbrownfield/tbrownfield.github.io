@@ -104,7 +104,7 @@ CKEDITOR.plugins.add( 'email', {
 		if (!rid) { error.show(); return; }
 		
 		var template = sessionStorage.getItem('template');
-		if (!template) { error.show(); return; }
+		if (!template) { var template = "No Template Used" }
 		
 		var editor = CKEDITOR.instances.editor;
 		var body = editor.getData();

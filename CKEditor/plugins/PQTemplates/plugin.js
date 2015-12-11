@@ -112,7 +112,14 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 
 					document.getElementById("loadOverlay").style.display = "none";
 				}
-				else { document.getElementById("loadOverlay").style.display = "none"; }
+				else {
+
+					var editorData = editor.getData();
+					sessionStorage.setItem("skipInit","1");
+					var content = initTemplate(editor, editorData);
+					editor.setData(content);
+
+					document.getElementById("loadOverlay").style.display = "none"; }
 			}
 		})
 
