@@ -185,7 +185,7 @@ CKEDITOR.plugins.add( 'email', {
 				data: request,
 				success: function(xml) {
 					if ($(xml).find("errcode").text() == 0) { 
-						var goodupdate++
+						goodupdate++
 					}
 					else { error.show(); badupdate++ }
 				},
@@ -217,6 +217,7 @@ CKEDITOR.plugins.add( 'email', {
 	//takes FID of field to update as parameter. Pass checkin or workaround fid to update checkin or close.
 	function updateResponses(dateFid) {
 		var editor = CKEDITOR.instances.editor
+		if (editor.config.emailConfig.bccQB.safeMode == 1) { updateResponsesSafeMode(dateFid); }
 		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' } );
 
 		if (!dateFid) { error.show; return false }
