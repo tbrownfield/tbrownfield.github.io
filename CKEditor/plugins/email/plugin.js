@@ -194,23 +194,20 @@ CKEDITOR.plugins.add( 'email', {
 					badupdate++
 				}
 			});
-			editor.showNotification("Successfully updated "+goodupdate+" Quickbase records.");
-			if (badupdate != 0) {
-				var error = new CKEDITOR.plugins.notification( editor, { message: 'Failed to update '+badupdate+' records. Please review the records and update them manually.', type: 'warning' } )
+		}
+		editor.showNotification("Successfully updated "+goodupdate+" Quickbase records.");
+		if (badupdate != 0) {
+			var error = new CKEDITOR.plugins.notification( editor, { message: 'Failed to update '+badupdate+' records. Please review the records and update them manually.', type: 'warning' } )
 
-				var dbid = settings.dbid;
-				var caseFid = settings.caseFid;
-				var casenum = sessionStorage.getItem('casenum')
-				var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}"
+			var dbid = settings.dbid;
+			var caseFid = settings.caseFid;
+			var casenum = sessionStorage.getItem('casenum')
+			var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}"
 
-				var url="";
-				url +="https://intuitcorp.quickbase.com/db/"+dbid+"?a=q&query="+query;
+			var url="";
+			url +="https://intuitcorp.quickbase.com/db/"+dbid+"?a=q&query="+query;
 
-				window.open(url,"Related Records");
-
-				);
-				
-			}
+			window.open(url,"Related Records");
 		}
 	}
 	
