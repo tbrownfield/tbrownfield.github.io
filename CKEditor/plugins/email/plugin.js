@@ -80,6 +80,11 @@ CKEDITOR.plugins.add( 'email', {
 			}
 				editor.showNotification("Email copied to clipboard. CTRL+V into Outlook.");
 				recordEmail( editor );
+				var dateFid = ""
+				var bulkType = sessionStorage.getItem('bulkType')
+				if (bulkType == 'Response') { var dateFid = editor.config.emailConfig.bccQB.closedFid }
+				if (bulkType == 'Check-In') { var dateFid = editor.config.emailConfig.bccQB.checkinFid }
+				if (dateFid) { updateResponses(dateFid) }
 		},
 		
 		canUndo: false
@@ -125,6 +130,58 @@ CKEDITOR.plugins.add( 'email', {
 			data: request,
 			success: function(xml) {
 				if ($(xml).find("errcode").text() == 0) { editor.showNotification("Successfully recorded to Quickbase."); }
+				else { error.show(); }
+			},
+			error: function() {
+				error.show();
+			}
+		});
+	}
+	
+	//takes FID of field to update as parameter. Pass checkin or workaround fid to update checkin or close.
+	function updateResponses(dateFid) {
+		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' } );
+
+		if (!dateFid) { error.show; return false }
+
+		var editor = CKEDITOR.instances.editor;
+		var settings = editor.config.emailConfig.bccQB;
+		var apptoken = settings.appToken;
+		var qbdbid = settings.dbid;
+		
+		//var bulkType = sessionStorage.getItem('bulkType');
+		var ridlist = sessionStorage.getItem("ridlist").split(",")
+		if (!ridlist) { error.show(); return; }
+
+		var url="";
+		url +="https://intuitcorp.quickbase.com/db/"+qbdbid;
+		url +="?act=API_ImportFromCSV";
+
+		var ridlist = sessionStorage.getItem("ridlist").toString()
+		var regex = new RegExp("\,","g")
+
+		var curDate = new Date().toJSON().slice(0,10).split('-')
+		var curDate = curDate[1]+"/"+curDate[2]+"/"+curDate[0]
+		
+		var batchcsv = ridlist.replace(regex,","+curDate)+","+curDate
+		var clist = "3."+dateFid
+		
+		var request="";
+		request += '<qdbapi>';
+		request += '<apptoken>'+apptoken+'</apptoken>';
+		request += '<records_csv>'+batchcsv+'</records_csv>';
+		request += '<clist>'+clist+'</clist>';
+		request += '</qdbapi>';
+
+		jQuery.ajax({
+			type: "POST",
+			contentType: "text/xml",
+			url: url,
+			dataType: "xml",
+			processData: false,
+			data: request,
+			success: function(xml) {
+				if ($(xml).find("errcode").text() == 0) { editor.showNotification("Successfully updated Quickbase records."); }
 				else { error.show(); }
 			},
 			error: function() {
