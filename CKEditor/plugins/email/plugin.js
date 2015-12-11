@@ -99,7 +99,7 @@ CKEDITOR.plugins.add( 'email', {
 		var apptoken = settings.appToken;
 		var qbdbid = settings.dbid;
 		var qbfid = settings.historyFid;
-		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to record email in Quickbase. Please do so manually.', type: 'warning' } );
+		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to record email contents in CSI QuickBase record. Please do so manually.', type: 'warning' } );
 		var rid = sessionStorage.getItem('casenum');
 		if (!rid) { error.show(); return; }
 		
@@ -133,7 +133,7 @@ CKEDITOR.plugins.add( 'email', {
 			processData: false,
 			data: request,
 			success: function(xml) {
-				if ($(xml).find("errcode").text() == 0) { editor.showNotification("Successfully recorded to Quickbase."); }
+				if ($(xml).find("errcode").text() == 0) { editor.showNotification("Successfully recorded email to CSI QuickBase."); }
 				else { error.show(); }
 			},
 			error: function() {
@@ -145,7 +145,7 @@ CKEDITOR.plugins.add( 'email', {
 	function updateResponsesSafeMode(dateFid) {
 
 		var editor = CKEDITOR.instances.editor
-		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' } );
+		var error = new CKEDITOR.plugins.notification( editor, { message: 'Failed to update one or more records in CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' } );
 
 		if (!dateFid) { error.show; return false }
 
@@ -195,20 +195,6 @@ CKEDITOR.plugins.add( 'email', {
 				}
 			});
 		})
-		editor.showNotification("Successfully updated "+goodupdate+" Quickbase records.");
-		if (badupdate != 0) {
-			var error = new CKEDITOR.plugins.notification( editor, { message: 'Failed to update '+badupdate+' records. Please review the records and update them manually.', type: 'warning' } )
-
-			var dbid = settings.dbid;
-			var caseFid = settings.caseFid;
-			var casenum = sessionStorage.getItem('casenum')
-			var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}"
-
-			var url="";
-			url +="https://intuitcorp.quickbase.com/db/"+dbid+"?a=q&query="+query;
-
-			window.open(url,"Related Records");
-		}
 	}
 	
 	//takes FID of field to update as parameter. Pass checkin or workaround fid to update checkin or close.
