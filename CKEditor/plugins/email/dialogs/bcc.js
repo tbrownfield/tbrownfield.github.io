@@ -87,7 +87,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 									title: 'Response Type',
 									items: [ [ 'Check-In' ], [ 'Response' ], [ 'No Update' ] ],
 									'default': 'No Update',
-									onLoad: function() {
+									onShow: function() {
 										if (sessionStorage.getItem("bulkType") == 'Response') {
 											this.setValue('Response')
 										}

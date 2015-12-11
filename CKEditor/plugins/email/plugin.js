@@ -258,7 +258,7 @@ CKEDITOR.plugins.add( 'email', {
 						return;
 					}
 					if (toupdate != updated) { error.show; return }
-					else { editor.showNotification("Successfully updated "+updated+" Quickbase records."); }
+					else { editor.showNotification("Successfully updated "+updated+" CSI Email Tracker QuickBase records."); }
 				}
 				else { error.show(); }
 			},
