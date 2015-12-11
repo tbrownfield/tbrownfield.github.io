@@ -19,6 +19,10 @@ CKEDITOR.plugins.add( 'email', {
 			if (distros) { var emailaddr = distros }
 
 			var emailsubj = sessionStorage.getItem("emailsubj");
+			if (emailsubj.length > 255) {
+				var error = new CKEDITOR.plugins.notification( editor, { message: 'Email Subject is too long and will be truncated. Review it before sending the email.', type: 'warning' } );
+				error.show()
+			}
 			if (!emailsubj) { var emailsubj = settings.defaultSubject }
 			
 			if (emailbcc) {
@@ -138,6 +142,78 @@ CKEDITOR.plugins.add( 'email', {
 		});
 	}
 	
+	function updateResponsesSafeMode(dateFid) {
+
+		var editor = CKEDITOR.instances.editor
+		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' } );
+
+		if (!dateFid) { error.show; return false }
+
+		var editor = CKEDITOR.instances.editor;
+		var settings = editor.config.emailConfig.bccQB;
+		var apptoken = settings.appToken;
+		var qbdbid = settings.dbid;
+		
+		//var bulkType = sessionStorage.getItem('bulkType');
+		var ridlist = sessionStorage.getItem("ridlist").split(",")
+		if (!ridlist) { error.show(); return; }
+
+		var url="";
+		url +="https://intuitcorp.quickbase.com/db/"+qbdbid;
+		url +="?act=API_EditRecord";
+
+		var ridlist = sessionStorage.getItem("ridlist").toString().split(',')
+
+		var curDate = new Date().toJSON().slice(0,10).split('-')
+		var curDate = curDate[1]+"/"+curDate[2]+"/"+curDate[0]
+		var goodupdate = 0;
+		var badupdate = 0;
+		$.each(ridlist, function() {		
+			var request="";
+			request += '<qdbapi>';
+			request += '<apptoken>'+apptoken+'</apptoken>';
+			request += '<rid>'+this+'</rid>';
+			request += "<field fid='"+dateFid+"'>"+curDate+"</field>";
+			request += '</qdbapi>';
+
+			jQuery.ajax({
+				type: "POST",
+				contentType: "text/xml",
+				url: url,
+				dataType: "xml",
+				processData: false,
+				data: request,
+				success: function(xml) {
+					if ($(xml).find("errcode").text() == 0) { 
+						var goodupdate++
+					}
+					else { error.show(); badupdate++ }
+				},
+				error: function() {
+					error.show();
+					badupdate++
+				}
+			});
+			editor.showNotification("Successfully updated "+goodupdate+" Quickbase records.");
+			if (badupdate != 0) {
+				var error = new CKEDITOR.plugins.notification( editor, { message: 'Failed to update '+badupdate+' records. Please review the records and update them manually.', type: 'warning' }
+
+				var dbid = settings.dbid;
+				var caseFid = settings.caseFid;
+				var casenum = sessionStorage.getItem('casenum')
+				var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}"
+
+				var url="";
+				url +="https://intuitcorp.quickbase.com/db/"+dbid+"?a=q&query="+query;
+
+				window.open(url,"Related Records");
+
+				);
+				
+			}
+		}
+	}
+	
 	//takes FID of field to update as parameter. Pass checkin or workaround fid to update checkin or close.
 	function updateResponses(dateFid) {
 		var editor = CKEDITOR.instances.editor
@@ -182,7 +258,22 @@ CKEDITOR.plugins.add( 'email', {
 			processData: false,
 			data: request,
 			success: function(xml) {
-				if ($(xml).find("errcode").text() == 0) { editor.showNotification("Successfully updated Quickbase records."); }
+				if ($(xml).find("errcode").text() == 0) { 
+					var error = new CKEDITOR.plugins.notification( editor, { message: 'WARNING: CSI Email Tracker QuickBase did not return the expected response! Please verify record updates and notify the QuickBase\'s administrator.', type: 'warning' } );
+					var toupdate = sessionStorage.ridlist.split(',').length
+					var input = $("num_recs_input", xml).text()
+					var updated = $("num_recs_updated", xml).text()
+					var added = $("num_recs_added", xml).text()
+					var unchanged = $("num_recs_unchanged", xml).text()
+					if (toupdate != input) { error.show; return }
+					if (added != 0) {
+						var error = new CKEDITOR.plugins.notification( editor, { message: 'WARNING: CSI Email Tracker QuickBase did not return the expected response! Unwanted records were created! Please verify record updates and notify the QuickBase\'s administrator.', type: 'warning' } );
+						error.show;
+						return;
+					}
+					if (toupdate != updated) { error.show; return }
+					else { editor.showNotification("Successfully updated "+updated+" Quickbase records."); }
+				}
 				else { error.show(); }
 			},
 			error: function() {

@@ -85,11 +85,14 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 									id: 'bulkType',
 									label: '',
 									title: 'Response Type',
-									items: [ [ 'Check-In' ], [ 'Response' ] ],
-									'default': 'Check-In',
+									items: [ [ 'Check-In' ], [ 'Response' ], [ 'No Update' ] ],
+									'default': 'No Update',
 									onLoad: function() {
 										if (sessionStorage.getItem("bulkType") == 'Response') {
 											this.setValue('Response')
+										}
+										if (sessionStorage.getItem("bulkType") == 'Check-In') {
+											this.setValue('Check-In')
 										}
 									}
 								},
@@ -127,7 +130,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 			var bulkType = this.getContentElement('tab1', 'bulkType').getValue();
 			sessionStorage.setItem("bulkType", bulkType)
 			var bcclist = this.getContentElement('tab1', 'BCCField').getValue();
-			if (!bcclist) { sessionStorage.setItem('bulkType','none') }
+			if (!bcclist) { sessionStorage.setItem('bulkType','No Update') }
 			var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
 			if (lentest.length > 2000) {
 				editor.showNotification("Too many email addresses to autopopulate. You will be prompted to copy/paste them manually.")
@@ -195,7 +198,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 				sessionStorage.setItem("ridlist",ridlist)
 				if (!bcclist) {
 					doc.getById("bccinfo")["$"].innerHTML = "No matching records found in Quickbase.";
-					sessionStorage.setItem('bulkType','none')
+					sessionStorage.setItem('bulkType','No Update')
 					return;
 				}
 				var dialog = CKEDITOR.dialog.getCurrent()
@@ -209,7 +212,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 			error: function() {
 				doc.getById("bccinfo")["$"].innerHTML = "Error retrieving emails from Quickbase...";
 				error.show();
-				sessionStorage.setItem('bulkType','none')
+				sessionStorage.setItem('bulkType','No Update')
 			}
 		});
 	}
