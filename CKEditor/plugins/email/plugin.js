@@ -21,14 +21,14 @@ CKEDITOR.plugins.add( 'email', {
 			var emailsubj = sessionStorage.getItem("emailsubj");
 			if (!emailsubj) { var emailsubj = settings.defaultSubject }
 			if (emailsubj.length > 255) {
-				var error = new CKEDITOR.plugins.notification( editor, { message: 'Email Subject is too long and will be truncated. Review it before sending the email.', type: 'warning' } );
-				error.show()
+				var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'Email Subject is too long and will be truncated. Review it before sending the email.', type: 'warning' } );
+				ckerr.show()
 			}
 			
 			if (emailbcc) {
 				if ((mailto.length + emailbcc.length) > 2000) {
-					var error = new CKEDITOR.plugins.notification( editor, { message: 'Too many BCC addresses to auto-populate. Please paste the email, then copy/paste the BCC list.', type: 'warning' } );
-					error.show()
+					var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'Too many BCC addresses to auto-populate. Please paste the email, then copy/paste the BCC list.', type: 'warning' } );
+					ckerr.show()
 					editor.execCommand("bcclist")
 				}
 				else { mailto += "?bcc=" + emailbcc; }
@@ -100,9 +100,9 @@ CKEDITOR.plugins.add( 'email', {
 		var apptoken = settings.appToken;
 		var qbdbid = settings.dbid;
 		var qbfid = settings.historyFid;
-		var ckerror = new CKEDITOR.plugins.notification( editor, { message: 'Unable to record email contents in CSI QuickBase record. Please do so manually.', type: 'warning' } );
+		var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'Unable to record email contents in CSI QuickBase record. Please do so manually.', type: 'warning' } );
 		var rid = sessionStorage.getItem('casenum');
-		if (!rid) { ckerror.show(); return; }
+		if (!rid) { ckerr.show(); return; }
 		
 		var template = sessionStorage.getItem('template');
 		if (!template) { var template = "No Template Used" }
@@ -114,7 +114,7 @@ CKEDITOR.plugins.add( 'email', {
 			var body = body[1].split(/<\/td\>/);
 			var body = body[0];
 		}
-		else { ckerror.show(); var body = "<p>Body of email not logged.</p>"; }
+		else { ckerr.show(); var body = "<p>Body of email not logged.</p>"; }
 		var url="";
 		url +="https://intuitcorp.quickbase.com/db/"+qbdbid;
 		url +="?act=API_EditRecord";
@@ -139,12 +139,12 @@ CKEDITOR.plugins.add( 'email', {
 			else {
 				var errcode = $('errcode',xml).text();
 				var errtext = $('errtext',xml).text();
-				ckerror.show();
+				ckerr.show();
 				console.log("CKEditor Error: Email Tracker QuickBase returned error. " + errcode + ": " + errtext);
 			}
 		})
 		.fail(function(data) {
-			ckerror.show();
+			ckerr.show();
 			console.log("CKEditor Error: Request to Email Tracker QuickBase Failed. Error "+data.status+": "+data.statusText)
 		})
 	}
@@ -152,9 +152,9 @@ CKEDITOR.plugins.add( 'email', {
 	function updateResponsesSafeMode(dateFid) {
 
 		var editor = CKEDITOR.instances.editor
-		var ckerror = new CKEDITOR.plugins.notification( editor, { message: 'Failed to update one or more records in CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' } );
+		var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'Failed to update one or more records in CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' } );
 
-		if (!dateFid) { ckerror.show; return false }
+		if (!dateFid) { ckerr.show; return false }
 
 		var editor = CKEDITOR.instances.editor;
 		var settings = editor.config.emailConfig.bccQB;
@@ -164,7 +164,7 @@ CKEDITOR.plugins.add( 'email', {
 		//var bulkType = sessionStorage.getItem('bulkType');
 		var ridlist = sessionStorage.getItem("ridlist").split(",")
 		if (!ridlist) {
-			ckerror.show();
+			ckerr.show();
 			console.log("CKEditor Error: No list of record IDs found. Was the BCC list retrieved from the QuickBase?");
 			return;
 		}
@@ -202,13 +202,13 @@ CKEDITOR.plugins.add( 'email', {
 				else {
 					var errcode = $('errcode',xml).text();
 					var errtext = $('errtext',xml).text();
-					ckerror.show();
+					ckerr.show();
 					console.log("CKEditor Error: Email Tracker QuickBase returned error. " + errcode + ": " + errtext);
 					badupdate++
 				}
 			})
 			.fail(function(data) {
-				ckerror.show();
+				ckerr.show();
 				console.log("CKEditor Error: Request to Email Tracker QuickBase Failed. Error "+data.status+": "+data.statusText)
 				badupdate++
 			})
@@ -219,10 +219,10 @@ CKEDITOR.plugins.add( 'email', {
 	function updateResponses(dateFid) {
 		var editor = CKEDITOR.instances.editor
 		if (editor.config.emailConfig.bccQB.safeMode == 1) { updateResponsesSafeMode(dateFid); }
-		var ckerror = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' });
+		var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' });
 
 		if (!dateFid) {
-			ckerror.show();
+			ckerr.show();
 			console.log("CKEditor Error: No dateFid parameter supplied to updateResponses()");
 			return false
 		}
@@ -271,31 +271,31 @@ CKEDITOR.plugins.add( 'email', {
 		})
 		.done(function(xml) {
 			if ($('errcode', xml).text() == 0) {
-				var ckerror = new CKEDITOR.plugins.notification( editor, { message: 'WARNING: CSI Email Tracker QuickBase did not return the expected response! Please verify record updates and notify the QuickBase\'s administrator.', type: 'warning' } );
+				var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'WARNING: CSI Email Tracker QuickBase did not return the expected response! Please verify record updates and notify the QuickBase\'s administrator.', type: 'warning' } );
 				var toupdate = sessionStorage.ridlist.split(',').length
 				var input = $("num_recs_input", xml).text()
 				var updated = $("num_recs_updated", xml).text()
 				var added = $("num_recs_added", xml).text()
 				var unchanged = $("num_recs_unchanged", xml).text()
-				if (toupdate != input) { ckerror.show(); console.log("CKEditor Error: Number of records sent to be updated in Email Tracker QuickBase does not match the number QuickBase said it received. Verify updated records and enable Safemode for Email Tracker updates if errors were introduced to the QuickBase."); return }
+				if (toupdate != input) { ckerr.show(); console.log("CKEditor Error: Number of records sent to be updated in Email Tracker QuickBase does not match the number QuickBase said it received. Verify updated records and enable Safemode for Email Tracker updates if errors were introduced to the QuickBase."); return }
 				if (added != 0) {
 					var error = new CKEDITOR.plugins.notification( editor, { message: 'WARNING: CSI Email Tracker QuickBase did not return the expected response! Unwanted records were created! Please verify record updates and notify the QuickBase\'s administrator.', type: 'warning' } );
-					ckerror.show();
+					ckerr.show();
 					console.log("CKEditor Error: Some records were added to the QuickBase. This indicates the update request was malformed. To avoid errors in the QuickBase, enable Safemode for Email Tracker updates.");
 					return;
 				}
-				if (toupdate != updated) { ckerror.show(); return }
+				if (toupdate != updated) { ckerr.show(); return }
 				else { editor.showNotification("Successfully updated "+updated+" CSI Email Tracker QuickBase records."); }
 			}
 			else {
 				var errcode = $('errcode', xml).text();
 				var errtext = $('errtext', xml).text();
-				ckerror.show();
+				ckerr.show();
 				console.log("CKEditor Error: Email Tracker QuickBase returned error. Error " + errcode + ": " + errtext);
 			}
 		})
 		.fail(function(data) {
-			ckerror.show();
+			ckerr.show();
 			console.log("CKEditor Error: Request to Email Tracker QuickBase Failed. Error "+data.status+": "+data.statusText)
 		});
 		
@@ -315,20 +315,20 @@ CKEDITOR.plugins.add( 'email', {
 					var updated = $("num_recs_updated", xml).text()
 					var added = $("num_recs_added", xml).text()
 					var unchanged = $("num_recs_unchanged", xml).text()
-					if (toupdate != input) { ckerror.show(); console.log("CKEditor Error: Number of records sent to be updated in Email Tracker QuickBase does not match the number QuickBase said it received. Verify updated records and enable Safemode for Email Tracker updates if errors were introduced to the QuickBase."); return }
+					if (toupdate != input) { ckerr.show(); console.log("CKEditor Error: Number of records sent to be updated in Email Tracker QuickBase does not match the number QuickBase said it received. Verify updated records and enable Safemode for Email Tracker updates if errors were introduced to the QuickBase."); return }
 					if (added != 0) {
 						var error = new CKEDITOR.plugins.notification( editor, { message: 'WARNING: CSI Email Tracker QuickBase did not return the expected response! Unwanted records were created! Please verify record updates and notify the QuickBase\'s administrator.', type: 'warning' } );
-						ckerror.show();
+						ckerr.show();
 						console.log("CKEditor Error: Some records were added to the QuickBase. This indicates the update request was malformed. To avoid errors in the QuickBase, enable Safemode for Email Tracker updates.");
 						return;
 					}
-					if (toupdate != updated) { ckerror.show(); return }
+					if (toupdate != updated) { ckerr.show(); return }
 					else { editor.showNotification("Successfully updated "+updated+" CSI Email Tracker QuickBase records."); }
 				}
-				else { ckerror.show(); console.log("CKEditor Error: Email Tracker QuickBase returned error: "+$('errcode', xml).text()+": "+$('errtext', xml).text();) }
+				else { ckerr.show(); console.log("CKEditor Error: Email Tracker QuickBase returned error: "+$('errcode', xml).text()+": "+$('errtext', xml).text();) }
 			},
 			error: function(x, err) {
-				ckerror.show();
+				ckerr.show();
 				console.log("CKEditor Error: "+err);
 			}
 		}); */

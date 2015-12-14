@@ -100,12 +100,12 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 				else {
 					var errcode = $("errcode",xml).text()
 					var errtext = $("errtext",xml).text()
-					error.show()
+					//error.show()
 					console.log("CKEditor Error: Failed to save template. Error "+errcode+" :"+errtext);
 				}
 			})
 			.fail(function(data) {
-				error.show()
+				//error.show()
 				console.log("CKEditor Error: Failed to save template to QuickBase. Error "+data.status+": "+data.statusText)
 			})
         }
