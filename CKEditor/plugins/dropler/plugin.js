@@ -68,8 +68,7 @@ CKEDITOR.plugins.add( 'dropler', {
         function uploadQB(file) {
 			return new Promise(function(resolve, reject) {
 				var settings = editor.config.droplerConfig.settings;
-				var ckerror = new CKEDITOR.plugins.notification( editor, { message: 'Failed to save image to QuickBase.', type: 'warning' } );
-				
+
 				var reader = new FileReader();
 				reader.onloadend = function() {
 					var blob = reader.result;
@@ -95,29 +94,21 @@ CKEDITOR.plugins.add( 'dropler', {
 					request += '</qdbapi>';
 
 					jQuery.ajax({
-						type: "POST",
-						contentType: "text/xml",
-						url: url,
-						dataType: "xml",
-						processData: false,
-						data: request
-					})
-					.done(function(xml) {
-						if ($("errcode",xml).text() == 0){
-							var rid = $(xml).find('rid').text();
-							resolve("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0")
-						}
-						else {
-							var errcode = $('errcode', xml).text();
-							var errtext = $('errtext', xml).text();
-							ckerror.show();
-							console.log("CKEditor Error: Failed to upload image to QuickBase. Error " + errcode + ": " + errtext);
-							reject($("errtext",xml).text())
-						}
-					})
-					.fail(function(xml) {
-						reject($("errtext",xml).text())
-					})
+					 type: "POST",
+					 contentType: "text/xml",
+					 url: url,
+					 dataType: "xml",
+					 processData: false,
+					 data: request,
+					 success: function(xml) {
+						var rid = $(xml).find('rid').text();
+						resolve("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0")
+					 },
+					 error: function(xml) {
+						reject($(xml).find("errtext").text())
+					 }
+					});
+					
 				}
 				reader.readAsDataURL(file)
 			});
