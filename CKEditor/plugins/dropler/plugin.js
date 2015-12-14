@@ -112,10 +112,11 @@ CKEDITOR.plugins.add( 'dropler', {
 							var errtext = $('errtext', xml).text();
 							ckerror.show();
 							console.log("CKEditor Error: Failed to upload image to QuickBase. Error " + errcode + ": " + errtext);
+							reject($("errtext",xml).text())
 						}
 					})
 					.fail(function(xml) {
-						reject($(xml).find("errtext").text())
+						reject($("errtext",xml).text())
 					})
 				}
 				reader.readAsDataURL(file)
