@@ -210,7 +210,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 				
 			},
 			error: function() {
-				doc.getById("bccinfo")["$"].innerHTML = "Error retrieving emails from Quickbase...";
+				doc.getById("bccinfo")["$"].innerHTML = "Error retrieving emails from Quickbase.";
 				error.show();
 				sessionStorage.setItem('bulkType','No Update')
 			}

@@ -206,7 +206,6 @@ CKEDITOR.plugins.add( 'email', {
 
 		if (!dateFid) { error.show; return false }
 
-		var editor = CKEDITOR.instances.editor;
 		var settings = editor.config.emailConfig.bccQB;
 		var apptoken = settings.appToken;
 		var qbdbid = settings.dbid;
@@ -260,7 +259,7 @@ CKEDITOR.plugins.add( 'email', {
 					if (toupdate != updated) { error.show; return }
 					else { editor.showNotification("Successfully updated "+updated+" CSI Email Tracker QuickBase records."); }
 				}
-				else { error.show(); }
+				else { error.show; }
 			},
 			error: function() {
 				error.show();
