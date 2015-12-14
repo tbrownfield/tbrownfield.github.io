@@ -100,9 +100,9 @@ CKEDITOR.plugins.add( 'email', {
 		var apptoken = settings.appToken;
 		var qbdbid = settings.dbid;
 		var qbfid = settings.historyFid;
-		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to record email contents in CSI QuickBase record. Please do so manually.', type: 'warning' } );
+		var ckerror = new CKEDITOR.plugins.notification( editor, { message: 'Unable to record email contents in CSI QuickBase record. Please do so manually.', type: 'warning' } );
 		var rid = sessionStorage.getItem('casenum');
-		if (!rid) { error.show(); return; }
+		if (!rid) { ckerror.show(); return; }
 		
 		var template = sessionStorage.getItem('template');
 		if (!template) { var template = "No Template Used" }
@@ -114,7 +114,7 @@ CKEDITOR.plugins.add( 'email', {
 			var body = body[1].split(/<\/td\>/);
 			var body = body[0];
 		}
-		else { error.show(); var body = "<p>Body of email not logged.</p>"; }
+		else { ckerror.show(); var body = "<p>Body of email not logged.</p>"; }
 		var url="";
 		url +="https://intuitcorp.quickbase.com/db/"+qbdbid;
 		url +="?act=API_EditRecord";
@@ -135,10 +135,10 @@ CKEDITOR.plugins.add( 'email', {
 			data: request,
 			success: function(xml) {
 				if ($(xml).find("errcode").text() == 0) { editor.showNotification("Successfully recorded email to CSI QuickBase."); }
-				else { error.show(); }
+				else { ckerror.show(); }
 			},
 			error: function() {
-				error.show();
+				ckerror.show();
 			}
 		});
 	}
@@ -146,9 +146,9 @@ CKEDITOR.plugins.add( 'email', {
 	function updateResponsesSafeMode(dateFid) {
 
 		var editor = CKEDITOR.instances.editor
-		var error = new CKEDITOR.plugins.notification( editor, { message: 'Failed to update one or more records in CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' } );
+		var ckerror = new CKEDITOR.plugins.notification( editor, { message: 'Failed to update one or more records in CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' } );
 
-		if (!dateFid) { error.show; return false }
+		if (!dateFid) { ckerror.show; return false }
 
 		var editor = CKEDITOR.instances.editor;
 		var settings = editor.config.emailConfig.bccQB;
@@ -157,7 +157,7 @@ CKEDITOR.plugins.add( 'email', {
 		
 		//var bulkType = sessionStorage.getItem('bulkType');
 		var ridlist = sessionStorage.getItem("ridlist").split(",")
-		if (!ridlist) { error.show(); return; }
+		if (!ridlist) { ckerror.show(); return; }
 
 		var url="";
 		url +="https://intuitcorp.quickbase.com/db/"+qbdbid;
@@ -188,10 +188,10 @@ CKEDITOR.plugins.add( 'email', {
 					if ($(xml).find("errcode").text() == 0) { 
 						goodupdate++
 					}
-					else { error.show(); badupdate++ }
+					else { ckerror.show(); badupdate++ }
 				},
 				error: function() {
-					error.show();
+					ckerror.show();
 					badupdate++
 				}
 			});
@@ -202,9 +202,9 @@ CKEDITOR.plugins.add( 'email', {
 	function updateResponses(dateFid) {
 		var editor = CKEDITOR.instances.editor
 		if (editor.config.emailConfig.bccQB.safeMode == 1) { updateResponsesSafeMode(dateFid); }
-		var error = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' });
+		var ckerror = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' });
 
-		if (!dateFid) { error.show; return false }
+		if (!dateFid) { ckerror.show(); return false }
 
 		var settings = editor.config.emailConfig.bccQB;
 		var apptoken = settings.appToken;
@@ -250,19 +250,19 @@ CKEDITOR.plugins.add( 'email', {
 					var updated = $("num_recs_updated", xml).text()
 					var added = $("num_recs_added", xml).text()
 					var unchanged = $("num_recs_unchanged", xml).text()
-					if (toupdate != input) { error.show; return }
+					if (toupdate != input) { ckerror.show(); return }
 					if (added != 0) {
 						var error = new CKEDITOR.plugins.notification( editor, { message: 'WARNING: CSI Email Tracker QuickBase did not return the expected response! Unwanted records were created! Please verify record updates and notify the QuickBase\'s administrator.', type: 'warning' } );
-						error.show;
+						ckerror.show();
 						return;
 					}
-					if (toupdate != updated) { error.show; return }
+					if (toupdate != updated) { ckerror.show(); return }
 					else { editor.showNotification("Successfully updated "+updated+" CSI Email Tracker QuickBase records."); }
 				}
-				else { error.show; }
+				else { ckerror.show(); }
 			},
 			error: function() {
-				error.show();
+				ckerror.show();
 			}
 		});
 	}
