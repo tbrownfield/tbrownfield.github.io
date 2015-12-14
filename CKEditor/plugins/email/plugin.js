@@ -262,7 +262,12 @@ CKEDITOR.plugins.add( 'email', {
 				if (toupdate != updated) { ckerror.show(); return }
 				else { editor.showNotification("Successfully updated "+updated+" CSI Email Tracker QuickBase records."); }
 			}
-			else { ckerror.show(); console.log("CKEditor Error: Email Tracker QuickBase returned error: "+$('errcode', xml).text()+": "+$('errtext', xml).text()) }
+			else {
+				var errcode = $('errcode', xml).text();
+				var errtext = $('errtext', xml).text();
+				ckerror.show();
+				console.log("CKEditor Error: Email Tracker QuickBase returned error: " + errcode + ": " + errtext);
+			}
 		})
 		.fail(function(data) {
 			ckerror.show();
