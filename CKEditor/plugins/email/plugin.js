@@ -145,7 +145,7 @@ CKEDITOR.plugins.add( 'email', {
 		})
 		.fail(function(data) {
 			ckerror.show();
-			console.log("CKEditor Error: "+data.responseCode);
+			console.log("CKEditor Error: Request to Email Tracker QuickBase Failed. Error "+data.status+": "+data.statusText)
 		})
 	}
 	
@@ -209,7 +209,7 @@ CKEDITOR.plugins.add( 'email', {
 			})
 			.fail(function(data) {
 				ckerror.show();
-				console.log("CKEditor Error: "+data.responseCode);
+				console.log("CKEditor Error: Request to Email Tracker QuickBase Failed. Error "+data.status+": "+data.statusText)
 				badupdate++
 			})
 		})
@@ -296,7 +296,7 @@ CKEDITOR.plugins.add( 'email', {
 		})
 		.fail(function(data) {
 			ckerror.show();
-			console.log("CKEditor Error: "+data.responseCode);
+			console.log("CKEditor Error: Request to Email Tracker QuickBase Failed. Error "+data.status+": "+data.statusText)
 		});
 		
 		

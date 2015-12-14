@@ -219,7 +219,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 		})
 		.fail(function(data) {
 			doc.getById("bccinfo")["$"].innerHTML = "Error retrieving emails from Quickbase.";
-			console.log("CKEditor Error: Request to Email Tracker QuickBase Failed. Error "+data.responseCode+".")
+			console.log("CKEditor Error: Request to Email Tracker QuickBase Failed. Error "+data.status+": "+data.statusText)
 			sessionStorage.setItem('bulkType','No Update')
 		})
 		
