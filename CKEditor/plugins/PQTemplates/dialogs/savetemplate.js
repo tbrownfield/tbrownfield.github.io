@@ -91,15 +91,23 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 				url: url,
 				dataType: "xml",
 				processData: false,
-				data: request,
-				success: function(xml) {
-					if ($("errcode",xml).text() != 0) { editor.showNotification("Failed to save template. "+$("errtext",xml).text()); }
-					else { editor.showNotification("Template saved."); }
-				},
-				error: function() {
-					editor.showNotification("Failed to save template.");
+				data: request
+			})
+			.done(function(xml) {
+				if ($("errcode",xml).text() == 0) {
+					editor.showNotification("Template saved.");
 				}
-			});
+				else {
+					var errcode = $("errcode",xml).text()
+					var errtext = $("errtext",xml).text()
+					error.show()
+					console.log("CKEditor Error: Failed to save template. Error "+errcode+" :"+errtext);
+				}
+			})
+			.fail(function(data) {
+				error.show()
+				console.log("CKEditor Error: Failed to save template to QuickBase. Error "+data.status+": "+data.statusText)
+			})
         }
     }
 });

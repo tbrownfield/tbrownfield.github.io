@@ -270,8 +270,8 @@ CKEDITOR.plugins.add( 'email', {
 			data: request
 		})
 		.done(function(xml) {
-			if ($('errcode', xml).text() == 0) { 
-				var error = new CKEDITOR.plugins.notification( editor, { message: 'WARNING: CSI Email Tracker QuickBase did not return the expected response! Please verify record updates and notify the QuickBase\'s administrator.', type: 'warning' } );
+			if ($('errcode', xml).text() == 0) {
+				var ckerror = new CKEDITOR.plugins.notification( editor, { message: 'WARNING: CSI Email Tracker QuickBase did not return the expected response! Please verify record updates and notify the QuickBase\'s administrator.', type: 'warning' } );
 				var toupdate = sessionStorage.ridlist.split(',').length
 				var input = $("num_recs_input", xml).text()
 				var updated = $("num_recs_updated", xml).text()
@@ -291,7 +291,7 @@ CKEDITOR.plugins.add( 'email', {
 				var errcode = $('errcode', xml).text();
 				var errtext = $('errtext', xml).text();
 				ckerror.show();
-				console.log("CKEditor Error: Email Tracker QuickBase returned error. " + errcode + ": " + errtext);
+				console.log("CKEditor Error: Email Tracker QuickBase returned error. Error " + errcode + ": " + errtext);
 			}
 		})
 		.fail(function(data) {

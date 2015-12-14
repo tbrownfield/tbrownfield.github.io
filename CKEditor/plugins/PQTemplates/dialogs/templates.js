@@ -52,19 +52,25 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 								url: url,
 								dataType: "xml",
 								processData: false,
-								data: request,
-								success: function(xml) {
+								data: request
+							})
+							.done(function(xml) {
+								if ($('errcode', xml).text() == 0) {
 									var temps = $("record",xml)
-
 									$.each(temps, function() {
 										var tempname = $("name",this).text()
 										selbox.add(tempname, $("name",this).text())
 									})
-								},
-								error: function() {
-									console.log("Error loading template.")
 								}
-							});
+								else {
+									var errcode = $('errcode', xml).text();
+									var errtext = $('errtext', xml).text();
+									console.log("CKEditor Error: Failed to load template list from Quickbase. Error " + errcode + ": " + errtext);
+								}
+							})
+							.fail(function(data) {
+								console.log("CKEditor Error: Failed to load template list from QuickBase. Error "+data.status+": "+data.statusText)
+							})
 						},
                         validate: CKEDITOR.dialog.validate.notEmpty( "No template selected." )
                     }
