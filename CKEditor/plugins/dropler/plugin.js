@@ -47,7 +47,7 @@ CKEDITOR.plugins.add( 'dropler', {
             backend.upload(file, progbar).then(insertImage, orPopError);
         }
 
-        function insertImage(href) {
+        function insertImage(href, progbar) {
 			progbar.update( { progress: 0.9 } );
             var elem = editor.document.createElement('img', {
                 attributes: {
@@ -67,7 +67,7 @@ CKEDITOR.plugins.add( 'dropler', {
             }
         }
 
-        function uploadQB(file) {
+        function uploadQB(file, progbar) {
 			return new Promise(function(resolve, reject) {
 				var settings = editor.config.droplerConfig.settings;
 				var progbar = editor.showNotification( 'Adding Image...', 'progress', .1);
