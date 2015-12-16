@@ -59,6 +59,7 @@ CKEDITOR.plugins.add( 'dropler', {
             editor.insertElement(elem);
 			editor.widgets.initOn(elem, 'image');
 			progbar.update( { type: 'success', message: 'File uploaded.' } );
+			delete progbar
         }
 
         function addHeaders(xhttp, headers) {
