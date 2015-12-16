@@ -44,7 +44,7 @@ CKEDITOR.plugins.add( 'dropler', {
         function dropHandler(e) {
             e.preventDefault();
             var file = e.dataTransfer.files[0];
-			if (typeof(progbar) == 'undefined) { progbar = editor.showNotification( 'Adding Image...', 'progress', 0); }
+			if (typeof(progbar) == 'undefined') { progbar = editor.showNotification( 'Adding Image...', 'progress', 0); }
 			else { progbar.update( { progress: 0 } ); }
             backend.upload(file).then(insertImage, orPopError);
         }
