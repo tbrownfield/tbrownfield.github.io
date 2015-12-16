@@ -48,6 +48,7 @@ CKEDITOR.plugins.add( 'dropler', {
         }
 
         function insertImage(href) {
+			imgprogress.update( { progress: 0.9 } );
             var elem = editor.document.createElement('img', {
                 attributes: {
                     src: href
@@ -55,6 +56,7 @@ CKEDITOR.plugins.add( 'dropler', {
             });
             editor.insertElement(elem);
 			editor.widgets.initOn(elem, 'image');
+			imgprogress.update( { type: 'success', message: 'File uploaded.' } );
         }
 
         function addHeaders(xhttp, headers) {
@@ -68,6 +70,7 @@ CKEDITOR.plugins.add( 'dropler', {
         function uploadQB(file) {
 			return new Promise(function(resolve, reject) {
 				var settings = editor.config.droplerConfig.settings;
+				var imgprogress = editor.showNotification( 'Adding Image...', 'progress', .1);
 
 				var reader = new FileReader();
 				reader.onloadend = function() {
@@ -102,9 +105,12 @@ CKEDITOR.plugins.add( 'dropler', {
 						data: request,
 						success: function(xml) {
 							var rid = $(xml).find('rid').text();
+							imgprogress.update( { progress: 0.5 } );
+							
 							resolve("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0")
 						},
 							error: function(xml) {
+							imgprogress.update( { type: 'warning', message: 'Upload Failed.' } );
 							reject($(xml).find("errtext").text())
 						}
 					});
