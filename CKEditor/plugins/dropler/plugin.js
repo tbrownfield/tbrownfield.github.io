@@ -37,14 +37,15 @@ CKEDITOR.plugins.add( 'dropler', {
 
         var backend = backends[editor.config.droplerConfig.backend];
         backend.init();
-
+		var progbar
+		
         function doNothing(e) { }
         function orPopError(err) { alert(err.data.error) }
 
         function dropHandler(e) {
             e.preventDefault();
             var file = e.dataTransfer.files[0];
-			progbar = editor.showNotification( 'Adding Image...', 'progress', 0);
+			var progbar = editor.showNotification( 'Adding Image...', 'progress', 0);
             backend.upload(file, progbar).then(insertImage, orPopError);
         }
 
