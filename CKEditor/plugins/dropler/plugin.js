@@ -116,7 +116,7 @@ CKEDITOR.plugins.add( 'dropler', {
 		
         CKEDITOR.on('instanceReady', function() {
             var iframeBase = document.querySelector('iframe').contentDocument.querySelector('html');
-            //var iframeBody = iframeBase.querySelector('body');
+            var iframeBody = iframeBase.querySelector('body');
 
             //iframeBody.ondragover = doNothing;
             //iframeBody.ondrop = dropHandler;
