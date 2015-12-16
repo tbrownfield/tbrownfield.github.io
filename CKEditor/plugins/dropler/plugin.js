@@ -44,13 +44,16 @@ CKEDITOR.plugins.add( 'dropler', {
         function dropHandler(e) {
             e.preventDefault();
             var file = e.dataTransfer.files[0];
-			if (typeof(progbar) == 'undefined') { progbar = editor.showNotification( 'Adding Image...', 'progress', 0); }
-			else { progbar.update( { progress: 0 } ); }
+
+			var fntoken = btoa(file.name)
+			var fntoken = fntoken.substring(0,fntoken.length - 2)
+
+			progbar+fntoken = editor.showNotification( 'Adding Image...', 'progress', 0);
             backend.upload(file).then(insertImage, orPopError);
         }
 
-        function insertImage(href) {
-			progbar.update( { progress: 0.9 } );
+        function insertImage(href,fntoken) {
+			progbar+fntoken.update( { progress: 0.9 } );
             var elem = editor.document.createElement('img', {
                 attributes: {
                     src: href
@@ -58,8 +61,7 @@ CKEDITOR.plugins.add( 'dropler', {
             });
             editor.insertElement(elem);
 			editor.widgets.initOn(elem, 'image');
-			progbar.update( { type: 'success', message: 'File uploaded.' } );
-			delete progbar
+			progbar+fntoken.update( { type: 'success', message: 'File uploaded.' } );
         }
 
         function addHeaders(xhttp, headers) {
@@ -73,13 +75,17 @@ CKEDITOR.plugins.add( 'dropler', {
         function uploadQB(file) {
 			return new Promise(function(resolve, reject) {
 				var settings = editor.config.droplerConfig.settings;
-				progbar.update( { progress: 0.1 } );
+
+				var fntoken = btoa(file.name)
+				var fntoken = fntoken.substring(0,fntoken.length - 2)
+
+				progbar+fntoken.update( { progress: 0.1 } );
 
 				var reader = new FileReader();
 				reader.onloadend = function() {
 					var blob = reader.result;
 					var blob = blob.split(",");
-
+					
 					var casenum = sessionStorage.getItem('casenum');
 					
 					var apptoken = settings.appToken
@@ -109,11 +115,11 @@ CKEDITOR.plugins.add( 'dropler', {
 						success: function(xml) {
 							var rid = $(xml).find('rid').text();
 
-							progbar.update( { progress: 0.5 } );
-							resolve("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0")
+							progbar+fntoken.update( { progress: 0.5 } );
+							resolve("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0",fntoken)
 						},
 							error: function(xml) {
-							progbar.update( { type: 'warning', message: 'Upload Failed.' } );
+							progbar+fntoken.update( { type: 'warning', message: 'Upload Failed.' } );
 							reject($(xml).find("errtext").text())
 						}
 					});
