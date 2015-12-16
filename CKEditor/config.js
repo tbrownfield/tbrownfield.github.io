@@ -70,6 +70,7 @@ CKEDITOR.editorConfig = function( config ) {
 			dbid: '9df5xdir',
 			appToken: 'd9qr25tda5rnrb69z3z9de8uy58',
 			emailFid: '6',
+			emailFName: 'emai_addr',
 			caseFid: '12',
 			closedFid: '17',
 			checkinFid: '222',

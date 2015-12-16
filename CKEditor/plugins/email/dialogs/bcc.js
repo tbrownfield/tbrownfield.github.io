@@ -194,8 +194,9 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 			}
 			var bcclist = "";
 			var dupes = 0;
+			var emailFName = settings.emailFName;
 			$.each($("record",xml), function(){
-				var thisemail = $("emai_addr",this).text().toLowerCase();
+				var thisemail = $(emailFName,this).text().toLowerCase();
 				ridlist.push($("record_id_",this).text())
 				if (bcclist.indexOf(thisemail) == -1) {
 					bcclist += thisemail+";"
