@@ -114,6 +114,28 @@ CKEDITOR.plugins.add( 'dropler', {
 			});
 		}
 		
+		editor.addCommand( 'initDropler', {
+			exec: function ( editor ) {
+				var iframeBase = document.querySelector('iframe').contentDocument.querySelector('html');
+				var iframeBody = iframeBase.querySelector('body');
+
+				iframeBody.ondragover = doNothing;
+				iframeBody.ondrop = dropHandler;
+				//iframeBase.ondragover = doNothing;
+				//iframeBase.ondrop = dropHandler;
+
+				paddingToCenterBody = ((iframeBase.offsetWidth - iframeBody.offsetWidth) / 2) + 'px';
+				iframeBase.style.height = '100%';
+				iframeBase.style.width = '100%';
+				iframeBase.style.overflowX = 'hidden';
+
+				iframeBody.style.height = '100%';
+				iframeBody.style.margin = '0';
+				iframeBody.style.paddingLeft = paddingToCenterBody;
+				iframeBody.style.paddingRight = paddingToCenterBody;
+			}
+		})
+		
         CKEDITOR.on('instanceReady', function() {
             var iframeBase = document.querySelector('iframe').contentDocument.querySelector('html');
             var iframeBody = iframeBase.querySelector('body');
