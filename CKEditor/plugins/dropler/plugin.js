@@ -44,7 +44,7 @@ CKEDITOR.plugins.add( 'dropler', {
         function dropHandler(e) {
             e.preventDefault();
             var file = e.dataTransfer.files[0];
-			var progbar = editor.showNotification( 'Adding Image...', 'progress', .1);
+			var progbar = editor.showNotification( 'Adding Image...', 'progress', 0);
             backend.upload(file, progbar).then(insertImage, orPopError);
         }
 
@@ -108,7 +108,7 @@ CKEDITOR.plugins.add( 'dropler', {
 							var rid = $(xml).find('rid').text();
 							progbar.update( { progress: 0.5 } );
 							
-							resolve("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0")
+							resolve("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0", progbar)
 						},
 							error: function(xml) {
 							progbar.update( { type: 'warning', message: 'Upload Failed.' } );
