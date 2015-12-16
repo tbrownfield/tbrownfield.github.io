@@ -42,7 +42,6 @@ CKEDITOR.plugins.add( 'dropler', {
         function orPopError(err) { alert(err.data.error) }
 
         function dropHandler(e) {
-			console.log("Dropped.")
             e.preventDefault();
             var file = e.dataTransfer.files[0];
             backend.upload(file).then(insertImage, orPopError);
@@ -121,8 +120,6 @@ CKEDITOR.plugins.add( 'dropler', {
 
 				iframeBody.ondragover = doNothing;
 				iframeBody.ondrop = dropHandler;
-				//iframeBase.ondragover = doNothing;
-				//iframeBase.ondrop = dropHandler;
 
 				paddingToCenterBody = ((iframeBase.offsetWidth - iframeBody.offsetWidth) / 2) + 'px';
 				iframeBase.style.height = '100%';

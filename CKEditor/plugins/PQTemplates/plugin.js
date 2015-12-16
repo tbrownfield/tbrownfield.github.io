@@ -104,10 +104,12 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							var content = initTemplate(editor, editorData);
 							editor.setData(content);
 
+							editor.execCommand('initDropler', editor)
 							document.getElementById("loadOverlay").style.display = "none";
 						}
 					})
 					.fail(function(data) {
+						editor.execCommand('initDropler', editor)
 						document.getElementById("loadOverlay").style.display = "none";
 						console.log("CKEditor Error: Failed to load template. Error "+data.status+": "+data.statusText)
 					})
@@ -124,6 +126,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 
 					editor.setData(content)
 
+					editor.execCommand('initDropler', editor)
 					document.getElementById("loadOverlay").style.display = "none";
 				}
 				else {
@@ -131,7 +134,8 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					sessionStorage.setItem("skipInit","1");
 					var content = initTemplate(editor, editorData);
 					editor.setData(content);
-
+					
+					editor.execCommand('initDropler', editor)
 					document.getElementById("loadOverlay").style.display = "none"; }
 			}
 		})
