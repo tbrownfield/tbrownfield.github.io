@@ -116,11 +116,12 @@ CKEDITOR.plugins.add( 'dropler', {
 		
         CKEDITOR.on('instanceReady', function() {
             var iframeBase = document.querySelector('iframe').contentDocument.querySelector('html');
-            var iframeBody = iframeBase.querySelector('body');
+            //var iframeBody = iframeBase.querySelector('body');
 
             //iframeBody.ondragover = doNothing;
-			iframeBody.ondragover = console.log("dragover");
-            iframeBody.ondrop = dropHandler;
+            //iframeBody.ondrop = dropHandler;
+			iframeBase.ondragover = doNothing;
+            iframeBase.ondrop = dropHandler;
 
             paddingToCenterBody = ((iframeBase.offsetWidth - iframeBody.offsetWidth) / 2) + 'px';
             iframeBase.style.height = '100%';
