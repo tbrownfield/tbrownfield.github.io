@@ -214,6 +214,14 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			var issueTitle = unescape(issueTitle)
 			if (issueTitle == "undefined") { var issueTitle = "" }
 
+			var containKB = sessionStorage.containKB
+			var containKB = unescape(containKB)
+			if (containKB == "undefined") { var containKB = "" }
+
+			var containAXC = sessionStorage.containAXC
+			var containAXC = unescape(containAXC)
+			if (containAXC == "undefined") { var containAXC = "" }			
+			
 			var curYear = new Date().getFullYear()
 			var regex = new RegExp("\\[COPYRIGHT YEAR\\]","g")
 			var content = content.replace(regex, curYear);
@@ -253,6 +261,16 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				var regex = new RegExp("\\[ISSUE TITLE\\]","g");
 				var content = content.replace(regex, issueTitle);
 			}
+			
+			if (containKB) {
+				var regex = new RegExp("\\[KB Containment\\]","g")
+				var content = content.replace(regex, "<a href='https://turbotax.intuit.com/support/go/"+containKB+"'>https://turbotax.intuit.com/support/go/"+containKB+"</a>");
+			}
+			
+			if (containAXC) {
+				var regex = new RegExp("\\[AXC Containment\\]","g")
+				var content = content.replace(regex, "<a href='https://ttlc.intuit.com/questions/"+containAXC+"'>https://ttlc.intuit.com/questions/"+containAXC+"</a>");
+			}			
 			
 			var regex = new RegExp("\\[KB ([A-Za-z]{3}[0-9]+)\\]","g")
 			var content = content.replace(regex, function(x,y){return "<a href='https://turbotax.intuit.com/support/go/"+y+"'>https://turbotax.intuit.com/support/go/"+y+"</a>" })
