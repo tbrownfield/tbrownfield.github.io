@@ -53,7 +53,8 @@ CKEDITOR.plugins.add( 'dropler', {
         }
 
         function insertImage(href) {
-			progbar[href[1]].update( { progress: 0.9 } );
+			var fntoken = href[1]
+			progbar[fntoken].update( { progress: 0.9 } );
             var elem = editor.document.createElement('img', {
                 attributes: {
                     src: href[0]
@@ -61,7 +62,7 @@ CKEDITOR.plugins.add( 'dropler', {
             });
             editor.insertElement(elem);
 			editor.widgets.initOn(elem, 'image');
-			progbar[href[[1]].update( { type: 'success', message: 'File uploaded.' } );
+			progbar[fntoken].update( { type: 'success', message: 'File uploaded.' } );
         }
 
         function addHeaders(xhttp, headers) {
