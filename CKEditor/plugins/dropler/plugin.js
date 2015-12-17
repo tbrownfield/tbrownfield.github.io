@@ -34,7 +34,7 @@ CKEDITOR.plugins.add( 'dropler', {
         }
 
         validateConfig();
-		var progbar = {};
+		progbar = {};
 		
         var backend = backends[editor.config.droplerConfig.backend];
         backend.init();
@@ -52,16 +52,16 @@ CKEDITOR.plugins.add( 'dropler', {
             backend.upload(file).then(insertImage, orPopError);
         }
 
-        function insertImage(href,fntoken) {
-			progbar[fntoken].update( { progress: 0.9 } );
+        function insertImage(href) {
+			progbar[href[1]].update( { progress: 0.9 } );
             var elem = editor.document.createElement('img', {
                 attributes: {
-                    src: href
+                    src: href[0]
                 }
             });
             editor.insertElement(elem);
 			editor.widgets.initOn(elem, 'image');
-			progbar[fntoken].update( { type: 'success', message: 'File uploaded.' } );
+			progbar[href[[1]].update( { type: 'success', message: 'File uploaded.' } );
         }
 
         function addHeaders(xhttp, headers) {
@@ -115,7 +115,7 @@ CKEDITOR.plugins.add( 'dropler', {
 							var rid = $(xml).find('rid').text();
 
 							progbar[fntoken].update( { progress: 0.5 } );
-							resolve("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0",fntoken)
+							resolve(["https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0",fntoken])
 						},
 							error: function(xml) {
 							progbar[fntoken].update( { type: 'warning', message: 'Upload Failed.' } );
