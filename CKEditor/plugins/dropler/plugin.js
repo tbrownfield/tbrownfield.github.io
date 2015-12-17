@@ -34,7 +34,8 @@ CKEDITOR.plugins.add( 'dropler', {
         }
 
         validateConfig();
-
+		var progbar = {};
+		
         var backend = backends[editor.config.droplerConfig.backend];
         backend.init();
 		
@@ -46,14 +47,13 @@ CKEDITOR.plugins.add( 'dropler', {
             var file = e.dataTransfer.files[0];
 
 			var fntoken = btoa(file.name)
-			var fntoken = fntoken.substring(0,fntoken.length - 2)
 
-			progbar+fntoken = editor.showNotification( 'Adding Image...', 'progress', 0);
+			progbar[fntoken] = editor.showNotification( 'Adding Image...', 'progress', 0);
             backend.upload(file).then(insertImage, orPopError);
         }
 
         function insertImage(href,fntoken) {
-			progbar+fntoken.update( { progress: 0.9 } );
+			progbar[fntoken].update( { progress: 0.9 } );
             var elem = editor.document.createElement('img', {
                 attributes: {
                     src: href
@@ -61,7 +61,7 @@ CKEDITOR.plugins.add( 'dropler', {
             });
             editor.insertElement(elem);
 			editor.widgets.initOn(elem, 'image');
-			progbar+fntoken.update( { type: 'success', message: 'File uploaded.' } );
+			progbar[fntoken].update( { type: 'success', message: 'File uploaded.' } );
         }
 
         function addHeaders(xhttp, headers) {
@@ -77,9 +77,8 @@ CKEDITOR.plugins.add( 'dropler', {
 				var settings = editor.config.droplerConfig.settings;
 
 				var fntoken = btoa(file.name)
-				var fntoken = fntoken.substring(0,fntoken.length - 2)
 
-				progbar+fntoken.update( { progress: 0.1 } );
+				progbar[fntoken].update( { progress: 0.1 } );
 
 				var reader = new FileReader();
 				reader.onloadend = function() {
@@ -115,11 +114,11 @@ CKEDITOR.plugins.add( 'dropler', {
 						success: function(xml) {
 							var rid = $(xml).find('rid').text();
 
-							progbar+fntoken.update( { progress: 0.5 } );
+							progbar[fntoken].update( { progress: 0.5 } );
 							resolve("https://intuitcorp.quickbase.com/up/"+dbid+"/a/r"+rid+"/e"+fid+"/v0",fntoken)
 						},
 							error: function(xml) {
-							progbar+fntoken.update( { type: 'warning', message: 'Upload Failed.' } );
+							progbar[fntoken].update( { type: 'warning', message: 'Upload Failed.' } );
 							reject($(xml).find("errtext").text())
 						}
 					});
