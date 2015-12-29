@@ -136,7 +136,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					var content = initTemplate(editor, editorData);
 					editor.setData(content, function() {					
 						editor.execCommand('initDropler', editor)
-						document.getElementById("loadOverlay").style.display = "none"; }
+						document.getElementById("loadOverlay").style.display = "none";
 				})
 			}
 		})
