@@ -87,7 +87,7 @@ CKEDITOR.plugins.add( 'email', {
 				var dateFid = ""
 				var bulkType = sessionStorage.getItem('bulkType')
 				if (bulkType == 'Response') { var dateFid = editor.config.emailConfig.bccQB.closedFid }
-				if (bulkType == 'Check-In') { var dateFid = editor.config.emailConfig.bccQB.checkinFid }
+				if (bulkType == 'Check-in') { var dateFid = editor.config.emailConfig.bccQB.checkinFid }
 				if (!sessionStorage.getItem("bcclist")) { var dateFid = "" }
 				if (dateFid) { updateResponses(dateFid) }
 		},

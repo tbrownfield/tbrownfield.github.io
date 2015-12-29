@@ -43,7 +43,22 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				var template = sessionStorage.getItem('template');
 				var emailbody = sessionStorage.getItem('emailbody');
 				var editorData;
-				if (template) {
+				if (emailbody) {
+					var editorData = editor.getData();
+
+					var editorData = $.parseHTML(editorData)[0]
+					var emailbody = unescape(emailbody).replace(/\n/g,'<br \\>')
+					$("#body",editorData).html(emailbody)
+
+					var editorData = $(editorData)[0].outerHTML
+					var content = initTemplate(editor, editorData)
+
+					editor.setData(content, function() {
+						editor.execCommand('initDropler', editor);
+						document.getElementById("loadOverlay").style.display = "none";
+					});
+				}
+				else if (template) {
 					var settings = editor.config.PQTemplates.TemplateQB;
 					var dbid = settings.dbid;
 					var apptoken = settings.appToken;
@@ -90,10 +105,10 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							var editorData = $(editorData)[0].outerHTML
 							var content = initTemplate(editor, editorData)
 
-							editor.setData(content)
-							
-							editor.execCommand('initDropler', editor)
-							document.getElementById("loadOverlay").style.display = "none";
+							editor.setData(content, function() {
+								editor.execCommand('initDropler', editor)
+								document.getElementById("loadOverlay").style.display = "none";
+							})
 						}
 						else {
 							var errcode = $('errcode', xml).text();
@@ -103,10 +118,10 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							var editorData = editor.getData();
 							sessionStorage.setItem("skipInit","1");
 							var content = initTemplate(editor, editorData);
-							editor.setData(content);
-
-							editor.execCommand('initDropler', editor)
-							document.getElementById("loadOverlay").style.display = "none";
+							editor.setData(content, function() {
+								editor.execCommand('initDropler', editor)
+								document.getElementById("loadOverlay").style.display = "none";
+							});
 						}
 					})
 					.fail(function(data) {
@@ -115,29 +130,14 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 						console.log("CKEditor Error: Failed to load template. Error "+data.status+": "+data.statusText)
 					})
 				}
-				else if (emailbody) {
-					var editorData = editor.getData();
-
-					var editorData = $.parseHTML(editorData)[0]
-					var emailbody = unescape(emailbody).replace(/\n/g,'<br \\>')
-					$("#body",editorData).html(emailbody)
-
-					var editorData = $(editorData)[0].outerHTML
-					var content = initTemplate(editor, editorData)
-
-					editor.setData(content)
-
-					editor.execCommand('initDropler', editor)
-					document.getElementById("loadOverlay").style.display = "none";
-				}
 				else {
 					var editorData = editor.getData();
 					sessionStorage.setItem("skipInit","1");
 					var content = initTemplate(editor, editorData);
-					editor.setData(content);
-					
-					editor.execCommand('initDropler', editor)
-					document.getElementById("loadOverlay").style.display = "none"; }
+					editor.setData(content, function() {					
+						editor.execCommand('initDropler', editor)
+						document.getElementById("loadOverlay").style.display = "none"; }
+				})
 			}
 		})
 
@@ -235,6 +235,12 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					var regex = new RegExp("\\[CUSTOMER NAME\\]","g")
 					var content = content.replace(regex, editor.config.emailConfig.batchName);
 				}
+			}
+			
+			//special case to handle existing response templates that use %CUSTOMER_NAME%
+			if (content.match(/\%CUSTOMER_NAME\%/)) {
+				var regex = new RegExp("\\%CUSTOMER_NAME\\%","g")
+				var content = content.replace(regex, editor.config.emailConfig.batchName);
 			}
 
 			if (custEmail) {

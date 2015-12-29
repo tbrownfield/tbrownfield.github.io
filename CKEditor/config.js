@@ -41,6 +41,8 @@ CKEDITOR.editorConfig = function( config ) {
 		
 	config.fillEmptyBlocks = false;
 	
+	config.scayt_autoStartup = true;
+	
 	config.extraAllowedContent = '*[id](*){*}'
 
 	config.PQTemplates = {

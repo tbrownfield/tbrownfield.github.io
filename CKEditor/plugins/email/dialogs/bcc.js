@@ -65,8 +65,8 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 								{
 									type: 'button',
 									id: 'pullcheckinemails',
-									label: 'Get Check-In Emails',
-									title: 'Get Check-In Emails from Quickbase',
+									label: 'Get Check-in Emails',
+									title: 'Get Check-in Emails from Quickbase',
 									onClick: function() {
 										var editor = CKEDITOR.instances.editor
 										var settings = editor.config.emailConfig.bccQB
@@ -75,7 +75,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 										var checkinfid = settings.checkinFid;
 										var casenum = sessionStorage.getItem('casenum')
 										var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}AND{'"+closedfid+"'.EX.''}AND{'"+checkinfid+"'.CT.'YES'}"
-										sessionStorage.setItem('bulkType','Check-In')
+										sessionStorage.setItem('bulkType','Check-in')
 										getEmails(this, query);
 									}
 								},
@@ -85,14 +85,14 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 									id: 'bulkType',
 									label: '',
 									title: 'Response Type',
-									items: [ [ 'Check-In' ], [ 'Response' ], [ 'No Update' ] ],
+									items: [ [ 'Check-in' ], [ 'Response' ], [ 'No Update' ] ],
 									'default': 'No Update',
 									onShow: function() {
 										if (sessionStorage.getItem("bulkType") == 'Response') {
 											this.setValue('Response')
 										}
-										if (sessionStorage.getItem("bulkType") == 'Check-In') {
-											this.setValue('Check-In')
+										if (sessionStorage.getItem("bulkType") == 'Check-in') {
+											this.setValue('Check-in')
 										}
 									}
 								},
