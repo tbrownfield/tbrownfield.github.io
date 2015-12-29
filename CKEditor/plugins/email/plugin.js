@@ -19,6 +19,7 @@ CKEDITOR.plugins.add( 'email', {
 			if (distros) { var emailaddr = distros }
 
 			var emailsubj = sessionStorage.getItem("emailsubj");
+			if (emailsubj == 'null') { var emailsubj = settings.defaultSubject }
 			if (!emailsubj) { var emailsubj = settings.defaultSubject }
 			if (emailsubj.length > 255) {
 				var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'Email Subject is too long and will be truncated. Review it before sending the email.', type: 'warning' } );
