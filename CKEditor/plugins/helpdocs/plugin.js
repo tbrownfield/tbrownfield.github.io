@@ -14,3 +14,4 @@ CKEDITOR.plugins.add( 'helpdocs', {
 			toolbar: 'help,0'
 		});
 	}
+});
