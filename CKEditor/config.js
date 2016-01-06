@@ -22,7 +22,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'PQTemplates' },
 		{ name: 'finalize' },
 		{ name: 'others' },
-		{ name: 'helpdocs' },
+		{ name: 'help' },
 		'/',
 		{ name: 'basicstyles', groups: [ 'basicstyles', 'cleanup' ] },
 		{ name: 'paragraph',   groups: [ 'list', 'indent', 'blocks', 'align', 'bidi' ] },
