@@ -210,7 +210,7 @@ CKEDITOR.plugins.add( 'email', {
 			.done(function(xml) {
 				if ($(xml).find("errcode").text() == 0) { 
 					goodupdate++;
-					var completion = cur / ridlist.length;
+					var completion = (goodupdate + badupdate) / ridlist.length;
 					if (completion < 1) {
 						recordStatus.update( { progress: completion } );
 					}
@@ -223,7 +223,7 @@ CKEDITOR.plugins.add( 'email', {
 					var errtext = $('errtext',xml).text();
 					console.log("CKEditor Error: Email Tracker QuickBase returned error. " + errcode + ": " + errtext);
 					badupdate++
-					var completion = cur / ridlist.length
+					var completion = (goodupdate + badupdate) / ridlist.length;
 					if (completion < 1) {
 						recordStatus.update( { progress: completion } );
 					}
@@ -243,7 +243,7 @@ CKEDITOR.plugins.add( 'email', {
 	//takes FID of field to update as parameter. Pass checkin or workaround fid to update checkin or close.
 	function updateResponses(dateFid) {
 		var editor = CKEDITOR.instances.editor
-		if (editor.config.emailConfig.bccQB.safeMode == 1) { updateResponsesSafeMode(dateFid); }
+		if (editor.config.emailConfig.bccQB.safeMode == 1) { updateResponsesSafeMode(dateFid); return; }
 		var recordStatus = editor.showNotification( 'Updating CSI Email Tracker QuickBase - DO NOT CLOSE THIS WINDOW', 'progress', 0);
 		//var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' });
 
