@@ -191,6 +191,7 @@ CKEDITOR.plugins.add( 'email', {
 		var badupdate = 0;
 		$.each(ridlist, function( index ) {
 			var rid = this;
+			var cur = index;
 			var request="";
 			request += '<qdbapi>';
 			request += '<apptoken>'+apptoken+'</apptoken>';
@@ -208,8 +209,8 @@ CKEDITOR.plugins.add( 'email', {
 			})
 			.done(function(xml) {
 				if ($(xml).find("errcode").text() == 0) { 
-					goodupdate++
-					var completion = index / ridlist.length
+					goodupdate++;
+					var completion = cur / ridlist.length;
 					if completion < 1 {
 						recordStatus.update( { progress: completion } );
 					}
@@ -222,7 +223,7 @@ CKEDITOR.plugins.add( 'email', {
 					var errtext = $('errtext',xml).text();
 					console.log("CKEditor Error: Email Tracker QuickBase returned error. " + errcode + ": " + errtext);
 					badupdate++
-					var completion = index / ridlist.length
+					var completion = cur / ridlist.length
 					if completion < 1 {
 						recordStatus.update( { progress: completion } );
 					}
