@@ -211,7 +211,7 @@ CKEDITOR.plugins.add( 'email', {
 				if ($(xml).find("errcode").text() == 0) { 
 					goodupdate++;
 					var completion = cur / ridlist.length;
-					if completion < 1 {
+					if (completion < 1) {
 						recordStatus.update( { progress: completion } );
 					}
 					else {
@@ -224,7 +224,7 @@ CKEDITOR.plugins.add( 'email', {
 					console.log("CKEditor Error: Email Tracker QuickBase returned error. " + errcode + ": " + errtext);
 					badupdate++
 					var completion = cur / ridlist.length
-					if completion < 1 {
+					if (completion < 1) {
 						recordStatus.update( { progress: completion } );
 					}
 					else {
