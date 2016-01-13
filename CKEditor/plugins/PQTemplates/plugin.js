@@ -46,7 +46,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				if (emailbody) {
 					var editorData = editor.getData();
 
-					var editorData = $.parseHTML(editorData)[0]
+					var editorData = $(editorData)[0]
 					var emailbody = unescape(emailbody).replace(/\n/g,'<br \\>')
 					$("#body",editorData).html(emailbody)
 
@@ -99,7 +99,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 
 							var editorData = editor.getData();
 
-							var editorData = $.parseHTML(editorData)[0]
+							var editorData = $(editorData)[0]
 							$("#body",editorData).html(templateContent)
 
 							var editorData = $(editorData)[0].outerHTML
