@@ -15,7 +15,7 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function( editor ) {
 						style: 'width:300px;height:100%',
 						size: 20,
 						items: [],
-						onLoad: function(editor1,editor) {
+						onLoad: function() {
 							//var editor = CKEDITOR.instances.editor
 							var settings = editor.config.PQTemplates.TemplateQB
 							var dialog = this.getDialog()
