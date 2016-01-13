@@ -77,7 +77,7 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function( editor ) {
                 ]
             }
         ],
-        onOk: function(editor) {
+        onOk: function() {
             var dialog = this;
 			var template = this.getContentElement('tab1', 'PQTemplatesSelect').getValue();
 			loadTemplate(editor,template)
