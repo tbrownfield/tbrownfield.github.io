@@ -1,4 +1,4 @@
-CKEDITOR.dialog.add( 'bccdialog', function(  ) {
+CKEDITOR.dialog.add( 'bccdialog', function( editor ) {
     return {
         title: 'Customer Response BCC recipients',
         minWidth: 300,
@@ -17,7 +17,14 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 							rows: '10',
 							style: 'width:100%;height:100%',
 							onLoad: function() {
-								var editor = CKEDITOR.instances.editor;
+								//var editor = CKEDITOR.instances.editor;
+								
+								for ( var i in CKEDITOR.instances ){
+								   var currentInstance = i;
+								   break;
+								}
+								//var editor   = CKEDITOR.instances[currentInstance];
+								
 								var bcclist = sessionStorage.getItem('bcclist')
 
 								if (bcclist) {
@@ -49,8 +56,8 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 									id: 'pullallemails',
 									label: 'Get Emails',
 									title: 'Get All Emails from Quickbase',
-									onClick: function() {
-										var editor = CKEDITOR.instances.editor
+									onClick: function(editor) {
+										//var editor = CKEDITOR.instances.editor
 										var settings = editor.config.emailConfig.bccQB
 										var caseFid = settings.caseFid;
 										var closedfid = settings.closedFid;
@@ -58,7 +65,7 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 										var casenum = sessionStorage.getItem('casenum')
 										var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}AND{'"+closedfid+"'.EX.''}"
 										//sessionStorage.setItem('bulkType','Response')
-										getEmails(this,query)
+										getEmails(editor,this,query)
 									}
 								},
 								/*
@@ -101,8 +108,8 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 									id: 'openreport',
 									label: 'Open in Quickbase',
 									title: 'Open a report of these emails in the Quickbase',
-									onClick: function() {
-										var editor = CKEDITOR.instances.editor
+									onClick: function(editor) {
+										//var editor = CKEDITOR.instances.editor
 										var settings = editor.config.emailConfig.bccQB
 										var dbid = settings.dbid;
 										var apptoken = settings.appToken;
@@ -124,9 +131,16 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 				]
 			}
 		],
-        onOk: function() {
+        onOk: function(editor) {
             var dialog = this;
-			var editor = CKEDITOR.instances.editor;
+			//var editor = CKEDITOR.instances.editor;
+			
+			for ( var i in CKEDITOR.instances ){
+			   var currentInstance = i;
+			   break;
+			}
+			//var editor   = CKEDITOR.instances[currentInstance];
+			
 			var bulkType = this.getContentElement('tab1', 'bulkType').getValue();
 			sessionStorage.setItem("bulkType", bulkType)
 			var bcclist = this.getContentElement('tab1', 'BCCField').getValue();
@@ -153,11 +167,11 @@ CKEDITOR.dialog.add( 'bccdialog', function(  ) {
 		return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 	}
 	
-	function getEmails(dlg, query) {
+	function getEmails(editor, dlg, query) {
 		var doc = dlg.getElement().getDocument();
 		doc.getById("bccinfo")["$"].innerHTML = "Retrieving emails from Quickbase...";
 
-		var editor = CKEDITOR.instances.editor
+		//var editor = CKEDITOR.instances.editor
 		var settings = editor.config.emailConfig.bccQB
 		var dbid = settings.dbid;
 		var apptoken = settings.appToken;

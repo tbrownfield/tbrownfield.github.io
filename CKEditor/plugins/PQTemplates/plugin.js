@@ -1,7 +1,7 @@
 CKEDITOR.plugins.add( 'PQTemplates', {
     icons: 'emailtemps,savetemp,bcclist,batch,noreply,setCase',
     init: function( editor ) {
-		var editor = CKEDITOR.instances.editor
+		//var editor = CKEDITOR.instances.editor
 
 		CKEDITOR.dialog.add( 'PQTemplateDialog', this.path + 'dialogs/templates.js' );
 		CKEDITOR.dialog.add( 'PQSaveTemplateDialog', this.path + 'dialogs/savetemplate.js' );

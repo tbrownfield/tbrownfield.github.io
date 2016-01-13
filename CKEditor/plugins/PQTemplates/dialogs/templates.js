@@ -1,4 +1,4 @@
-CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
+CKEDITOR.dialog.add( 'PQTemplateDialog', function( editor ) {
     return {
         title: 'Customer Response Email Templates',
         minWidth: 300,
@@ -16,7 +16,7 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
 						size: 20,
 						items: [],
 						onLoad: function() {
-							var editor = CKEDITOR.instances.editor
+							//var editor = CKEDITOR.instances.editor
 							var settings = editor.config.PQTemplates.TemplateQB
 							var dialog = this.getDialog()
 							
@@ -77,14 +77,14 @@ CKEDITOR.dialog.add( 'PQTemplateDialog', function(  ) {
                 ]
             }
         ],
-        onOk: function() {
+        onOk: function(editor) {
             var dialog = this;
 			var template = this.getContentElement('tab1', 'PQTemplatesSelect').getValue();
-			loadTemplate(template)
+			loadTemplate(editor,template)
         }
     };
-	function loadTemplate(template) {
-		var editor = CKEDITOR.instances.editor;
+	function loadTemplate(editor, template) {
+		//var editor = CKEDITOR.instances.editor;
 		sessionStorage.setItem('template',template);
 		editor.execCommand('loadTemplate',editor)
 	}

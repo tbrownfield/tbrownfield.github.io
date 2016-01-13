@@ -1,4 +1,4 @@
-CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
+CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function( editor ) {
     return {
         title: 'Save Template',
         minWidth: 300,
@@ -27,9 +27,9 @@ CKEDITOR.dialog.add( 'PQSaveTemplateDialog', function(  ) {
 				]
 			}]
 		}],
-        onOk: function() {
+        onOk: function(editor) {
             var dialog = this;
-			var editor = CKEDITOR.instances.editor;
+			//var editor = CKEDITOR.instances.editor;
 			var settings = editor.config.PQTemplates.TemplateQB
 			
 			

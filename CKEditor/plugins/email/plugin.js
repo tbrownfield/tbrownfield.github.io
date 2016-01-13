@@ -90,7 +90,7 @@ CKEDITOR.plugins.add( 'email', {
 				if (bulkType == 'Response') { var dateFid = editor.config.emailConfig.bccQB.closedFid }
 				if (bulkType == 'Check-in') { var dateFid = editor.config.emailConfig.bccQB.checkinFid }
 				if (!sessionStorage.getItem("bcclist")) { var dateFid = "" }
-				if (dateFid) { updateResponses(dateFid) }
+				if (dateFid) { updateResponses(editor, dateFid) }
 		},
 		
 		canUndo: false
@@ -109,7 +109,13 @@ CKEDITOR.plugins.add( 'email', {
 		var template = sessionStorage.getItem('template');
 		if (!template) { var template = "No Template Used" }
 		
-		var editor = CKEDITOR.instances.editor;
+		//var editor = CKEDITOR.instances.editor;
+		for ( var i in CKEDITOR.instances ){
+		   var currentInstance = i;
+		   break;
+		}
+		//var editor   = CKEDITOR.instances[currentInstance];
+		
 		var body = editor.getData();
 		var body = body.split(/\<td id\=\"body\"[^\>]+>/);
 		if (body) {
@@ -154,9 +160,9 @@ CKEDITOR.plugins.add( 'email', {
 		})
 	}
 	
-	function updateResponsesSafeMode(dateFid) {
+	function updateResponsesSafeMode(editor, dateFid) {
 
-		var editor = CKEDITOR.instances.editor
+		//var editor = CKEDITOR.instances.editor
 		//var ckerr = new CKEDITOR.plugins.notification( editor, { message: , type: 'warning' } );
 		var recordStatus = editor.showNotification( 'Updating CSI Email Tracker QuickBase - DO NOT CLOSE THIS WINDOW', 'progress', 0);
 		
@@ -166,7 +172,14 @@ CKEDITOR.plugins.add( 'email', {
 			return false
 		}
 
-		var editor = CKEDITOR.instances.editor;
+		//var editor = CKEDITOR.instances.editor;
+		
+		for ( var i in CKEDITOR.instances ){
+		   var currentInstance = i;
+		   break;
+		}
+		var editor   = CKEDITOR.instances[currentInstance];
+		
 		var settings = editor.config.emailConfig.bccQB;
 		var apptoken = settings.appToken;
 		var qbdbid = settings.dbid;
@@ -241,9 +254,9 @@ CKEDITOR.plugins.add( 'email', {
 	}
 	
 	//takes FID of field to update as parameter. Pass checkin or workaround fid to update checkin or close.
-	function updateResponses(dateFid) {
-		var editor = CKEDITOR.instances.editor
-		if (editor.config.emailConfig.bccQB.safeMode == 1) { updateResponsesSafeMode(dateFid); return; }
+	function updateResponses(editor, dateFid) {
+		//var editor = CKEDITOR.instances.editor
+		if (editor.config.emailConfig.bccQB.safeMode == 1) { updateResponsesSafeMode(editor, dateFid); return; }
 		var recordStatus = editor.showNotification( 'Updating CSI Email Tracker QuickBase - DO NOT CLOSE THIS WINDOW', 'progress', 0);
 		//var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'Unable to update CSI Email Tracker Quickbase. Please do so manually.', type: 'warning' });
 
