@@ -3,6 +3,7 @@ CKEDITOR.plugins.add( 'email', {
 	init: function( editor )
 	{
 		CKEDITOR.dialog.add( 'bccdialog', this.path + 'dialogs/bcc.js' );
+		CKEDITOR.dialog.add( 'overflow', this.path + 'dialogs/overflow.js' );
 		
 		editor.addCommand( 'bcclist', new CKEDITOR.dialogCommand( 'bccdialog' ) );
 		editor.addCommand( 'overflow', new CKEDITOR.dialogCommand( 'overflow' ) );

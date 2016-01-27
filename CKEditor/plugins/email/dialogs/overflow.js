@@ -40,12 +40,12 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                             ['1']
                         ],
                         'default': '1',
-                        // onChange: function(editor) {
-                        //     var page = this.getValue();
-                        //     var dialog = this.getDialog();
-                        //     setPage(editor, dialog, page);
-                        //     toggleButtons(editor, dialog, page);
-                        // }
+                        onChange: function(editor) {
+                            var page = this.getValue();
+                            var dialog = this.getDialog();
+                            setPage(editor, dialog, page);
+                            toggleButtons(editor, dialog, page);
+                        }
                     }, {
                         type: 'button',
                         id: 'email',
