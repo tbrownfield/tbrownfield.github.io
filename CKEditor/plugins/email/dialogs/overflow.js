@@ -22,7 +22,7 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                         onClick: function(editor) {
                             var dialog = this.getDialog();
                             var pageobj = dialog.getContentElement('tab1', 'page');
-                            var page = pageobj.getValueOf('tab1', 'page');
+                            var page = pageobj.getValue();
                             if (page > 1) {
                                 page--;
                                 setPage(editor, dialog, page);
@@ -63,7 +63,7 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                         onClick: function(editor) {
                             var dialog = this.getDialog();
                             var pageobj = dialog.getContentElement('tab1', 'page');
-                            var page = pageobj.getValueOf('tab1', 'page');
+                            var page = pageobj.getValue();
                             if (page < getPages()) {
                                 page++;
                                 setPage(editor, dialog, page);
