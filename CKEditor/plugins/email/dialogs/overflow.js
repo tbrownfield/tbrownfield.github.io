@@ -21,15 +21,15 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                         title: 'Previous Page',
                         onClick: function(editor) {
                             var dialog = this.getDialog();
-                            var pageobj = dialog.getContentElement('tab1','page');
-                            var page = pageobj.getValueOf('tab1','page');
+                            var pageobj = dialog.getContentElement('tab1', 'page');
+                            var page = pageobj.getValueOf('tab1', 'page');
                             if (page > 1) {
                                 page--;
-                                setPage(editor,dialog,page);
+                                setPage(editor, dialog, page);
                                 pageobj.setValue(page);
                             }
-                            toggleButtons(editor,dialog,page);
-                            
+                            toggleButtons(editor, dialog, page);
+
                         }
                     }, {
                         type: 'select',
@@ -40,21 +40,21 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                             ['1']
                         ],
                         'default': '1',
-                        onChange: function (editor) {
-                            var page = this.getValue();
-                            var dialog = this.getDialog();
-                            setPage(editor, dialog, page);
-                            toggleButtons(editor,dialog,page);
-                        }
+                        // onChange: function(editor) {
+                        //     var page = this.getValue();
+                        //     var dialog = this.getDialog();
+                        //     setPage(editor, dialog, page);
+                        //     toggleButtons(editor, dialog, page);
+                        // }
                     }, {
                         type: 'button',
                         id: 'email',
                         label: 'Start Email',
                         title: 'Start new Email in Outlook',
                         onClick: function(editor) {
-
+                            console.log("start email");
                         }
-                        
+
                     }, {
                         type: 'button',
                         id: 'next',
@@ -62,14 +62,14 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                         title: 'Next Page',
                         onClick: function(editor) {
                             var dialog = this.getDialog();
-                            var pageobj = dialog.getContentElement('tab1','page');
-                            var page = pageobj.getValueOf('tab1','page');
+                            var pageobj = dialog.getContentElement('tab1', 'page');
+                            var page = pageobj.getValueOf('tab1', 'page');
                             if (page < getPages()) {
                                 page++;
-                                setPage(editor,dialog,page);
+                                setPage(editor, dialog, page);
                                 pageobj.setValue(page);
                             }
-                            toggleButtons(editor,dialog,page);
+                            toggleButtons(editor, dialog, page);
                         }
                     }]
                 }, {
@@ -86,34 +86,34 @@ CKEDITOR.dialog.add('overflow', function(editor) {
             var bccpages = getPages();
             var dialog = this.getDialog();
             for (var i = 1; i <= bccpages; i++) {
-                var selbox = dialog.getContentElement( 'tab1', 'page' );
-				selbox.add("i");
+                var selbox = dialog.getContentElement('tab1', 'page');
+                selbox.add("i");
             }
-            setPage(editor,dialog,1);
-            }
-        };
+            setPage(editor, dialog, 1);
+        }
+    };
 
     function setPage(editor, dlg, page) {
         var bcclist = sessionStorage.getItem("bcclist");
         var bccarray = bcclist.split(";");
         var pstart = (page - 1) * 495;
         var pend = pstart + 495;
-        var bcc = dlg.getContentElement('tab1','BCCField');
-        bcc.setValue(bccarray.slice(pstart,pend).toString());
+        var bcc = dlg.getContentElement('tab1', 'BCCField');
+        bcc.setValue(bccarray.slice(pstart, pend).toString());
         bcc.select();
     }
-    
+
     function getPages() {
         var bcclist = sessionStorage.getItem("bcclist");
         var bccarray = bcclist.split(";");
         return Math.ceil(bccarray.length / 495);
     }
-    
+
     function toggleButtons(editor, dialog, page) {
         var maxpage = getPages();
-        var next = dialog.getContentElement("tab1","next");
-        var prev = dialog.getContentElement("tab1","next");
-        
+        var next = dialog.getContentElement("tab1", "next");
+        var prev = dialog.getContentElement("tab1", "next");
+
         if (page < 2) {
             var btn = document.getElementById(prev);
             btn.style.visibility = "hidden";
@@ -132,43 +132,43 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         }
     }
 
-//     function copyBody(editor) {
-// 		//Select All
-// 		var editable = editor.editable();
+    //     function copyBody(editor) {
+    // 		//Select All
+    // 		var editable = editor.editable();
 
-// 		if ( editable.is( 'textarea' ) ) {
-// 			var textarea = editable.$;
+    // 		if ( editable.is( 'textarea' ) ) {
+    // 			var textarea = editable.$;
 
-// 			if ( CKEDITOR.env.ie )
-// 				textarea.createTextRange().execCommand( 'SelectAll' );
-// 			else {
-// 				textarea.selectionStart = 0;
-// 				textarea.selectionEnd = textarea.value.length;
-// 			}
+    // 			if ( CKEDITOR.env.ie )
+    // 				textarea.createTextRange().execCommand( 'SelectAll' );
+    // 			else {
+    // 				textarea.selectionStart = 0;
+    // 				textarea.selectionEnd = textarea.value.length;
+    // 			}
 
-// 			textarea.focus();
-// 		} else {
-// 			if ( editable.is( 'body' ) )
-// 				editor.document.$.execCommand( 'SelectAll', false, null );
-// 			else {
-// 				var range = editor.createRange();
-// 				range.selectNodeContents( editable );
-// 				range.select();
-// 			}
+    // 			textarea.focus();
+    // 		} else {
+    // 			if ( editable.is( 'body' ) )
+    // 				editor.document.$.execCommand( 'SelectAll', false, null );
+    // 			else {
+    // 				var range = editor.createRange();
+    // 				range.selectNodeContents( editable );
+    // 				range.select();
+    // 			}
 
-// 			//Force triggering selectionChange (#7008)
-// 			editor.forceNextSelectionCheck();
-// 			editor.selectionChange();
-// 		}
+    // 			//Force triggering selectionChange (#7008)
+    // 			editor.forceNextSelectionCheck();
+    // 			editor.selectionChange();
+    // 		}
 
-// 		//Copy
-// 		try {
-// 			// Other browsers throw an error if the command is disabled.
-// 			editor.document.$.execCommand( 'Copy', false, null );
-// 		} catch ( e ) {
-// 			editor.showNotification("Copy failed, please use CTRL+C");
-// 		}
-// 			editor.showNotification("Email copied to clipboard. CTRL+V into Outlook.");
-// 	}
-    
+    // 		//Copy
+    // 		try {
+    // 			// Other browsers throw an error if the command is disabled.
+    // 			editor.document.$.execCommand( 'Copy', false, null );
+    // 		} catch ( e ) {
+    // 			editor.showNotification("Copy failed, please use CTRL+C");
+    // 		}
+    // 			editor.showNotification("Email copied to clipboard. CTRL+V into Outlook.");
+    // 	}
+
 });
