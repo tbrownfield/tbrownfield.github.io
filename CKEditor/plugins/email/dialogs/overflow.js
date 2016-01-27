@@ -84,7 +84,7 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         //onOk: function(editor) {},
         onShow: function(editor) {
             var bccpages = getPages();
-            for (var i = 1; i <= bccpages; i++) {
+            for (var i = 2; i <= bccpages; i++) {
                 var selbox = this.getContentElement('tab1', 'page');
                 selbox.add(i);
             }
@@ -114,19 +114,19 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         var prev = dialog.getContentElement("tab1", "next");
 
         if (page < 2) {
-            var btn = document.getElementById(prev);
+            var btn = document.getElementById(prev.domId);
             btn.style.visibility = "hidden";
         }
         if (page > 1) {
-            var btn = document.getElementById(prev);
+            var btn = document.getElementById(prev.domId);
             btn.style.visibility = "visible";
         }
         if (page >= maxpage) {
-            var btn = document.getElementById(next);
+            var btn = document.getElementById(next.domId);
             btn.style.visibility = "hidden";
         }
         if (page < maxpage) {
-            var btn = document.getElementById(next);
+            var btn = document.getElementById(next.domId);
             btn.style.visibility = "visible";
         }
     }
