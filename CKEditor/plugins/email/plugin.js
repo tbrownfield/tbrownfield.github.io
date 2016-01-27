@@ -5,6 +5,7 @@ CKEDITOR.plugins.add( 'email', {
 		CKEDITOR.dialog.add( 'bccdialog', this.path + 'dialogs/bcc.js' );
 		
 		editor.addCommand( 'bcclist', new CKEDITOR.dialogCommand( 'bccdialog' ) );
+		editor.addCommand( 'overflow', new CKEDITOR.dialogCommand( 'overflow' ) );
 		
 		editor.addCommand( 'email', { modes: { wysiwyg: 1, source: 1 },
 		exec: function( editor ) {
@@ -370,6 +371,11 @@ CKEDITOR.plugins.add( 'email', {
 			label: 'Copy & Email',
 			command: 'email',
 			toolbar: 'finalize,1'
+		});
+		editor.ui.addButton( 'overflow', {
+			label: 'Overflow',
+			command: 'overflow',
+			toolbar: 'finalize,2'
 		});
 	}
 
