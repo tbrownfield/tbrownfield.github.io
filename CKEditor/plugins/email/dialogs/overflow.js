@@ -84,12 +84,11 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         //onOk: function(editor) {},
         onShow: function(editor) {
             var bccpages = getPages();
-            var dialog = this.getDialog();
             for (var i = 1; i <= bccpages; i++) {
-                var selbox = dialog.getContentElement('tab1', 'page');
+                var selbox = this.getContentElement('tab1', 'page');
                 selbox.add("i");
             }
-            setPage(editor, dialog, 1);
+            setPage(editor, this, 1);
         }
     };
 
