@@ -211,7 +211,7 @@ CKEDITOR.dialog.add( 'bccdialog', function( editor ) {
 			var emailFName = settings.emailFName;
 			$.each($("record",xml), function(){
 				var thisemail = $(emailFName,this).text().toLowerCase();
-				ridlist.push($("record_id_",this).text())
+				ridlist.push($("record_id_",this).text()+":"+thisemail)
 				if (bcclist.indexOf(thisemail) == -1) {
 					bcclist += thisemail+";"
 				}
