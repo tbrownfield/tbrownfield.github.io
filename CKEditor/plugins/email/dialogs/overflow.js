@@ -23,7 +23,7 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                             var dialog = this.getDialog();
                             var pageobj = dialog.getContentElement('tab1','page');
                             var page = pageobj.getValueOf('tab1','page');
-                            if (page > 1) { 
+                            if (page > 1) {
                                 page--;
                                 setPage(editor,dialog,page);
                                 pageobj.setValue(page);
@@ -83,13 +83,13 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         }],
         //onOk: function(editor) {},
         onShow: function(editor) {
-            var bccpages = getPages()
+            var bccpages = getPages();
             var dialog = this.getDialog();
             for (var i = 1; i <= bccpages; i++) {
                 var selbox = dialog.getContentElement( 'tab1', 'page' );
 				selbox.add("i");
             }
-            setPage(editor,dialog,1)
+            setPage(editor,dialog,1);
             }
         };
 
@@ -100,7 +100,7 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         var pend = pstart + 495;
         var bcc = dlg.getContentElement('tab1','BCCField');
         bcc.setValue(bccarray.slice(pstart,pend).toString());
-        bcc.select()
+        bcc.select();
     }
     
     function getPages() {
