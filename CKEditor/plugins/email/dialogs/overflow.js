@@ -111,8 +111,12 @@ CKEDITOR.dialog.add('overflow', function(editor) {
     function toggleButtons(editor, dialog, page) {
         var maxpage = getPages();
         var next = dialog.getContentElement("tab1", "next");
-        var prev = dialog.getContentElement("tab1", "next");
+        var prev = dialog.getContentElement("tab1", "prev");
 
+        if (page < maxpage) {
+            var btn = document.getElementById(next.domId);
+            btn.style.visibility = "visible";
+        }
         if (page < 2) {
             var btn = document.getElementById(prev.domId);
             btn.style.visibility = "hidden";
@@ -124,10 +128,6 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         if (page >= maxpage) {
             var btn = document.getElementById(next.domId);
             btn.style.visibility = "hidden";
-        }
-        if (page < maxpage) {
-            var btn = document.getElementById(next.domId);
-            btn.style.visibility = "visible";
         }
     }
 
