@@ -1,4 +1,4 @@
-CKEDITOR.dialog.add('bccdialog', function(editor) {
+CKEDITOR.dialog.add('overflow', function(editor) {
     return {
         title: 'Customer Response BCC recipients',
         minWidth: 300,
