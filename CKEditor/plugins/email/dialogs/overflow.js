@@ -1,6 +1,6 @@
 CKEDITOR.dialog.add('overflow', function(editor) {
     return {
-        title: 'Customer Response BCC recipients',
+        title: 'Recipients',
         minWidth: 300,
         minHeight: 200,
         contents: [{
@@ -132,43 +132,43 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         }
     }
 
-    function copyBody(editor) {
-		//Select All
-		var editable = editor.editable();
+//     function copyBody(editor) {
+// 		//Select All
+// 		var editable = editor.editable();
 
-		if ( editable.is( 'textarea' ) ) {
-			var textarea = editable.$;
+// 		if ( editable.is( 'textarea' ) ) {
+// 			var textarea = editable.$;
 
-			if ( CKEDITOR.env.ie )
-				textarea.createTextRange().execCommand( 'SelectAll' );
-			else {
-				textarea.selectionStart = 0;
-				textarea.selectionEnd = textarea.value.length;
-			}
+// 			if ( CKEDITOR.env.ie )
+// 				textarea.createTextRange().execCommand( 'SelectAll' );
+// 			else {
+// 				textarea.selectionStart = 0;
+// 				textarea.selectionEnd = textarea.value.length;
+// 			}
 
-			textarea.focus();
-		} else {
-			if ( editable.is( 'body' ) )
-				editor.document.$.execCommand( 'SelectAll', false, null );
-			else {
-				var range = editor.createRange();
-				range.selectNodeContents( editable );
-				range.select();
-			}
+// 			textarea.focus();
+// 		} else {
+// 			if ( editable.is( 'body' ) )
+// 				editor.document.$.execCommand( 'SelectAll', false, null );
+// 			else {
+// 				var range = editor.createRange();
+// 				range.selectNodeContents( editable );
+// 				range.select();
+// 			}
 
-			//Force triggering selectionChange (#7008)
-			editor.forceNextSelectionCheck();
-			editor.selectionChange();
-		}
+// 			//Force triggering selectionChange (#7008)
+// 			editor.forceNextSelectionCheck();
+// 			editor.selectionChange();
+// 		}
 
-		//Copy
-		try {
-			// Other browsers throw an error if the command is disabled.
-			editor.document.$.execCommand( 'Copy', false, null );
-		} catch ( e ) {
-			editor.showNotification("Copy failed, please use CTRL+C");
-		}
-			editor.showNotification("Email copied to clipboard. CTRL+V into Outlook.");
-	}
+// 		//Copy
+// 		try {
+// 			// Other browsers throw an error if the command is disabled.
+// 			editor.document.$.execCommand( 'Copy', false, null );
+// 		} catch ( e ) {
+// 			editor.showNotification("Copy failed, please use CTRL+C");
+// 		}
+// 			editor.showNotification("Email copied to clipboard. CTRL+V into Outlook.");
+// 	}
     
 });
