@@ -100,6 +100,7 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         var bcc = dlg.getContentElement('tab1', 'BCCField');
         bcc.setValue(bccarray.slice(pstart, pend).toString());
         bcc.select();
+        toggleButtons(editor,dlg,page);
     }
 
     function getPages() {
