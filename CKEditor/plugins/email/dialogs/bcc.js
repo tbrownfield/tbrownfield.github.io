@@ -131,7 +131,8 @@ CKEDITOR.dialog.add( 'bccdialog', function( editor ) {
 				]
 			}
 		],
-        onOk: function(editor) {
+        onOk: function() {
+        	var editor = this.getParentEditor()
             var dialog = this;
 			//var editor = CKEDITOR.instances.editor;
 			
