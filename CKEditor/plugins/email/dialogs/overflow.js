@@ -51,11 +51,11 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                         id: 'email',
                         label: 'Start Email',
                         title: 'Start new Email in Outlook',
-                        onClick: function(v1,v2,v3,v4) {
-                            var editor = this.getDialog().getParentEditor();
-                            console.log("start email");
-                            //copyBody(editor)
-                            editor.execCommand("email")
+                        onClick: function() {
+                            var dialog = this.getDialog()
+                            editor.execCommand("email");
+                            var bcc = dialog.getContentElement('tab1', 'BCCField');
+                            bcc.select();
                         }
 
                     }, {
@@ -136,137 +136,5 @@ CKEDITOR.dialog.add('overflow', function(editor) {
             btn.style.visibility = "hidden";
         }
     }
-
-        function copyBody(editor) {
-    		//Select All
-    		var editable = editor.editable();
-
-    		if ( editable.is( 'textarea' ) ) {
-    			var textarea = editable.$;
-
-    			if ( CKEDITOR.env.ie )
-    				textarea.createTextRange().execCommand( 'SelectAll' );
-    			else {
-    				textarea.selectionStart = 0;
-    				textarea.selectionEnd = textarea.value.length;
-    			}
-
-    			textarea.focus();
-    		} else {
-    			if ( editable.is( 'body' ) )
-    				editor.document.$.execCommand( 'SelectAll', false, null );
-    			else {
-    				var range = editor.createRange();
-    				range.selectNodeContents( editable );
-    				range.select();
-    			}
-
-    			//Force triggering selectionChange (#7008)
-    			editor.forceNextSelectionCheck();
-    			editor.selectionChange();
-    		}
-
-    		//Copy
-    		try {
-    			// Other browsers throw an error if the command is disabled.
-    			editor.document.$.execCommand( 'Copy', false, null );
-    		} catch ( e ) {
-    			editor.showNotification("Copy failed, please use CTRL+C");
-    		}
-    			editor.showNotification("Email copied to clipboard. CTRL+V into Outlook.");
-    	}
-    	
-    	
-//     	function startEmail() {
-    	    
-//     	    			//Set mailto Link from url parameters
-// 			editor.widgets.destroyAll();
-// 			var settings = editor.config.emailConfig;
-// 			var mailto = "mailto:";
-
-// 			var emailbcc = sessionStorage.getItem('bcclist');
-// 			var emailaddr = sessionStorage.getItem('custEmail');
-// 			var distros = sessionStorage.getItem("distros");
-// 			if (distros) { var emailaddr = distros }
-
-// 			var emailsubj = sessionStorage.getItem("emailsubj");
-// 			if (emailsubj == 'null') { var emailsubj = settings.defaultSubject }
-// 			if (!emailsubj) { var emailsubj = settings.defaultSubject }
-// 			if (emailsubj.length > 255) {
-// 				var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'Email Subject is too long and will be truncated. Review it before sending the email.', type: 'warning' } );
-// 				ckerr.show();
-// 			}
-			
-// 			if (emailbcc) {
-// 				if ((mailto.length + emailbcc.length) > 2000) {
-// 					var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'Too many BCC addresses to auto-populate. Please paste the email, then copy/paste the BCC list.', type: 'warning' } );
-// 					ckerr.show();
-// 					editor.execCommand("bcclist");
-// 				}
-// 				else { mailto += "?bcc=" + emailbcc; }
-// 			}
-// 			else {
-// 				if (emailaddr) {
-// 					mailto += emailaddr;
-// 				}
-// 			}
-
-// 			if (mailto.indexOf("?") == -1) { mailto += "?" }
-// 			else { mailto += "&"}
-			
-// 			mailto += "subject="+emailsubj;
-			
-// 			document.location.href=mailto;
-			
-			
-// 			//Select All
-// 			var editable = editor.editable();
-
-// 			if ( editable.is( 'textarea' ) ) {
-// 				var textarea = editable.$;
-
-// 				if ( CKEDITOR.env.ie )
-// 					textarea.createTextRange().execCommand( 'SelectAll' );
-// 				else {
-// 					textarea.selectionStart = 0;
-// 					textarea.selectionEnd = textarea.value.length;
-// 				}
-
-// 				textarea.focus();
-// 			} else {
-// 				if ( editable.is( 'body' ) )
-// 					editor.document.$.execCommand( 'SelectAll', false, null );
-// 				else {
-// 					var range = editor.createRange();
-// 					range.selectNodeContents( editable );
-// 					range.select();
-// 				}
-
-// 				//Force triggering selectionChange (#7008)
-// 				editor.forceNextSelectionCheck();
-// 				editor.selectionChange();
-// 			}
-
-// 			//Copy
-// 			try {
-// 				// Other browsers throw an error if the command is disabled.
-// 				editor.document.$.execCommand( 'Copy', false, null );
-// 			} catch ( e ) {
-// 				editor.showNotification("Copy failed, please use CTRL+C");
-// 			}
-// 				editor.showNotification("Email copied to clipboard. CTRL+V into Outlook.");
-// 				recordEmail( editor );
-// 				var dateFid = "";
-// 				var bulkType = sessionStorage.getItem('bulkType');
-// 				if (bulkType == 'Response') { var dateFid = editor.config.emailConfig.bccQB.closedFid }
-// 				if (bulkType == 'Check-in') { var dateFid = editor.config.emailConfig.bccQB.checkinFid }
-// 				if (!sessionStorage.getItem("bcclist")) { var dateFid = "" }
-// 				if (dateFid) { updateResponses(editor, dateFid) }
-// 		}
-		
-// 		canUndo: false
-// 	});
-    	    
-//    	}
 
 });
