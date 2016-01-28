@@ -11,7 +11,7 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                 heights: [null, null, null],
                 children: [{
 					type: 'html',
-					html: '<div id="info">"Because there are more than 500 email addresses, multiple emails must be sent.\nPaste the body into the email, then copy and paste the address list below.\n Then click >>, then Start Email and repeat."</div>',
+					html: '<div id="info">Because there are more than 500 email addresses, multiple emails must be sent.<br>Paste the body into the email, then copy and paste the address list below.<br>Then click >>, then Start Email and repeat.</div>',
 					}, {
                     type: 'hbox',
                     widths: [null, null, null],
