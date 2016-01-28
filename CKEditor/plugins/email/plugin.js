@@ -13,7 +13,12 @@ CKEDITOR.plugins.add( 'email', {
 		exec: function( editor ) {
 			//Set mailto Link from url parameters
 			editor.widgets.destroyAll();
-			if(CKEDITOR.dialog.getCurrent().getName() == "overflow") { var inoverflow = true }
+			var curdlg = CKEDITOR.dialog.getCurrent();
+			if(curdlg){
+				if(curdlg.getName() == "overflow") {
+					var inoverflow = true;
+				}
+			}
 			var settings = editor.config.emailConfig;
 			var mailto = "mailto:";
 
@@ -31,7 +36,7 @@ CKEDITOR.plugins.add( 'email', {
 			}
 			
 			if (emailbcc) {
-				if ((emailbcc.split(",").length > 495) && (inoverflow != true)) {
+				if ((emailbcc.split(";").length > 495) && (inoverflow != true)) {
 					editor.execCommand("overflow");
 				}
 				else if ((mailto.length + emailbcc.length) > 2000) {
