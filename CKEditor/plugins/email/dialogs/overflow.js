@@ -51,8 +51,8 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                         id: 'email',
                         label: 'Start Email',
                         title: 'Start new Email in Outlook',
-                        onClick: function(editor) {
-                            var editor = this.getParentEditor();
+                        onClick: function(v1,v2,v3,v4) {
+                            var editor = this.getDialog().getParentEditor();
                             console.log("start email");
                             copyBody(editor)
                         }
