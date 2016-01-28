@@ -94,7 +94,7 @@ CKEDITOR.dialog.add('overflow', function(editor) {
             }
             setPage(editor, this, 1);
             var cbtn = this.getButton("cancel");
-            var cbtn = cbnt.domId;
+            var cbtn = cbtn.domId;
             document.getElementById(cbtn).style.display = "none";
         }
     };
