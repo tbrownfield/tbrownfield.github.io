@@ -1,3 +1,4 @@
+/*global CKEDITOR*/
 CKEDITOR.plugins.add( 'email', {
 	icons: 'email',
 	init: function( editor )
@@ -12,6 +13,7 @@ CKEDITOR.plugins.add( 'email', {
 		exec: function( editor ) {
 			//Set mailto Link from url parameters
 			editor.widgets.destroyAll();
+			if(CKEDITOR.dialog.getCurrent().getName() == "overflow") { var inoverflow = true }
 			var settings = editor.config.emailConfig;
 			var mailto = "mailto:";
 
@@ -86,13 +88,15 @@ CKEDITOR.plugins.add( 'email', {
 				editor.showNotification("Copy failed, please use CTRL+C");
 			}
 				editor.showNotification("Email copied to clipboard. CTRL+V into Outlook.");
-				recordEmail( editor );
-				var dateFid = "";
-				var bulkType = sessionStorage.getItem('bulkType');
-				if (bulkType == 'Response') { var dateFid = editor.config.emailConfig.bccQB.closedFid }
-				if (bulkType == 'Check-in') { var dateFid = editor.config.emailConfig.bccQB.checkinFid }
-				if (!sessionStorage.getItem("bcclist")) { var dateFid = "" }
-				if (dateFid) { updateResponses(editor, dateFid) }
+				if (inoverflow != true) {
+					recordEmail( editor );
+					var dateFid = "";
+					var bulkType = sessionStorage.getItem('bulkType');
+					if (bulkType == 'Response') { var dateFid = editor.config.emailConfig.bccQB.closedFid }
+					if (bulkType == 'Check-in') { var dateFid = editor.config.emailConfig.bccQB.checkinFid }
+					if (!sessionStorage.getItem("bcclist")) { var dateFid = "" }
+					if (dateFid) { updateResponses(editor, dateFid) }
+				}
 		},
 		
 		canUndo: false
