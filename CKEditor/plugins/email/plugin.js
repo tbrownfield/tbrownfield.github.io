@@ -31,7 +31,10 @@ CKEDITOR.plugins.add( 'email', {
 			}
 			
 			if (emailbcc) {
-				if ((mailto.length + emailbcc.length) > 2000) {
+				if ((emailbcc.split(",").length > 495) && (inoverflow != true)) {
+					editor.execCommand("overflow");
+				}
+				else if ((mailto.length + emailbcc.length) > 2000) {
 					var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'Too many BCC addresses to auto-populate. Please paste the email, then copy/paste the BCC list.', type: 'warning' } );
 					ckerr.show();
 					editor.execCommand("bcclist");
