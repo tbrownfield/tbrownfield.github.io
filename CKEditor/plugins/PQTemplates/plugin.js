@@ -1,3 +1,4 @@
+/*global CKEDITOR*/
 CKEDITOR.plugins.add( 'PQTemplates', {
     icons: 'emailtemps,savetemp,bcclist,batch,noreply,setCase',
     init: function( editor ) {
@@ -119,28 +120,28 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 							sessionStorage.setItem("skipInit","1");
 							var content = initTemplate(editor, editorData);
 							editor.setData(content, function() {
-								editor.execCommand('initDropler', editor)
+								editor.execCommand('initDropler', editor);
 								document.getElementById("loadOverlay").style.display = "none";
 							});
 						}
 					})
 					.fail(function(data) {
-						editor.execCommand('initDropler', editor)
+						editor.execCommand('initDropler', editor);
 						document.getElementById("loadOverlay").style.display = "none";
-						console.log("CKEditor Error: Failed to load template. Error "+data.status+": "+data.statusText)
-					})
+						console.log("CKEditor Error: Failed to load template. Error "+data.status+": "+data.statusText);
+					});
 				}
 				else {
 					var editorData = editor.getData();
 					sessionStorage.setItem("skipInit","1");
 					var content = initTemplate(editor, editorData);
 					editor.setData(content, function() {					
-						editor.execCommand('initDropler', editor)
+						editor.execCommand('initDropler', editor);
 						document.getElementById("loadOverlay").style.display = "none";
-					})
+					});
 				}
 			}
-		})
+		});
 
 
 		//Utility functions
@@ -151,7 +152,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 					var footer = editor.config.PQTemplates.footerNoReply;
 					var cfooter = $("#footer")[0].innerHTML;
 					var content = content.replace(cfooter, footer);
-					editor.getCommand('noreply').setState( 1 )
+					editor.getCommand('noreply').setState( 1 );
 				}
 				else {
 					var footer = editor.config.PQTemplates.footerReply;
@@ -161,27 +162,27 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			}
 			else { editor.getCommand('noreply').setState( 0 ); }
 
-			var thisyear = new Date().getFullYear()
-			var regex = new RegExp("\\[COPYRIGHT YEAR\\]","g")
+			var thisyear = new Date().getFullYear();
+			var regex = new RegExp("\\[COPYRIGHT YEAR\\]","g");
 			var content = content.replace(regex, thisyear);
 
 			//skiInit is set for the template editor to prevent it from replacing keywords in the template. [COPYRIGHT YEAR] and the footer are still replaced, as they're not part of the template.
-			var skipInit = sessionStorage.getItem("skipInit")
+			var skipInit = sessionStorage.getItem("skipInit");
 			if (skipInit != 1) {
 				
 				if (!sessionStorage.getItem('casenum')) {
 					$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 				}
 				
-				var content = replaceKeywords(content)
+				var content = replaceKeywords(content);
 				
-				var subject = unescape(sessionStorage.getItem('emailsubj'))
+				var subject = unescape(sessionStorage.getItem('emailsubj'));
 				if (subject) {
-					var subject = replaceKeywords(subject)
-					sessionStorage.setItem("emailsubj",subject)
+					var subject = replaceKeywords(subject);
+					sessionStorage.setItem("emailsubj",subject);
 				}
 			}
-		return(content)
+		return(content);
 		
 		}
 
@@ -191,56 +192,56 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 		
 		function replaceKeywords(content) {
 			//Keyword replacements
-			var analystName = sessionStorage.analystName
-			var analystName = unescape(analystName)
+			var analystName = sessionStorage.analystName;
+			var analystName = unescape(analystName);
 			if (analystName == "undefined") { var analystName = "" }
 
-			var analystEmail = sessionStorage.analystEmail
-			var analystEmail = unescape(analystEmail)
+			var analystEmail = sessionStorage.analystEmail;
+			var analystEmail = unescape(analystEmail);
 			if (analystEmail == "undefined") { var analystEmail = "" }
 
-			var custName = sessionStorage.custName
-			var custName = unescape(custName)
+			var custName = sessionStorage.custName;
+			var custName = unescape(custName);
 			if (custName == "undefined") { var custName = "" }
 			
-			var custEmail = sessionStorage.custEmail
-			var custEmail = unescape(custEmail)
+			var custEmail = sessionStorage.custEmail;
+			var custEmail = unescape(custEmail);
 			if (custEmail == "undefined") { var custEmail = "" }
 
-			var casenum = sessionStorage.casenum
-			var casenum = unescape(casenum)
+			var casenum = sessionStorage.casenum;
+			var casenum = unescape(casenum);
 			if (casenum == "undefined") { var casenum = "" }
 
-			var issueTitle = sessionStorage.issueTitle
-			var issueTitle = unescape(issueTitle)
+			var issueTitle = sessionStorage.issueTitle;
+			var issueTitle = unescape(issueTitle);
 			if (issueTitle == "undefined") { var issueTitle = "" }
 
-			var containKB = sessionStorage.containKB
-			var containKB = unescape(containKB)
+			var containKB = sessionStorage.containKB;
+			var containKB = unescape(containKB);
 			if (containKB == "undefined") { var containKB = "" }
 
-			var containAXC = sessionStorage.containAXC
-			var containAXC = unescape(containAXC)
+			var containAXC = sessionStorage.containAXC;
+			var containAXC = unescape(containAXC);
 			if (containAXC == "undefined") { var containAXC = "" }			
 			
-			var curYear = new Date().getFullYear()
-			var regex = new RegExp("\\[COPYRIGHT YEAR\\]","g")
+			var curYear = new Date().getFullYear();
+			var regex = new RegExp("\\[COPYRIGHT YEAR\\]","g");
 			var content = content.replace(regex, curYear);
 			
 			if (content.match(/\[CUSTOMER NAME\]/)) {
 				if (custName) {
-					var regex = new RegExp("\\[CUSTOMER NAME\\]","g")
+					var regex = new RegExp("\\[CUSTOMER NAME\\]","g");
 					var content = content.replace(regex, fixCaps(custName));
 				}
 				else {
-					var regex = new RegExp("\\[CUSTOMER NAME\\]","g")
+					var regex = new RegExp("\\[CUSTOMER NAME\\]","g");
 					var content = content.replace(regex, editor.config.emailConfig.batchName);
 				}
 			}
 			
 			//special case to handle existing response templates that use %CUSTOMER_NAME%
 			if (content.match(/\%CUSTOMER_NAME\%/)) {
-				var regex = new RegExp("\\%CUSTOMER_NAME\\%","g")
+				var regex = new RegExp("\\%CUSTOMER_NAME\\%","g");
 				var content = content.replace(regex, editor.config.emailConfig.batchName);
 			}
 
@@ -250,7 +251,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			}
 			
 			if (sessionStorage.getItem('casenum')) {
-				var regex = new RegExp("\\[CASE NUMBER\\]","g")
+				var regex = new RegExp("\\[CASE NUMBER\\]","g");
 				var content = content.replace(regex, casenum);
 			}
 
@@ -270,37 +271,37 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 			}
 			
 			if (containKB) {
-				var regex = new RegExp("\\[KB Containment\\]","g")
+				var regex = new RegExp("\\[KB Containment\\]","g");
 				var content = content.replace(regex, "<a href='https://turbotax.intuit.com/support/go/"+containKB+"'>https://turbotax.intuit.com/support/go/"+containKB+"</a>");
 			}
 			
 			if (containAXC) {
-				var regex = new RegExp("\\[AXC Containment\\]","g")
+				var regex = new RegExp("\\[AXC Containment\\]","g");
 				var content = content.replace(regex, "<a href='https://ttlc.intuit.com/questions/"+containAXC+"'>https://ttlc.intuit.com/questions/"+containAXC+"</a>");
 			}			
 			
-			var regex = new RegExp("\\[KB ([A-Za-z]{3}[0-9]+)\\]","g")
+			var regex = new RegExp("\\[KB ([A-Za-z]{3}[0-9]+)\\]","g");
 			var content = content.replace(regex, function(x,y){return "<a href='https://turbotax.intuit.com/support/go/"+y+"'>https://turbotax.intuit.com/support/go/"+y+"</a>" })
 			
-			var regex = new RegExp("\\[AXC ([0-9]+)\\]","g")
+			var regex = new RegExp("\\[AXC ([0-9]+)\\]","g");
 			var content = content.replace(regex, function(x,y){return "<a href='https://ttlc.intuit.com/questions/"+y+"'>https://ttlc.intuit.com/questions/"+y+"</a>" })
 
 			var regex = new RegExp("\\[CURRENT YEAR\\]","g");
 			var content = content.replace(regex, curYear);
 
-			var curDate = new Date().toJSON().slice(0,10).split('-')
-			var curDate = curDate[1]+"/"+curDate[2]+"/"+curDate[0]
+			var curDate = new Date().toJSON().slice(0,10).split('-');
+			var curDate = curDate[1]+"/"+curDate[2]+"/"+curDate[0];
 			var regex = new RegExp("\\[CURRENT DATE\\]","g");
 			var content = content.replace(regex, curDate);
 			
 			//Current Tax Year - If before November, then (current year - 1), otherwise current year
-			var taxyear = curYear
-			var curmonth = new Date().getMonth()
+			var taxyear = curYear;
+			var curmonth = new Date().getMonth();
 			if (curmonth < 10) { taxyear-- }
 			var regex = new RegExp("\\[TAX YEAR\\]","g");
 			var content = content.replace(regex, taxyear);
 			
-			return(content)
+			return(content);
 		}
 
 		CKEDITOR.on('instanceReady', function() { editor.execCommand('loadTemplate', editor)});

@@ -385,11 +385,6 @@ CKEDITOR.plugins.add( 'email', {
 			command: 'email',
 			toolbar: 'finalize,1'
 		});
-		editor.ui.addButton( 'overflow', {
-			label: 'Overflow',
-			command: 'overflow',
-			toolbar: 'finalize,2'
-		});
 	}
 
 } );

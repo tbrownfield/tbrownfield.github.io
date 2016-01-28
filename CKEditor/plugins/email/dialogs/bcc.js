@@ -56,37 +56,19 @@ CKEDITOR.dialog.add( 'bccdialog', function( editor ) {
 									id: 'pullallemails',
 									label: 'Get Emails',
 									title: 'Get All Emails from Quickbase',
-									onClick: function(editor) {
-										//var editor = CKEDITOR.instances.editor
-										var settings = editor.config.emailConfig.bccQB
-										var caseFid = settings.caseFid;
-										var closedfid = settings.closedFid;
-										var checkinfid = settings.checkinFid;
-										var casenum = sessionStorage.getItem('casenum')
-										var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}AND{'"+closedfid+"'.EX.''}"
-										//sessionStorage.setItem('bulkType','Response')
-										getEmails(editor,this,query)
-									}
-								},
-								/*
-								{
-									type: 'button',
-									id: 'pullcheckinemails',
-									label: 'Get Check-in Emails',
-									title: 'Get Check-in Emails from Quickbase',
 									onClick: function() {
-										var editor = CKEDITOR.instances.editor
-										var settings = editor.config.emailConfig.bccQB
+										var editor = this.getDialog();
+										editor = editor.getParentEditor();
+										var settings = editor.config.emailConfig.bccQB;
 										var caseFid = settings.caseFid;
 										var closedfid = settings.closedFid;
-										var checkinfid = settings.checkinFid;
-										var casenum = sessionStorage.getItem('casenum')
-										var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}AND{'"+closedfid+"'.EX.''}AND{'"+checkinfid+"'.CT.'YES'}"
-										sessionStorage.setItem('bulkType','Check-in')
-										getEmails(this, query);
+										//var checkinfid = settings.checkinFid;
+										var casenum = sessionStorage.getItem('casenum');
+										var query = "{'"+ caseFid +"'.EX.'"+casenum+"'}AND{'"+closedfid+"'.EX.''}";
+										//sessionStorage.setItem('bulkType','Response')
+										getEmails(editor,this,query);
 									}
 								},
-								*/
 								{
 									type: 'select',
 									id: 'bulkType',
