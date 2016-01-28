@@ -98,7 +98,9 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         var pstart = (page - 1) * 495;
         var pend = pstart + 495;
         var bcc = dlg.getContentElement('tab1', 'BCCField');
-        bcc.setValue(bccarray.slice(pstart, pend).toString());
+        var emaillist = bccarray.slice(pstart, pend).toString()
+        var emaillist = emaillist.replace(/\,/g,";");
+        bcc.setValue(emaillist);
         bcc.select();
         toggleButtons(editor,dlg,page);
     }
