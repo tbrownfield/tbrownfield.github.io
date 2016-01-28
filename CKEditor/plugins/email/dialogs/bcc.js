@@ -220,46 +220,5 @@ CKEDITOR.dialog.add( 'bccdialog', function( editor ) {
 			console.log("CKEditor Error: Request to Email Tracker QuickBase Failed. Error "+data.status+": "+data.statusText)
 			sessionStorage.setItem('bulkType','No Update')
 		})
-		
-		
-/* 		jQuery.ajax({
-			type: "POST",
-			contentType: "text/xml",
-			url: url,
-			dataType: "xml",
-			processData: false,
-			data: request,
-			success: function(xml) {
-				if ($("errcode",xml).text() != 0) { doc.getById("bccinfo")["$"].innerHTML = "Error: "+$("errtext",xml).text(); return; }
-				var bcclist = "";
-				var dupes = 0;
-				$.each($("record",xml), function(){
-					var thisemail = $("emai_addr",this).text().toLowerCase();
-					ridlist.push($("record_id_",this).text())
-					if (bcclist.indexOf(thisemail) == -1) {
-						bcclist += thisemail+";"
-					}
-					else { dupes++ }
-				})
-				sessionStorage.setItem("ridlist",ridlist)
-				if (!bcclist) {
-					doc.getById("bccinfo")["$"].innerHTML = "No matching records found in Quickbase.";
-					sessionStorage.setItem('bulkType','No Update')
-					return;
-				}
-				var dialog = CKEDITOR.dialog.getCurrent()
-				dialog.setValueOf("tab1","BCCField",bcclist);
-				//var doc = this.getElement().getDocument();
-				doc.getById("bccinfo")["$"].innerHTML = (bcclist.split(";").length - 1)+" addresses added. "+dupes+" duplicates skipped.";
-				
-				var lentest = "mailto:"+sessionStorage.getItem("distros")+"&subject="+sessionStorage.getItem("emailSubj")+"&bcc="+bcclist
-				
-			},
-			error: function() {
-				doc.getById("bccinfo")["$"].innerHTML = "Error retrieving emails from Quickbase.";
-				error.show();
-				sessionStorage.setItem('bulkType','No Update')
-			}
-		}); */
 	}
 });
