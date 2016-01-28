@@ -93,6 +93,9 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                 selbox.add(i);
             }
             setPage(editor, this, 1);
+            var cbtn = this.getButton("cancel");
+            var cbtn = cbnt.domId;
+            document.getElementById(cbtn).style.display = "none";
         }
     };
 
