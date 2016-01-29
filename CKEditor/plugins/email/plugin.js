@@ -337,7 +337,7 @@ CKEDITOR.plugins.add( 'email', {
 		.done(function(xml) {
 			if ($('errcode', xml).text() == 0) {
 				//var ckerr = new CKEDITOR.plugins.notification( editor, { message: 'WARNING: CSI Email Tracker QuickBase did not return the expected response! Please verify record updates and notify the QuickBase\'s administrator.', type: 'warning' } );
-				var toupdate = sessionStorage.ridlist.split(',').length;
+				var toupdate = ridsonly.split(',').length;
 				var input = $("num_recs_input", xml).text();
 				var updated = $("num_recs_updated", xml).text();
 				var added = $("num_recs_added", xml).text();

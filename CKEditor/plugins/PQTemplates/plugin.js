@@ -44,22 +44,7 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 				var template = sessionStorage.getItem('template');
 				var emailbody = sessionStorage.getItem('emailbody');
 				var editorData;
-				if (emailbody) {
-					var editorData = editor.getData();
-
-					var editorData = $(editorData)[0]
-					var emailbody = unescape(emailbody).replace(/\n/g,'<br \\>')
-					$("#body",editorData).html(emailbody)
-
-					var editorData = $(editorData)[0].outerHTML
-					var content = initTemplate(editor, editorData)
-
-					editor.setData(content, function() {
-						editor.execCommand('initDropler', editor);
-						document.getElementById("loadOverlay").style.display = "none";
-					});
-				}
-				else if (template) {
+				if (template) {
 					var settings = editor.config.PQTemplates.TemplateQB;
 					var dbid = settings.dbid;
 					var apptoken = settings.appToken;
@@ -100,16 +85,16 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 
 							var editorData = editor.getData();
 
-							var editorData = $(editorData)[0]
-							$("#body",editorData).html(templateContent)
+							editorData = $(editorData)[0];
+							$("#body",editorData).html(templateContent);
 
-							var editorData = $(editorData)[0].outerHTML
-							var content = initTemplate(editor, editorData)
+							editorData = $(editorData)[0].outerHTML;
+							var content = initTemplate(editor, editorData);
 
 							editor.setData(content, function() {
-								editor.execCommand('initDropler', editor)
+								editor.execCommand('initDropler', editor);
 								document.getElementById("loadOverlay").style.display = "none";
-							})
+							});
 						}
 						else {
 							var errcode = $('errcode', xml).text();
@@ -129,6 +114,21 @@ CKEDITOR.plugins.add( 'PQTemplates', {
 						editor.execCommand('initDropler', editor);
 						document.getElementById("loadOverlay").style.display = "none";
 						console.log("CKEditor Error: Failed to load template. Error "+data.status+": "+data.statusText);
+					});
+				}
+				else if (emailbody) {
+					var editorData = editor.getData();
+
+					var editorData = $(editorData)[0]
+					var emailbody = unescape(emailbody).replace(/\n/g,'<br \\>')
+					$("#body",editorData).html(emailbody)
+
+					var editorData = $(editorData)[0].outerHTML
+					var content = initTemplate(editor, editorData)
+
+					editor.setData(content, function() {
+						editor.execCommand('initDropler', editor);
+						document.getElementById("loadOverlay").style.display = "none";
 					});
 				}
 				else {
