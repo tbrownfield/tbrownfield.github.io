@@ -17,14 +17,6 @@ CKEDITOR.dialog.add( 'bccdialog', function( editor ) {
 							rows: '10',
 							style: 'width:100%;height:100%',
 							onLoad: function() {
-								//var editor = CKEDITOR.instances.editor;
-								
-								for ( var i in CKEDITOR.instances ){
-								   var currentInstance = i;
-								   break;
-								}
-								//var editor   = CKEDITOR.instances[currentInstance];
-								
 								var bcclist = sessionStorage.getItem('bcclist')
 
 								if (bcclist) {
@@ -114,16 +106,9 @@ CKEDITOR.dialog.add( 'bccdialog', function( editor ) {
 			}
 		],
         onOk: function() {
-        	var editor = this.getParentEditor()
+        	var editor = this.getParentEditor();
             var dialog = this;
-			//var editor = CKEDITOR.instances.editor;
-			
-			for ( var i in CKEDITOR.instances ){
-			   var currentInstance = i;
-			   break;
-			}
-			//var editor   = CKEDITOR.instances[currentInstance];
-			
+
 			var bulkType = this.getContentElement('tab1', 'bulkType').getValue();
 			sessionStorage.setItem("bulkType", bulkType)
 			var bcclist = this.getContentElement('tab1', 'BCCField').getValue();

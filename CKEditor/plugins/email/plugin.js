@@ -309,7 +309,7 @@ CKEDITOR.plugins.add( 'email', {
 		url +="https://intuitcorp.quickbase.com/db/"+qbdbid;
 		url +="?act=API_ImportFromCSV";
 
-		var ridlist = sessionStorage.getItem("ridsonly").toString();
+		var ridlist = ridsonly.toString();
 		var regex = new RegExp("\,","g");
 
 		var curDate = new Date().toJSON().slice(0,10).split('-');
