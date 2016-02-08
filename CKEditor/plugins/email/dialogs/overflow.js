@@ -10,9 +10,9 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                 type: 'vbox',
                 heights: [null, null, null],
                 children: [{
-					type: 'html',
-					html: '<div id="info">Because there are more than 500 email addresses, multiple emails must be sent.<br>Paste the body into the email, then copy and paste the address list below.<br>Then click >>, then Start Email and repeat.</div>',
-					}, {
+                    type: 'html',
+                    html: '<div id="info">Because there are more than 500 email addresses, multiple emails must be sent.<br>Paste the body into the email, then copy and paste the address list below.<br>Then click >>, then Start Email and repeat.</div>',
+                }, {
                     type: 'hbox',
                     widths: [null, null, null],
                     height: ['20px'],
@@ -55,7 +55,7 @@ CKEDITOR.dialog.add('overflow', function(editor) {
                         label: 'Start Email',
                         title: 'Start new Email in Outlook',
                         onClick: function() {
-                            var dialog = this.getDialog()
+                            var dialog = this.getDialog();
                             editor.execCommand("email");
                             var bcc = dialog.getContentElement('tab1', 'BCCField');
                             bcc.select();
@@ -91,13 +91,13 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         onShow: function(editor) {
             var bccpages = getPages();
             var selbox = this.getContentElement('tab1', 'page');
-            selbox.clear()
+            selbox.clear();
             for (var i = 1; i <= bccpages; i++) {
                 selbox.add(i);
             }
             setPage(editor, this, 1);
             var cbtn = this.getButton("cancel");
-            var cbtn = cbtn.domId;
+            cbtn = cbtn.domId;
             document.getElementById(cbtn).style.display = "none";
         }
     };
@@ -108,11 +108,11 @@ CKEDITOR.dialog.add('overflow', function(editor) {
         var pstart = (page - 1) * 495;
         var pend = pstart + 495;
         var bcc = dlg.getContentElement('tab1', 'BCCField');
-        var emaillist = bccarray.slice(pstart, pend).toString()
-        var emaillist = emaillist.replace(/\,/g,";");
+        var emaillist = bccarray.slice(pstart, pend).toString();
+        emaillist = emaillist.replace(/\,/g, ";");
         bcc.setValue(emaillist);
         bcc.select();
-        toggleButtons(editor,dlg,page);
+        toggleButtons(editor, dlg, page);
     }
 
     function getPages() {
