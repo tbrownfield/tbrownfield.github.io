@@ -45,6 +45,7 @@ CKEDITOR.plugins.add('PQTemplates', {
 			exec: function(editor) {
 				var template = sessionStorage.getItem('template');
 				var emailbody = sessionStorage.getItem('emailbody');
+				sessionStorage.setItem("skipInit", "0");
 				var editorData;
 				if (template) {
 					var settings = editor.config.PQTemplates.TemplateQB;
@@ -120,9 +121,9 @@ CKEDITOR.plugins.add('PQTemplates', {
 				}
 				else if (emailbody) {
 					editorData = editor.getData();
-
+					sessionStorage.setItem("skipInit", "0");
 					editorData = $(editorData)[0];
-					emailbody = unescape(emailbody).replace(/\n/g, '<br \\>');
+					// emailbody = unescape(emailbody).replace(/\n/g, '<br \\>');
 					$("#body", editorData).html(emailbody);
 
 					editorData = $(editorData)[0].outerHTML;
@@ -195,7 +196,6 @@ CKEDITOR.plugins.add('PQTemplates', {
 		}
 
 		function replaceKeywords(content) {
-			console.log("Before: "+content);
 			//Keyword replacements
 			var analystName = sessionStorage.analystName;
 			analystName = unescape(analystName);
@@ -327,7 +327,6 @@ CKEDITOR.plugins.add('PQTemplates', {
 			}
 			regex = new RegExp("\\[TAX YEAR\\]", "g");
 			content = content.replace(regex, taxyear);
-			console.log("After: "+content);
 			return (content);
 		}
 
