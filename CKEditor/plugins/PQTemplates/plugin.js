@@ -123,8 +123,11 @@ CKEDITOR.plugins.add('PQTemplates', {
 					editorData = editor.getData();
 					sessionStorage.setItem("skipInit", "0");
 					editorData = $(editorData)[0];
-					// emailbody = unescape(emailbody).replace(/\n/g, '<br \\>');
 					emailbody = unescape(emailbody);
+					if (/<[\s\S]*>/i.test(emailbody) == true) {
+						emailbody = strToHTML(emailbody);
+					}
+					
 					$("#body", editorData).html(emailbody);
 
 					editorData = $(editorData)[0].outerHTML;
@@ -195,7 +198,15 @@ CKEDITOR.plugins.add('PQTemplates', {
 				return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
 			});
 		}
-
+		function strToHTML(text) {
+	    var htmls = [];
+	    var lines = text.split(/\n/);
+	    var tmpDiv = $(document.createElement('div'));
+	    for (var i = 0; i < lines.length ; i++) {
+	        htmls.push(tmpDiv.text(lines[i]).html());
+	    }
+	    return htmls.join("<br>");
+		}
 		function replaceKeywords(content) {
 			//Keyword replacements
 			var analystName = sessionStorage.analystName;
