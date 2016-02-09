@@ -124,6 +124,7 @@ CKEDITOR.plugins.add('PQTemplates', {
 					sessionStorage.setItem("skipInit", "0");
 					editorData = $(editorData)[0];
 					// emailbody = unescape(emailbody).replace(/\n/g, '<br \\>');
+					emailbody = unescape(emailbody);
 					$("#body", editorData).html(emailbody);
 
 					editorData = $(editorData)[0].outerHTML;
