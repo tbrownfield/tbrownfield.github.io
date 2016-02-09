@@ -171,17 +171,13 @@ CKEDITOR.plugins.add('PQTemplates', {
 			var thisyear = new Date().getFullYear();
 			var regex = new RegExp("\\[COPYRIGHT YEAR\\]", "g");
 			content = content.replace(regex, thisyear);
-
-			//skiInit is set for the template editor to prevent it from replacing keywords in the template. [COPYRIGHT YEAR] and the footer are still replaced, as they're not part of the template.
+			//skipInit is set for the template editor to prevent it from replacing keywords in the template. [COPYRIGHT YEAR] and the footer are still replaced, as they're not part of the template.
 			var skipInit = sessionStorage.getItem("skipInit");
 			if (skipInit != 1) {
-
 				if (!sessionStorage.getItem('casenum')) {
 					$("main:first").prepend("<div style='text-align: center; font-weight: bold; background:orange';>No Case number found. Email will not be logged to Quickbase. Please record it manually.</div>");
 				}
-
 				content = replaceKeywords(content);
-
 				var subject = unescape(sessionStorage.getItem('emailsubj'));
 				if (subject) {
 					subject = replaceKeywords(subject);
@@ -199,6 +195,7 @@ CKEDITOR.plugins.add('PQTemplates', {
 		}
 
 		function replaceKeywords(content) {
+			console.log("Before: "+content);
 			//Keyword replacements
 			var analystName = sessionStorage.analystName;
 			analystName = unescape(analystName);
@@ -330,7 +327,7 @@ CKEDITOR.plugins.add('PQTemplates', {
 			}
 			regex = new RegExp("\\[TAX YEAR\\]", "g");
 			content = content.replace(regex, taxyear);
-
+			console.log("After: "+content);
 			return (content);
 		}
 
