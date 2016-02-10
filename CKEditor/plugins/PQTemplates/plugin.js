@@ -124,7 +124,7 @@ CKEDITOR.plugins.add('PQTemplates', {
 					sessionStorage.setItem("skipInit", "0");
 					editorData = $(editorData)[0];
 					emailbody = unescape(emailbody);
-					if (/<[\s\S]*>/i.test(emailbody) == true) {
+					if (/<[\s\S]*>/i.test(emailbody) == false) {
 						emailbody = strToHTML(emailbody);
 					}
 					
