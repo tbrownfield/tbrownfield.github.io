@@ -15,6 +15,16 @@ CKEDITOR.plugins.add('EmbedHandler', {
 			}
 		});
 
+        editor.addCommand('updateEmbed', {
+            exec: function(editor) {
+                if (confirm("Replace existing content with template?") == true) {
+                    
+                    editor.execCommand("embedHandler");
+                }
+            }
+            
+        });
+    
 		function strToHTML(text) {
     	    var htmls = [];
     	    var lines = text.split(/\n/);
