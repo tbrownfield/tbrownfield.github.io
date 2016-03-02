@@ -30,7 +30,7 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'colors' }
 	];
 
-	config.autosave_SaveKey = 'localStorage.caseFid+"_autosave"'
+	config.autosave_SaveKey = 'localStorage.casenum+"_autosave"'
 
 	// Remove some buttons provided by the standard plugins, which are
 	// not needed in the Standard(s) toolbar.
