@@ -42,7 +42,7 @@ CKEDITOR.plugins.add('dropler', {
         function doNothing(e) {}
 
         function orPopError(err) {
-            alert(err.data.error)
+            alert(err);
         }
 
         function dropHandler(e) {
