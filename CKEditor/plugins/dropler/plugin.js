@@ -43,6 +43,7 @@ CKEDITOR.plugins.add('dropler', {
 
         function orPopError(err) {
             alert(err);
+            console.log("CKEditor Error: Failed to upload image to Quickbase. "+err);
         }
 
         function dropHandler(e) {
@@ -141,11 +142,12 @@ CKEDITOR.plugins.add('dropler', {
                             }
                         },
                         error: function(xml) {
+                            var errtext = $(xml).find("errtext").text();
                             progbar[fntoken].update({
                                 type: 'warning',
-                                message: 'Upload Failed.'
+                                message: 'Upload Failed. ' + errtext
                             });
-                            reject($(xml).find("errtext").text());
+                            reject(errtext);
                         }
                     });
                 };
