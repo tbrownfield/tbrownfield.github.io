@@ -123,12 +123,22 @@ CKEDITOR.plugins.add('dropler', {
                         processData: false,
                         data: request,
                         success: function(xml) {
-                            var rid = $(xml).find('rid').text();
+                            var errcode = $(xml).find('errcode').text();
+                            if (errcode != 0) {
+                                progbar[fntoken].update({
+                                  type: 'warning',
+                                    message: 'Upload Failed.'
+                                });
+                                reject($(xml).find("errtext").text());
+                            }
+                            else {
+                                var rid = $(xml).find('rid').text();
 
-                            progbar[fntoken].update({
-                                progress: 0.5
-                            });
-                            resolve(["https://intuitcorp.quickbase.com/up/" + dbid + "/a/r" + rid + "/e" + fid + "/v0", fntoken]);
+                                progbar[fntoken].update({
+                                    progress: 0.5
+                                });
+                                resolve(["https://intuitcorp.quickbase.com/up/" + dbid + "/a/r" + rid + "/e" + fid + "/v0", fntoken]);
+                            }
                         },
                         error: function(xml) {
                             progbar[fntoken].update({
