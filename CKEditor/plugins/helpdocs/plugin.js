@@ -3,7 +3,7 @@ CKEDITOR.plugins.add('helpdocs', {
 	init: function(editor) {
 		editor.addCommand('helpdocs', {
 			exec: function() {
-				window.open('https://intuitcorp.quickbase.com/db/bkemhpu9e?a=dbpage&pageID=3', 'Help Docs', 'location=0,status=0,resizable=1,width=800,height=750');
+				window.open('https://intuitcorp.quickbase.com/db/bkemhpu9e?a=dbpage&pageID=3', 'Help Docs', 'scrollbars=yes,location=0,status=0,resizable=1,width=800,height=750');
 			}
 
 		});

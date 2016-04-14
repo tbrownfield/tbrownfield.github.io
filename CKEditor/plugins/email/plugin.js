@@ -29,15 +29,15 @@ CKEDITOR.plugins.add('email', {
 				var emailaddr = sessionStorage.getItem('custEmail');
 				var distros = sessionStorage.getItem("distros");
 				if (distros) {
-					emailaddr = distros
+					emailaddr = distros;
 				}
 
 				var emailsubj = sessionStorage.getItem("emailsubj");
 				if (emailsubj == 'null') {
-					emailsubj = settings.defaultSubject
+					emailsubj = settings.defaultSubject;
 				}
 				if (!emailsubj) {
-					emailsubj = settings.defaultSubject
+					emailsubj = settings.defaultSubject;
 				}
 				if (emailsubj.length > 255) {
 					var ckerr = new CKEDITOR.plugins.notification(editor, {
@@ -50,7 +50,7 @@ CKEDITOR.plugins.add('email', {
 				if (emailbcc) {
 					if (emailbcc.split(";").length > 495) {
 						if (inoverflow != true) {
-							editor.execCommand("overflow")
+							editor.execCommand("overflow");
 						}
 					}
 					else if ((mailto.length + emailbcc.length) > 2000) {
@@ -72,10 +72,10 @@ CKEDITOR.plugins.add('email', {
 				}
 
 				if (mailto.indexOf("?") == -1) {
-					mailto += "?"
+					mailto += "?";
 				}
 				else {
-					mailto += "&"
+					mailto += "&";
 				}
 
 				mailto += "subject=" + emailsubj;
@@ -126,16 +126,16 @@ CKEDITOR.plugins.add('email', {
 					var dateFid = "";
 					var bulkType = sessionStorage.getItem('bulkType');
 					if (bulkType == 'Response') {
-						dateFid = editor.config.emailConfig.bccQB.closedFid
+						dateFid = editor.config.emailConfig.bccQB.closedFid;
 					}
 					if (bulkType == 'Check-in') {
-						dateFid = editor.config.emailConfig.bccQB.checkinFid
+						dateFid = editor.config.emailConfig.bccQB.checkinFid;
 					}
 					if (!sessionStorage.getItem("bcclist")) {
-						dateFid = ""
+						dateFid = "";
 					}
 					if (dateFid) {
-						updateResponses(editor, dateFid)
+						updateResponses(editor, dateFid);
 					}
 				}
 			},
@@ -161,7 +161,7 @@ CKEDITOR.plugins.add('email', {
 
 			var template = sessionStorage.getItem('template');
 			if (!template) {
-				template = "No Template Used"
+				template = "No Template Used";
 			}
 
 			var body = editor.getData();
@@ -268,7 +268,7 @@ CKEDITOR.plugins.add('email', {
 				var email = record[1];
 				var bcclist = sessionStorage.getItem("bcclist");
 				if (bcclist.indexOf(email) == -1) {
-					return true
+					return true;
 				}
 				//var cur = index;
 				var request = "";
@@ -373,7 +373,7 @@ CKEDITOR.plugins.add('email', {
 				var r = record[0];
 				var e = record[1];
 				if (bcclist.indexOf(e) == -1) {
-					return true
+					return true;
 				}
 				ridsonly.push(r);
 			});
